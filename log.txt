@@ -4,3 +4,6 @@ Basic idea is to use vuejs as the main client side framework and firebase as the
 
 Tried to add a component of conferences data, iframe cannot work due to https issue.
 
+08/01/2017
+Added webpack template
+
