@@ -1,0 +1,10 @@
+07/01/2017
+Started building the web portal for myself, this portal will include my personal info, my projects, my papers , blog houghts , important related info and many others.
+Basic idea is to use vuejs as the main client side framework and firebase as the backend, since the github.io pages are static, it may not need server configuration and backend support, I will try to figure out that soon.
+
+Tried to add a component of conferences data, iframe cannot work due to https issue.
+
+08/01/2017
+Added webpack-simple template
+Gave up webpack due to not familar with eslint
+built and pushed the template successfully on the github.io
