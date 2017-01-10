@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>Conference Timetable</p>
-    <md-button class="md-raised">Default</md-button>
-    <md-button class="md-raised md-primary">Primary</md-button>
-    <md-button class="md-raised md-accent">Accent</md-button>
-    <md-button class="md-raised md-warn">Warn</md-button>
-    <md-button class="md-raised md-primary" disabled>Disabled</md-button>
-    <md-button class="md-raised md-dense">Dense</md-button>
+    <div>
+      <h2>Conferences</h2>
+      <div>
+        <iframe src="http://www.confsearch.org/faces/pages/staticresults.jsp?query=podc%20stoc%20focs%20soda%20aaai%20ijcai%20aamas%20kdd%20icalp%20stacs%20ec%20www&sortMode=1&graphicView=1"
+        height="700px" width="900px" name="confsearch_frame" frameborder="0" id="ifr"> </iframe>
+      </div>
+
   </div>
 </template>
 
@@ -14,3 +14,9 @@
   export default {
   }
 </script>
+
+<style>
+#ifr{
+  height:700px;
+}
+</style>
