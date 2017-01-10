@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/logo.png" width="15%">
     <h1>{{ msg }}</h1>
     <app-conference></app-conference>
   </div>
