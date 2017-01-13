@@ -1,16 +1,13 @@
 <template>
   <div>
-    <app-navbar></app-navbar>
-    <app-conference></app-conference>    
+    <h1>Home page content under constrution</h1>   
   </div>
 </template>
 
 <script>
-import Conference from './Conference.vue';
+
 
 export default {
-  components: {
-    appConference: Conference,
-  }
+
 }
 </script>
