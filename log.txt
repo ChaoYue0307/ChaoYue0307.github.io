@@ -8,3 +8,7 @@ Tried to add a component of conferences data, iframe cannot work due to https is
 Added webpack-simple template
 Gave up webpack due to not familar with eslint
 built and pushed the template successfully on the github.io
+
+13/01/2017
+Can try using firebase as a practice tool but actually it's better to find a host and use github.io link
+to point to it, for example, a VPS on digital server.
