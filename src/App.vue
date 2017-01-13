@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" width="15%">
+    <img src="./assets/logo_prisma.png" width="30%">
     <h1>{{ msg }}</h1>
     <app-navbar></app-navbar>
     <router-view></router-view>
