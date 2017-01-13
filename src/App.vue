@@ -4,11 +4,13 @@
     <h1>{{ msg }}</h1>
     <app-navbar></app-navbar>
     <router-view></router-view>
+    <app-footerbar></app-footerbar>
   </div>
 </template>
 
 <script>
   import NavBar from './components/NavBar.vue';
+  import FooterBar from './components/FooterBar.vue';
 
   export default {
     name: 'app',
@@ -18,7 +20,8 @@
       }
     },
     components: {
-      appNavbar: NavBar
+      appNavbar: NavBar,
+      appFooterbar: FooterBar
     }
   }
 </script>
