@@ -17,7 +17,5 @@
 </script>
 
 <style>
-#ifr{
-  height:700px;
-}
+
 </style>
