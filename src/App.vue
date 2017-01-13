@@ -2,19 +2,25 @@
   <div id="app">
     <img src="./assets/logo.png" width="15%">
     <h1>{{ msg }}</h1>
+    <app-navbar></app-navbar>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: "Welcome to ChaoYue's Portal"
+  import NavBar from './components/NavBar.vue';
+
+  export default {
+    name: 'app',
+    data() {
+      return {
+        msg: "Welcome to ChaoYue's Portal"
+      }
+    },
+    components: {
+      appNavbar: NavBar
     }
   }
-}
 </script>
 
 <style>
