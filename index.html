@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
     crossorigin="anonymous">
   <!-- font-awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Material Design css for VueJs -->
   <link rel="stylesheet" href=" https://unpkg.com/vue-material@0.5.2/dist/vue-material.css">
 
@@ -44,7 +44,20 @@
 
 <body>
   <div id="app"></div>
-  <script src="/dist/build.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/3.6.5/firebase.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCvcSCcC6jK6VEHHDCFzAch0WNVTOoEmWA",
+    authDomain: "chaoyues-portal.firebaseapp.com",
+    databaseURL: "https://chaoyues-portal.firebaseio.com",
+    storageBucket: "chaoyues-portal.appspot.com",
+    messagingSenderId: "1098455691842"
+  };
+  firebase.initializeApp(config);
+</script>
+<script src="/dist/build.js"></script>
 </body>
 
 </html>
