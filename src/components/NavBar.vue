@@ -2,10 +2,19 @@
   <div>
     <ul>
       <li>
-        <md-button class="md-accent"><router-link to="/">Home</router-link></md-button>
+        <md-button class="md-accent">
+          <router-link to="/">Home</router-link>
+        </md-button>
       </li>
       <li>
-        <md-button class="md-accent"><router-link to="/AboutMe">About Me</router-link></md-button>
+        <md-button class="md-accent">
+          <router-link to="/Conference">Conference</router-link>
+        </md-button>
+      </li>
+      <li>
+        <md-button class="md-accent">
+          <router-link to="/AboutMe">About Me</router-link>
+        </md-button>
       </li>
     </ul>
     <ul>
