@@ -2,26 +2,17 @@
   <div id="app">
     <img src="./assets/logo.png" width="15%">
     <h1>{{ msg }}</h1>
-    <app-navbar></app-navbar>
-    <app-conference></app-conference>
-    
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Conference from './components/Conference.vue';
-import NavBar from './components/NavBar.vue';
-
 export default {
   name: 'app',
   data () {
     return {
       msg: "Welcome to ChaoYue's Portal"
     }
-  },
-  components: {
-    appConference: Conference,
-    appNavbar: NavBar
   }
 }
 </script>
