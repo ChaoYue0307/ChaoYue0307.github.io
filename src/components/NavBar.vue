@@ -2,29 +2,29 @@
   <div>
     <ul>
       <li>
-        <md-button class="md-accent">
-          <router-link to="/">Home</router-link>
-        </md-button>
+        <router-link to="/">
+          <md-button class="md-accent">Home</md-button>
+        </router-link>
       </li>
       <li>
-        <md-button class="md-accent">
-          <router-link to="/CV">CV</router-link>
-        </md-button>
+        <router-link to="/CV">
+          <md-button class="md-accent">CV </md-button>
+        </router-link>
       </li>
       <li>
-        <md-button class="md-accent">
-          <router-link to="/Portfolio">Portfolio</router-link>
-        </md-button>
+        <router-link to="/Portfolio">
+          <md-button class="md-accent">Portfolio</md-button>
+        </router-link>
       </li>
       <li>
-        <md-button class="md-accent">
-          <router-link to="/Conference">Conference</router-link>
-        </md-button>
+        <router-link to="/Conference">
+          <md-button class="md-accent">Conference</md-button>
+        </router-link>
       </li>
       <li>
-        <md-button class="md-accent">
-          <router-link to="/AboutMe">About Me</router-link>
-        </md-button>
+        <router-link to="/AboutMe">
+          <md-button class="md-accent">About Me</md-button>
+        </router-link>
       </li>
     </ul>
   </div>
