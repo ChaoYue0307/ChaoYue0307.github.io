@@ -5,7 +5,7 @@
         <md-button href="http://hechaoyue.com" class="md-primary">Blog</md-button>
       </li>
       <li>
-        <md-button href="https://github.com/ChaoYue0307" class="md-primary">Github</md-button>
+        <md-button href="https://github.com/ChaoYue0307" class="md-primary"><i class="fa fa-github" aria-hidden="true"> Github</i></md-button>
       </li>
       <li>
         <md-button href="https://www.facebook.com/profile.php?id=100003276260924" class="md-primary">Facebook</md-button>
