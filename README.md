@@ -1,18 +1,14 @@
-# chaoyue-portal
+# ChaoYue0307.github.io
 
-> A Vue.js project
+Static GitHub Pages homepage for `https://chaoyue0307.github.io/`.
 
-## Build Setup
+The page intentionally highlights only the four repositories currently pinned on
+Chaoyue He's GitHub profile:
 
-``` bash
-# install dependencies
-npm install
+- `ChaoYue0307/ESGenius-EMNLP25`
+- `walkinglabs/awesome-harness-engineering`
+- `ChaoYue0307/Awesome-OpenClaw-Research`
+- `ChaoYue0307/awesome-loop-engineering`
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+There is no build step. GitHub Pages can publish this repository directly from
+the repository root.

@@ -1,67 +1,125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's GitHub Pages homepage highlighting four pinned open-source repositories."
+    >
+    <meta property="og:title" content="Chaoyue He | Open Source">
+    <meta
+      property="og:description"
+      content="A focused homepage for Chaoyue He's pinned open-source repositories."
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chaoyue0307.github.io/">
+    <title>Chaoyue He | Open Source</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" aria-label="Primary">
+      <a class="brand" href="https://github.com/ChaoYue0307" aria-label="Chaoyue He on GitHub">
+        <img
+          class="brand__avatar"
+          src="https://avatars.githubusercontent.com/u/9592372?v=4"
+          alt=""
+          width="44"
+          height="44"
+        >
+        <span class="brand__text">Chaoyue He</span>
+      </a>
+      <nav class="nav-links" aria-label="Site">
+        <a href="#repositories">Repositories</a>
+        <a href="https://github.com/ChaoYue0307">GitHub</a>
+      </nav>
+    </header>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Web Tab icon -->
-  <link rel="icon" href="./src/assets/logo_prisma.png">
+    <main>
+      <section class="hero" aria-labelledby="intro-title">
+        <div class="hero__copy">
+          <h1 id="intro-title">Chaoyue He</h1>
+          <p>
+            Happy coding, happy creating :) A compact index of the four pinned open-source
+            repositories from my GitHub profile.
+          </p>
+        </div>
+        <a class="hero__action" href="https://github.com/ChaoYue0307">
+          View GitHub profile
+        </a>
+      </section>
 
+      <section class="repos" id="repositories" aria-labelledby="repos-title">
+        <div class="section-heading">
+          <h2 id="repos-title">Pinned Open Source</h2>
+          <p>Four highlighted repositories, kept focused on current public work.</p>
+        </div>
 
-  <title>chaoyue-portal</title>
+        <div class="repo-grid">
+          <article class="repo-card">
+            <div class="repo-card__topline">
+              <span class="language language--html">HTML</span>
+              <span class="repo-card__meta">0 stars / 0 forks</span>
+            </div>
+            <h3>ESGenius-EMNLP25</h3>
+            <p>Pinned public fork from Chaoyue's profile.</p>
+            <div class="repo-card__topics" aria-label="Repository details">
+              <span>fork</span>
+              <span>research</span>
+            </div>
+            <a href="https://github.com/ChaoYue0307/ESGenius-EMNLP25">View repository</a>
+          </article>
 
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <!-- Latest compiled and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-    crossorigin="anonymous">
+          <article class="repo-card">
+            <div class="repo-card__topline">
+              <span class="language language--neutral">Open source</span>
+              <span class="repo-card__meta">3,111 stars / 238 forks</span>
+            </div>
+            <h3>awesome-harness-engineering</h3>
+            <p>Awesome tools and guides for harness engineering.</p>
+            <div class="repo-card__topics" aria-label="Repository topics">
+              <span>agentic-ai</span>
+              <span>harness</span>
+              <span>llm</span>
+            </div>
+            <a href="https://github.com/walkinglabs/awesome-harness-engineering">View repository</a>
+          </article>
 
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-    crossorigin="anonymous">
-  <!-- font-awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Material Design css for VueJs -->
-  <link rel="stylesheet" href=" https://unpkg.com/vue-material@0.5.2/dist/vue-material.css">
+          <article class="repo-card">
+            <div class="repo-card__topline">
+              <span class="language language--neutral">Open source</span>
+              <span class="repo-card__meta">0 stars / 0 forks</span>
+            </div>
+            <h3>Awesome-OpenClaw-Research</h3>
+            <p>Research-oriented collection of papers, analyses, and resources on the OpenClaw ecosystem.</p>
+            <div class="repo-card__topics" aria-label="Repository details">
+              <span>fork</span>
+              <span>papers</span>
+            </div>
+            <a href="https://github.com/ChaoYue0307/Awesome-OpenClaw-Research">View repository</a>
+          </article>
 
+          <article class="repo-card">
+            <div class="repo-card__topline">
+              <span class="language language--python">Python</span>
+              <span class="repo-card__meta">6 stars / 1 fork</span>
+            </div>
+            <h3>awesome-loop-engineering</h3>
+            <p>Curated resources and practical patterns for Loop Engineering with AI and coding agents.</p>
+            <div class="repo-card__topics" aria-label="Repository topics">
+              <span>coding-agents</span>
+              <span>loop-engineering</span>
+              <span>workflows</span>
+            </div>
+            <a href="https://github.com/ChaoYue0307/awesome-loop-engineering">View repository</a>
+          </article>
+        </div>
+      </section>
+    </main>
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-    crossorigin="anonymous"></script>
-  <!-- Material Design JavaScript for VueJs -->
-  <script src="https://unpkg.com/vue-material@0.5.2"></script>
-
-  <style>
-    body{
-      background-image: url("./src/assets/13.png");
-    }
-  </style>
-
-</head>
-
-<body>
-  <div id="app"></div>
-
-  <script src="https://www.gstatic.com/firebasejs/3.6.5/firebase.js"></script>
-  <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCvcSCcC6jK6VEHHDCFzAch0WNVTOoEmWA",
-    authDomain: "chaoyues-portal.firebaseapp.com",
-    databaseURL: "https://chaoyues-portal.firebaseio.com",
-    storageBucket: "chaoyues-portal.appspot.com",
-    messagingSenderId: "1098455691842"
-  };
-  firebase.initializeApp(config);
-  //Get a reference to the database service
-  var database = firebase.database();
-
-
-</script>
-<script src="/dist/build.js"></script>
-</body>
-
+    <footer class="site-footer">
+      <span>Updated for GitHub Pages.</span>
+      <a href="https://github.com/ChaoYue0307">GitHub profile</a>
+    </footer>
+  </body>
 </html>
