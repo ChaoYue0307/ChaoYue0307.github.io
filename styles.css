@@ -53,7 +53,7 @@ button:focus-visible {
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 28px;
   align-items: center;
   width: var(--page);
@@ -64,21 +64,10 @@ button:focus-visible {
   padding: 0;
 }
 
-.brand {
-  color: var(--ink);
-  font-size: 1.12rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.brand__mark {
-  display: none;
-}
-
 .nav-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 22px;
 }
 
@@ -129,58 +118,28 @@ main {
 }
 
 .profile-sidebar h1 {
-  margin: 0;
+  margin: 0 0 6px;
   color: var(--ink);
-  font-size: 1.45rem;
+  font-size: 1.42rem;
   line-height: 1.2;
   text-align: center;
 }
 
 .profile-role {
-  margin: 8px 0 0;
+  margin: 0;
   color: var(--muted);
   font-size: 0.95rem;
+  line-height: 1.55;
   text-align: center;
 }
 
 .profile-summary {
-  margin: 18px 0 0;
+  margin: 20px 0 0;
   border-top: 1px solid var(--soft-line);
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.6;
   padding-top: 18px;
-}
-
-.profile-links {
-  display: grid;
-  gap: 9px;
-  margin-top: 22px;
-  border-top: 1px solid var(--soft-line);
-  padding-top: 20px;
-}
-
-.profile-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text);
-  font-size: 0.91rem;
-  overflow-wrap: anywhere;
-}
-
-.profile-links a span {
-  display: grid;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  color: var(--link);
-  font-size: 0.68rem;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .keyword-panel {
@@ -661,7 +620,7 @@ main {
   }
 
   .profile-photo {
-    grid-row: span 3;
+    grid-row: span 2;
     margin: 0;
     width: 86px;
     height: 86px;
@@ -673,17 +632,12 @@ main {
   }
 
   .profile-summary,
-  .profile-links,
   .keyword-panel {
     grid-column: 1 / -1;
   }
 
   .profile-summary {
     margin-top: 18px;
-  }
-
-  .profile-links {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .keyword-panel div {
@@ -706,10 +660,6 @@ main {
 
   .site-header {
     position: static;
-  }
-
-  .brand {
-    font-size: 1.05rem;
   }
 
   .header-link {
@@ -736,10 +686,6 @@ main {
 
   .profile-sidebar h1 {
     font-size: 1.25rem;
-  }
-
-  .profile-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .content-column h2 {
