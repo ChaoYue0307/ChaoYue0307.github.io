@@ -283,8 +283,7 @@ main {
 }
 
 .section-intro + .paper-list,
-.section-intro + .project-list,
-.section-intro + .tabs {
+.section-intro + .project-list {
   margin-top: 14px;
 }
 
@@ -576,93 +575,59 @@ main {
 
 .project-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid var(--soft-line);
 }
 
 .project-list a {
-  min-height: 92px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  min-height: 132px;
   border-right: 1px solid var(--soft-line);
   border-bottom: 1px solid var(--soft-line);
   color: var(--text);
-  padding: 12px 14px 12px 0;
-  transition: background 160ms ease, padding-left 160ms ease;
+  padding: 14px 18px 15px 0;
+  transition: background 160ms ease, border-color 160ms ease, padding-left 160ms ease;
 }
 
-.project-list a:nth-child(3n) {
+.project-list a:nth-child(2n) {
   border-right: 0;
 }
 
 .project-list a:hover {
-  background: linear-gradient(90deg, rgba(7, 90, 166, 0.045), transparent 70%);
-  padding-left: 8px;
+  border-bottom-color: rgba(7, 90, 166, 0.28);
+  background: linear-gradient(90deg, rgba(7, 90, 166, 0.055), transparent 76%);
+  padding-left: 10px;
 }
 
+.project-domain,
 .project-list strong,
-.project-list span {
+.project-desc {
   display: block;
+}
+
+.project-domain {
+  margin-bottom: 7px;
+  color: var(--faint);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .project-list strong {
   overflow-wrap: anywhere;
   color: var(--link);
-  font-size: 0.91rem;
+  font-size: 0.98rem;
   line-height: 1.3;
 }
 
-.project-list span {
+.project-desc {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.82rem;
-  line-height: 1.45;
-}
-
-.tabs {
-  border-top: 1px solid var(--line);
-}
-
-.tab-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  border-bottom: 1px solid var(--soft-line);
-}
-
-.tab-list button {
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.88rem;
-  padding: 11px 0 8px;
-}
-
-.tab-list button[aria-selected="true"] {
-  border-color: var(--link);
-  color: var(--ink);
-  font-weight: 600;
-}
-
-.tab-panel {
-  padding-top: 12px;
-}
-
-.tab-panel[hidden] {
-  display: none !important;
-}
-
-.tab-panel p {
-  border-bottom: 1px solid var(--soft-line);
-  color: var(--muted);
   font-size: 0.91rem;
-  line-height: 1.6;
-  padding: 9px 0;
-}
-
-.tab-panel strong {
-  color: var(--text);
+  line-height: 1.55;
 }
 
 @media (max-width: 980px) {
@@ -848,7 +813,7 @@ main {
   }
 
   .project-list a,
-  .project-list a:nth-child(3n) {
+  .project-list a:nth-child(2n) {
     min-height: 0;
     border-right: 0;
     padding-right: 0;
