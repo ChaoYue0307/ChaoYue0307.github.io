@@ -143,7 +143,8 @@ main {
 }
 
 .profile-links {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 22px;
   border-top: 1px solid var(--soft-line);
@@ -152,12 +153,14 @@ main {
 
 .profile-links a {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  gap: 10px;
-  align-items: center;
-  color: var(--text);
-  font-size: 0.9rem;
+  place-items: center;
+  color: var(--link);
   line-height: 1.28;
+}
+
+.profile-links a:hover .profile-icon {
+  border-color: rgba(7, 90, 166, 0.34);
+  background: rgba(7, 90, 166, 0.06);
 }
 
 .profile-icon {
@@ -695,7 +698,7 @@ main {
   }
 
   .profile-links {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
   }
 
   .keyword-panel div {
@@ -747,7 +750,7 @@ main {
   }
 
   .profile-links {
-    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
   }
 
   .content-column h2 {
