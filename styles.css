@@ -142,6 +142,59 @@ main {
   padding-top: 18px;
 }
 
+.profile-links {
+  display: grid;
+  gap: 8px;
+  margin-top: 22px;
+  border-top: 1px solid var(--soft-line);
+  padding-top: 20px;
+}
+
+.profile-links a {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.28;
+}
+
+.profile-icon {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--link);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.profile-icon svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.profile-icon--github,
+.profile-icon--x {
+  color: var(--ink);
+}
+
+.profile-icon--linkedin {
+  color: #0a66c2;
+}
+
+.profile-icon--alpha {
+  font-family: var(--serif);
+  font-size: 0.86rem;
+}
+
 .keyword-panel {
   margin-top: 24px;
   border-top: 1px solid var(--soft-line);
@@ -632,12 +685,17 @@ main {
   }
 
   .profile-summary,
+  .profile-links,
   .keyword-panel {
     grid-column: 1 / -1;
   }
 
   .profile-summary {
     margin-top: 18px;
+  }
+
+  .profile-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .keyword-panel div {
@@ -686,6 +744,10 @@ main {
 
   .profile-sidebar h1 {
     font-size: 1.25rem;
+  }
+
+  .profile-links {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .content-column h2 {
