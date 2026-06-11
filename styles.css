@@ -287,36 +287,6 @@ main {
   margin-top: 14px;
 }
 
-.profile-snapshot {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 22px;
-  margin: 18px 0 0;
-  border-top: 1px solid var(--soft-line);
-}
-
-.profile-snapshot div {
-  border-bottom: 1px solid var(--soft-line);
-  padding: 10px 0;
-}
-
-.profile-snapshot dt {
-  margin: 0;
-  color: var(--faint);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.profile-snapshot dd {
-  margin: 4px 0 0;
-  color: var(--text);
-  font-size: 0.9rem;
-  line-height: 1.48;
-}
-
 .highlights ul,
 .compact-signals ul {
   display: grid;
