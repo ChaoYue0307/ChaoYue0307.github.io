@@ -133,15 +133,6 @@ main {
   text-align: center;
 }
 
-.profile-summary {
-  margin: 20px 0 0;
-  border-top: 1px solid var(--soft-line);
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  padding-top: 18px;
-}
-
 .profile-links {
   display: flex;
   flex-wrap: wrap;
@@ -687,14 +678,9 @@ main {
     text-align: left;
   }
 
-  .profile-summary,
   .profile-links,
   .keyword-panel {
     grid-column: 1 / -1;
-  }
-
-  .profile-summary {
-    margin-top: 18px;
   }
 
   .profile-links {
@@ -767,15 +753,10 @@ main {
     align-self: start;
   }
 
-  .profile-summary,
   .profile-links,
   .keyword-panel,
   .content-column section {
     grid-column: 1 / -1;
-  }
-
-  .profile-summary {
-    order: 2;
   }
 
   #about {
