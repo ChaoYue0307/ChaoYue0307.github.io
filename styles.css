@@ -115,18 +115,17 @@ main {
   padding: 38px 28px 44px 0;
 }
 
-.profile-mark {
-  display: grid;
-  width: 92px;
-  height: 92px;
+.profile-photo {
+  display: block;
+  width: 112px;
+  height: 112px;
   margin: 0 auto 18px;
-  place-items: center;
   border: 1px solid var(--line);
   border-radius: 50%;
-  color: #0f3f6d;
-  font-family: var(--serif);
-  font-size: 2rem;
-  line-height: 1;
+  background: var(--bg);
+  box-shadow: 0 8px 24px rgba(23, 23, 23, 0.06);
+  object-fit: cover;
+  object-position: center;
 }
 
 .profile-sidebar h1 {
@@ -259,7 +258,7 @@ main {
 
 .highlights time {
   display: inline-block;
-  min-width: 66px;
+  min-width: 82px;
   color: var(--link);
   font-variant-numeric: tabular-nums;
 }
@@ -324,11 +323,47 @@ main {
   line-height: 1.34;
 }
 
+.paper-list h3 a {
+  color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.paper-list h3 a:hover {
+  color: var(--link);
+  text-decoration: underline;
+}
+
 .paper-list p {
   margin-top: 5px;
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.56;
+}
+
+.paper-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.paper-links a {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--link);
+  font-size: 0.76rem;
+  line-height: 1;
+  padding: 5px 8px;
+}
+
+.paper-links a:hover {
+  border-color: rgba(7, 90, 166, 0.38);
+  background: var(--link-soft);
+}
+
+.paper-links--dense {
+  gap: 6px;
 }
 
 .interest-list {
@@ -625,12 +660,11 @@ main {
     align-items: center;
   }
 
-  .profile-mark {
+  .profile-photo {
     grid-row: span 3;
     margin: 0;
-    width: 78px;
-    height: 78px;
-    font-size: 1.65rem;
+    width: 86px;
+    height: 86px;
   }
 
   .profile-sidebar h1,
@@ -695,10 +729,9 @@ main {
     gap: 0 14px;
   }
 
-  .profile-mark {
+  .profile-photo {
     width: 66px;
     height: 66px;
-    font-size: 1.42rem;
   }
 
   .profile-sidebar h1 {
