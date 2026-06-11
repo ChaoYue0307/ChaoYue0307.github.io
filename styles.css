@@ -114,7 +114,9 @@ main {
 
 .hero,
 .focus-areas,
+.publications,
 .public-work,
+.milestones,
 .timeline,
 .notes,
 .site-footer {
@@ -299,7 +301,11 @@ main {
 }
 
 .focus-areas h2,
+.resume-summary h2,
+.publications h2,
+.credentials h2,
 .public-work h2,
+.milestones h2,
 .timeline h2,
 .notes h2 {
   margin: 0;
@@ -307,6 +313,62 @@ main {
   font-weight: 790;
   letter-spacing: 0;
   line-height: 1.1;
+}
+
+.resume-summary,
+.credentials {
+  padding: 50px 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.92fr);
+  gap: 42px;
+  align-items: start;
+  margin-top: 30px;
+}
+
+.summary-grid > p {
+  max-width: 690px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1.06rem, 1.6vw, 1.24rem);
+  line-height: 1.72;
+}
+
+.summary-grid ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary-grid li {
+  min-height: 116px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 18px;
+}
+
+.summary-grid strong,
+.summary-grid span {
+  display: block;
+}
+
+.summary-grid strong {
+  color: var(--green);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.summary-grid span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .area-grid {
@@ -347,7 +409,9 @@ main {
   line-height: 1.62;
 }
 
-.public-work {
+.publications,
+.public-work,
+.milestones {
   padding: 64px 0;
 }
 
@@ -412,6 +476,88 @@ main {
   font-weight: 780;
 }
 
+.paper-list {
+  border-top: 1px solid var(--line);
+}
+
+.paper-list article {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 34px;
+  border-bottom: 1px solid var(--line);
+  padding: 24px 0;
+}
+
+.paper-status {
+  grid-row: span 2;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.paper-list h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+
+.paper-list p {
+  grid-column: 2;
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.credential-grid,
+.milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.credential-grid article,
+.milestone-grid article {
+  min-height: 190px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.74);
+  padding: 24px;
+}
+
+.credential-grid article > span {
+  display: block;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.credential-grid h3,
+.milestone-grid h3 {
+  margin: 14px 0 10px;
+  font-size: 1.08rem;
+  line-height: 1.3;
+}
+
+.milestone-grid h3 {
+  margin-top: 0;
+}
+
+.credential-grid p,
+.milestone-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
 .timeline {
   padding: 64px 0;
 }
@@ -446,7 +592,7 @@ main {
   color: var(--muted);
 }
 
-.timeline-list article > span {
+.timeline-list article > span:last-child {
   justify-self: end;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -585,8 +731,13 @@ main {
   }
 
   .area-grid,
+  .summary-grid,
   .work-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .summary-grid {
+    gap: 28px;
   }
 
   .area-grid article {
@@ -612,7 +763,7 @@ main {
     grid-template-columns: 130px minmax(0, 1fr);
   }
 
-  .timeline-list article > span {
+  .timeline-list article > span:last-child {
     grid-column: 2;
     justify-self: start;
   }
@@ -621,13 +772,17 @@ main {
 @media (max-width: 720px) {
   .site-header,
   .hero,
+  .publications,
   .public-work,
+  .milestones,
   .notes,
   .site-footer {
     width: min(100% - 28px, 1180px);
   }
 
+  .resume-summary.band,
   .focus-areas.band,
+  .credentials.band,
   .timeline.band {
     width: 100%;
   }
@@ -639,13 +794,13 @@ main {
 
   .nav-links {
     width: 100%;
-    justify-content: space-between;
-    gap: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px 14px;
   }
 
   .nav-links a {
-    padding-right: 0;
-    padding-left: 0;
+    padding: 5px 0;
   }
 
   .header-link {
@@ -674,7 +829,11 @@ main {
   }
 
   .focus-areas,
+  .resume-summary,
+  .credentials,
+  .publications,
   .public-work,
+  .milestones,
   .timeline,
   .notes {
     padding-top: 44px;
@@ -682,11 +841,38 @@ main {
   }
 
   .area-grid,
+  .summary-grid,
+  .summary-grid ul,
+  .paper-list article,
+  .credential-grid,
+  .milestone-grid,
   .work-strip,
   .section-heading,
   .timeline-list article,
   .site-footer {
     grid-template-columns: 1fr;
+  }
+
+  .credential-grid,
+  .milestone-grid {
+    border-left: 0;
+  }
+
+  .credential-grid article,
+  .milestone-grid article {
+    min-height: 0;
+    border-right: 0;
+    padding: 20px 0;
+  }
+
+  .paper-list article {
+    gap: 8px;
+  }
+
+  .paper-status,
+  .paper-list p {
+    grid-column: auto;
+    grid-row: auto;
   }
 
   .area-grid article:nth-child(2) {
@@ -708,7 +894,7 @@ main {
     gap: 12px;
   }
 
-  .timeline-list article > span {
+  .timeline-list article > span:last-child {
     grid-column: auto;
   }
 
