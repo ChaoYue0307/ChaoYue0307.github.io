@@ -73,9 +73,7 @@ button:focus-visible {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 28px;
+  display: flex;
   align-items: center;
   width: var(--page);
   min-height: 58px;
@@ -96,13 +94,6 @@ button:focus-visible {
   color: var(--ink);
   font-size: 0.91rem;
   line-height: 1;
-}
-
-.header-link {
-  color: var(--muted);
-  font-size: 0.82rem;
-  font-style: italic;
-  white-space: nowrap;
 }
 
 main {
@@ -152,6 +143,19 @@ main {
   font-size: 0.95rem;
   line-height: 1.55;
   text-align: center;
+}
+
+.profile-updated {
+  margin: 7px 0 0;
+  color: var(--faint);
+  font-size: 0.76rem;
+  font-style: italic;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.profile-updated time {
+  font-variant-numeric: tabular-nums;
 }
 
 .profile-links {
@@ -606,17 +610,13 @@ main {
   }
 
   .site-header {
-    grid-template-columns: 1fr auto;
-    gap: 14px;
     min-height: 0;
     padding: 14px 0 12px;
   }
 
   .nav-links {
-    grid-column: 1 / -1;
     justify-content: flex-start;
     gap: 16px;
-    order: 3;
   }
 
   .academic-shell {
@@ -647,7 +647,8 @@ main {
   }
 
   .profile-sidebar h1,
-  .profile-role {
+  .profile-role,
+  .profile-updated {
     text-align: left;
   }
 
@@ -680,10 +681,6 @@ main {
 
   .site-header {
     position: static;
-  }
-
-  .header-link {
-    font-size: 0.78rem;
   }
 
   .nav-links {
@@ -724,6 +721,11 @@ main {
   .profile-role {
     grid-column: 2;
     align-self: start;
+  }
+
+  .profile-updated {
+    grid-column: 2;
+    margin-top: 3px;
   }
 
   .profile-links,
