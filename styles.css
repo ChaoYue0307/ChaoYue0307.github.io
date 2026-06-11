@@ -21,6 +21,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 78px;
 }
 
 body {
@@ -46,6 +47,26 @@ a:focus-visible,
 button:focus-visible {
   outline: 3px solid rgba(7, 90, 166, 0.18);
   outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  transform: translateY(-140%);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--link);
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: 7px 10px;
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .site-header {
@@ -248,6 +269,53 @@ main {
 .content-column a,
 .section-head a {
   color: var(--link);
+}
+
+.section-intro {
+  max-width: 760px;
+  color: var(--muted) !important;
+  font-size: 0.92rem;
+  line-height: 1.6 !important;
+}
+
+.section-head + .section-intro {
+  margin-top: 12px;
+}
+
+.section-intro + .paper-list,
+.section-intro + .project-list,
+.section-intro + .tabs {
+  margin-top: 14px;
+}
+
+.profile-snapshot {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 22px;
+  margin: 18px 0 0;
+  border-top: 1px solid var(--soft-line);
+}
+
+.profile-snapshot div {
+  border-bottom: 1px solid var(--soft-line);
+  padding: 10px 0;
+}
+
+.profile-snapshot dt {
+  margin: 0;
+  color: var(--faint);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.profile-snapshot dd {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.48;
 }
 
 .highlights ul,
@@ -518,10 +586,16 @@ main {
   border-bottom: 1px solid var(--soft-line);
   color: var(--text);
   padding: 12px 14px 12px 0;
+  transition: background 160ms ease, padding-left 160ms ease;
 }
 
 .project-list a:nth-child(3n) {
   border-right: 0;
+}
+
+.project-list a:hover {
+  background: linear-gradient(90deg, rgba(7, 90, 166, 0.045), transparent 70%);
+  padding-left: 8px;
 }
 
 .project-list strong,
