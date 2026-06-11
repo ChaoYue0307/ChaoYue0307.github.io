@@ -320,6 +320,14 @@ main {
   font-weight: 500;
 }
 
+.paper-meta .paper-role {
+  margin-top: 5px;
+  color: var(--faint);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .paper-list h3 {
   margin: 0;
   color: var(--ink);
@@ -752,7 +760,12 @@ main {
 
   .paper-meta {
     display: flex;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+
+  .paper-meta .paper-role {
+    margin-top: 0;
   }
 
   .timeline-list article {
