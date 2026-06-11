@@ -736,21 +736,66 @@ main {
   }
 
   .profile-sidebar {
+    display: contents;
+  }
+
+  .content-column {
+    display: contents;
+  }
+
+  .academic-shell {
     grid-template-columns: 78px minmax(0, 1fr);
     gap: 0 14px;
+    padding-top: 28px;
   }
 
   .profile-photo {
+    grid-column: 1;
+    grid-row: span 2;
     width: 66px;
     height: 66px;
   }
 
   .profile-sidebar h1 {
+    grid-column: 2;
+    align-self: end;
     font-size: 1.25rem;
   }
 
+  .profile-role {
+    grid-column: 2;
+    align-self: start;
+  }
+
+  .profile-summary,
+  .profile-links,
+  .keyword-panel,
+  .content-column section {
+    grid-column: 1 / -1;
+  }
+
+  .profile-summary {
+    order: 2;
+  }
+
+  #about {
+    order: 3;
+    margin-top: 28px;
+  }
+
   .profile-links {
+    order: 4;
     gap: 8px;
+  }
+
+  .keyword-panel {
+    order: 5;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+  }
+
+  .content-column section:not(#about) {
+    order: 6;
   }
 
   .content-column h2 {
