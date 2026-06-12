@@ -381,6 +381,10 @@ main {
   --paper-figure-ratio: 1536 / 1024;
 }
 
+.paper-figure--harness {
+  --paper-figure-ratio: 1536 / 1024;
+}
+
 .paper-figure:hover {
   border-color: rgba(7, 90, 166, 0.35);
   box-shadow: 0 8px 22px rgba(23, 23, 23, 0.07);
