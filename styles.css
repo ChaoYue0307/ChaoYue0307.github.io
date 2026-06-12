@@ -361,12 +361,16 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1916 / 821;
+  aspect-ratio: var(--paper-figure-ratio, 1916 / 821);
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fff;
+  background: var(--paper-figure-bg, #fff);
   overflow: hidden;
   transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.paper-figure--esgenius {
+  --paper-figure-ratio: 3322 / 1177;
 }
 
 .paper-figure:hover {
@@ -467,6 +471,10 @@ main {
   background: #fff;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
   padding: 14px;
+}
+
+.figure-lightbox--wide figure {
+  width: min(1500px, 96vw);
 }
 
 .figure-lightbox img {
