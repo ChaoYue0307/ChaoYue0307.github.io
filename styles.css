@@ -346,7 +346,7 @@ main {
 }
 
 .paper-list .paper-entry--with-figure {
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
   align-items: start;
   gap: 24px;
   padding: 20px 0 18px;
@@ -361,7 +361,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2400 / 1026;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: #fff;
@@ -519,14 +519,6 @@ main {
   font-weight: 500;
 }
 
-.paper-meta .paper-role {
-  margin-top: 5px;
-  color: var(--faint);
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
 .paper-list h3 {
   margin: 0;
   color: var(--ink);
@@ -552,6 +544,18 @@ main {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.56;
+}
+
+.paper-list .paper-authors {
+  margin-top: 4px;
+  color: var(--faint);
+  font-size: 0.82rem;
+  line-height: 1.42;
+}
+
+.paper-authors strong {
+  color: var(--ink);
+  font-weight: 700;
 }
 
 .paper-links {
@@ -960,10 +964,6 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 4px 8px;
-  }
-
-  .paper-meta .paper-role {
-    margin-top: 0;
   }
 
   .timeline-list article {
