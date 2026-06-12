@@ -361,7 +361,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 2400 / 1026;
+  aspect-ratio: 1916 / 821;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: #fff;
@@ -477,11 +477,20 @@ main {
 }
 
 .figure-lightbox figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 12px;
   margin-top: 8px;
   color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.4;
   text-align: center;
+}
+
+.figure-lightbox figcaption a {
+  color: var(--link);
+  font-weight: 650;
 }
 
 .figure-lightbox__close {
