@@ -286,6 +286,10 @@ main {
   margin-top: 12px;
 }
 
+.section-head + .paper-list {
+  margin-top: 10px;
+}
+
 .section-intro + .paper-list,
 .section-intro + .project-list {
   margin-top: 14px;
