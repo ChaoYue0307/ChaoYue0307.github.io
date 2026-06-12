@@ -193,25 +193,22 @@ main {
   line-height: 1;
 }
 
-.profile-icon svg {
+.profile-icon svg,
+.profile-icon img {
   display: block;
-  width: 14px;
-  height: 14px;
-  fill: currentColor;
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
 }
 
-.profile-icon--github,
-.profile-icon--x {
-  color: var(--ink);
+.profile-icon--huggingface img {
+  width: 16px;
+  height: 16px;
 }
 
-.profile-icon--linkedin {
-  color: #0a66c2;
-}
-
-.profile-icon--alpha {
-  font-family: var(--serif);
-  font-size: 0.86rem;
+.profile-icon--alpha img {
+  width: 17px;
+  height: 17px;
 }
 
 .keyword-panel {
