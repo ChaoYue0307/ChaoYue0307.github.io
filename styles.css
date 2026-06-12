@@ -381,6 +381,10 @@ main {
   --paper-figure-ratio: 1536 / 1024;
 }
 
+.paper-figure--sskg {
+  --paper-figure-ratio: 1442 / 758;
+}
+
 .paper-figure--harness {
   --paper-figure-ratio: 1536 / 1024;
 }
