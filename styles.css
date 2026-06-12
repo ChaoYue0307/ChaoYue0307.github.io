@@ -375,6 +375,7 @@ main {
 
 .paper-figure--mmesgbench {
   --paper-figure-ratio: 4000 / 2050;
+  max-height: 176px;
 }
 
 .paper-figure--kg4esg {
@@ -875,6 +876,10 @@ main {
   .paper-figure {
     margin: 4px 0 6px;
     max-width: 100%;
+  }
+
+  .paper-figure--mmesgbench {
+    max-height: none;
   }
 
   .paper-figure span {
