@@ -393,6 +393,10 @@ main {
   max-height: 176px;
 }
 
+.paper-figure--human-ai-productivity {
+  --paper-figure-ratio: 1312 / 422;
+}
+
 .paper-figure--kg4esg {
   --paper-figure-ratio: 1536 / 1024;
 }
