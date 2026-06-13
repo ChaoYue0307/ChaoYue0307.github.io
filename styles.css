@@ -397,6 +397,10 @@ main {
   --paper-figure-ratio: 1312 / 422;
 }
 
+.paper-figure--recsys-agents {
+  --paper-figure-ratio: 1188 / 460;
+}
+
 .paper-figure--kg4esg {
   --paper-figure-ratio: 1536 / 1024;
 }
