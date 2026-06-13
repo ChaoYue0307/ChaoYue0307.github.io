@@ -405,6 +405,10 @@ main {
   --paper-figure-ratio: 1272 / 562;
 }
 
+.paper-figure--esglass {
+  --paper-figure-ratio: 2417 / 1138;
+}
+
 .paper-figure--synthetic-media-exchange {
   --paper-figure-ratio: 2471 / 1400;
 }
