@@ -405,6 +405,10 @@ main {
   --paper-figure-ratio: 1272 / 562;
 }
 
+.paper-figure--synthetic-media-exchange {
+  --paper-figure-ratio: 2471 / 1400;
+}
+
 .paper-figure--kg4esg {
   --paper-figure-ratio: 1536 / 1024;
 }
