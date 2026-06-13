@@ -393,6 +393,10 @@ main {
   max-height: 176px;
 }
 
+.paper-figure--sp2dpo {
+  --paper-figure-ratio: 2560 / 1410;
+}
+
 .paper-figure--human-ai-productivity {
   --paper-figure-ratio: 1312 / 422;
 }
