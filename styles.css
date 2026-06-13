@@ -401,6 +401,10 @@ main {
   --paper-figure-ratio: 1188 / 460;
 }
 
+.paper-figure--multi-scale-recsys {
+  --paper-figure-ratio: 1272 / 562;
+}
+
 .paper-figure--kg4esg {
   --paper-figure-ratio: 1536 / 1024;
 }
