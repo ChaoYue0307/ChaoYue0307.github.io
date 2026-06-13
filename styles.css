@@ -406,6 +406,10 @@ main {
   max-height: 360px;
 }
 
+.paper-figure--autoresearch {
+  --paper-figure-ratio: 1446 / 622;
+}
+
 .paper-figure--harness {
   --paper-figure-ratio: 1536 / 1024;
 }
