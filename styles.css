@@ -401,6 +401,11 @@ main {
   --paper-figure-ratio: 1442 / 758;
 }
 
+.paper-figure--openclaw {
+  --paper-figure-ratio: 998 / 782;
+  max-height: 360px;
+}
+
 .paper-figure--harness {
   --paper-figure-ratio: 1536 / 1024;
 }
@@ -507,6 +512,19 @@ main {
 
 .figure-lightbox--wide figure {
   width: min(1640px, 96vw);
+}
+
+.figure-lightbox--fit figure {
+  max-height: calc(100vh - 56px);
+  overflow: auto;
+}
+
+.figure-lightbox.figure-lightbox--fit img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 116px);
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 .figure-lightbox img {
