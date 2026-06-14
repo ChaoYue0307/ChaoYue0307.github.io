@@ -24,6 +24,11 @@ html {
   scroll-padding-top: 78px;
 }
 
+article[id],
+section[id] {
+  scroll-margin-top: 78px;
+}
+
 body {
   min-width: 320px;
   margin: 0;
@@ -285,6 +290,13 @@ main {
   line-height: 1.72;
 }
 
+.content-column .lead-copy {
+  max-width: 900px;
+  color: var(--text);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
 .content-column a,
 .section-head a {
   color: var(--link);
@@ -319,8 +331,64 @@ main {
   padding-left: 18px;
 }
 
+.entry-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--soft-line);
+}
+
+.entry-links a {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  border-right: 1px solid var(--soft-line);
+  padding: 13px 18px 14px 0;
+}
+
+.entry-links a:last-child {
+  border-right: 0;
+}
+
+.entry-links a:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.entry-links span,
+.entry-links strong {
+  display: block;
+}
+
+.entry-links span {
+  color: var(--link);
+  font-size: 0.9rem;
+  font-weight: 720;
+  line-height: 1.25;
+}
+
+.entry-links strong {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.highlights ul {
+  gap: 0;
+  border-top: 1px solid var(--soft-line);
+  list-style: none;
+  padding-left: 0;
+}
+
 .highlights li {
-  padding-left: 4px;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  border-bottom: 1px solid var(--soft-line);
+  padding: 9px 0;
 }
 
 .highlights time {
@@ -328,6 +396,23 @@ main {
   min-width: 82px;
   color: var(--link);
   font-variant-numeric: tabular-nums;
+}
+
+.highlights span {
+  color: var(--muted);
+  font-size: 0.91rem;
+  line-height: 1.48;
+}
+
+.highlights a {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.highlights a:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .section-head {
@@ -1227,6 +1312,8 @@ a.repo-visual:hover {
 
   .content-column p,
   .highlights span,
+  .entry-links span,
+  .entry-links strong,
   .keyword-panel div,
   .paper-list h3,
   .paper-list p,
@@ -1248,6 +1335,7 @@ a.repo-visual:hover {
   .highlights ul,
   .compact-signals ul,
   .interest-list,
+  .entry-links,
   .thoughts-list,
   .paper-list,
   .project-list,
@@ -1285,6 +1373,25 @@ a.repo-visual:hover {
   .interest-list,
   .project-list {
     grid-template-columns: 1fr;
+  }
+
+  .entry-links {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-links a {
+    border-right: 0;
+    border-bottom: 1px solid var(--soft-line);
+    padding: 11px 0;
+  }
+
+  .entry-links a:last-child {
+    border-bottom: 0;
+  }
+
+  .highlights li {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 8px;
   }
 
   .figure-lightbox {
