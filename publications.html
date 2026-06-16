@@ -14,15 +14,24 @@
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chaoyue0307.github.io/publications.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Publications | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Selected accepted papers, preprints, submissions, and paper figures from Chaoyue He."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <title>Publications | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/publications.html">
-    <link rel="stylesheet" href="styles.css?v=20260614-product-polish">
+    <link rel="stylesheet" href="styles.css?v=20260616-site-polish">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Chaoyue He",
         "url": "https://chaoyue0307.github.io/",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
         "email": "mailto:cyhe@ntu.edu.sg",
         "jobTitle": "Research Scientist",
         "affiliation": {
@@ -50,8 +59,7 @@
           "https://huggingface.co/cy0307",
           "https://scholar.google.com/citations?user=59FPEzkAAAAJ&hl=en",
           "https://www.linkedin.com/in/chaoyue-he-a4103558/",
-          "https://x.com/CYH37",
-          "https://www.alphaxiv.org/"
+          "https://x.com/CYH37"
         ]
       }
     </script>
@@ -65,7 +73,7 @@
         <a href="research.html">Research</a>
         <a href="experience.html">Experience</a>
         <a href="projects.html">Projects</a>
-        <a href="thoughts.html">Thoughts</a>
+        <a href="thoughts.html">Notes</a>
       </nav>
     </header>
 
@@ -114,12 +122,13 @@
                 <img src="assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
               </span>
             </a>
-            <a href="https://www.alphaxiv.org/" aria-label="alphaXiv" title="alphaXiv">
-              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
-                <img src="assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
-              </span>
-            </a>
           </nav>
+          <nav class="profile-text-links" aria-label="Quick contact links">
+            <a href="mailto:cyhe@ntu.edu.sg">Email</a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en">Scholar</a>
+            <a href="https://github.com/ChaoYue0307">GitHub</a>
+          </nav>
+          <!-- CV link placeholder: add a committed CV file before exposing a visible CV link. -->
           <div class="keyword-panel" aria-label="Research focus areas">
             <h2>Focus Areas</h2>
             <div>
@@ -142,7 +151,17 @@
               <h2 id="papers-title">Publications</h2>
               <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en">Google Scholar</a>
             </div>
+            <nav class="section-anchors" aria-label="Publication sections">
+              <a href="#accepted">Accepted</a>
+              <a href="#under-review">Under Review</a>
+              <a href="#earlier-work">Earlier Work</a>
+            </nav>
+            <p class="status-legend">
+              Status labels separate accepted work from preprints and submission-stage work.
+              Proceedings links are marked forthcoming only when the item is already listed as accepted.
+            </p>
             <div class="paper-list">
+              <h3 id="accepted" class="paper-section-title">Selected / Accepted</h3>
               <article id="pca-os" class="paper-entry--with-figure">
                 <a class="paper-figure" href="#pca-os-figure-full" aria-label="Enlarge PCA-OS overview figure">
                   <img
@@ -247,7 +266,7 @@
                 <div>
                   <div class="paper-kicker" aria-label="MMESGBench publication status">
                     <span>ACM MM 2025</span>
-                    <strong>Dataset</strong>
+                    <strong>Dataset Track</strong>
                   </div>
                   <h3><a href="https://dl.acm.org/doi/abs/10.1145/3746027.3758225">MMESGBench: Multimodal Understanding and Complex Reasoning for ESG Tasks</a></h3>
                   <p class="paper-authors">Lei Zhang, Xin Zhou, <strong>Chaoyue He</strong>, Di Wang, Yi Wu, Hong Xu, Wei Liu, Chunyan Miao</p>
@@ -276,7 +295,17 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article>
+                <div class="paper-meta"><span>HCII 2026</span><strong>Accepted</strong></div>
+                <div>
+                  <h3>An Expert-in-the-Loop Design Utilising Knowledge Graphs to Prompt LLMs in Professional Writing</h3>
+                  <p class="paper-authors">Xinjia Yu, <strong>Chaoyue He</strong>, Xin Zhou, Lei Zhang, Chunyan Miao</p>
+                  <p>Knowledge-graph-guided design for LLM-assisted professional writing. Proceedings link forthcoming.</p>
+                </div>
+              </article>
+
+              <h3 id="under-review" class="paper-section-title">Preprints &amp; Under Review</h3>
+              <article id="openclaw" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--openclaw" href="#openclaw-figure-full" aria-label="Enlarge OpenClaw AERO framework figure">
                   <img
                     src="assets/openclaw-aero-thumb.webp"
@@ -291,11 +320,11 @@
                 <div>
                   <div class="paper-kicker" aria-label="OpenClaw Survey publication status">
                     <span>EMNLP 2026</span>
-                    <strong>Strong Findings</strong>
+                    <strong>Under review</strong>
                   </div>
                   <h3><a href="https://www.preprints.org/manuscript/202603.1060">OpenClaw as Language Infrastructure: A Case-Centered Survey of a Public Agent Ecosystem in the Wild</a></h3>
                   <p class="paper-authors"><strong>Chaoyue He</strong>, Xin Zhou, Di Wang, Hong Xu, Wei Liu, Chunyan Miao</p>
-                  <p>ARR March recommendation to Borderline Main Conference. Case-centered analysis of a public agent ecosystem, framing agentic language use as executable, persistent infrastructure.</p>
+                  <p>EMNLP 2026 ARR review: Strong Findings, with recommendation to Borderline Main Conference. Case-centered analysis of a public agent ecosystem, framing agentic language use as executable, persistent infrastructure.</p>
                   <div class="paper-links" aria-label="OpenClaw Survey links">
                     <a href="https://www.preprints.org/manuscript/202603.1060">Preprints.org</a>
                   </div>
@@ -319,7 +348,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="harness-engineering" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--harness" href="#harness-figure-full" aria-label="Enlarge Harness Engineering overview figure">
                   <img
                     src="assets/harness-engineering-overview-thumb.webp"
@@ -405,7 +434,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="human-ai-productivity" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--human-ai-productivity" href="#human-ai-productivity-figure-full" aria-label="Enlarge Human-AI productivity time-to-acceptance figure">
                   <img
                     src="assets/human-ai-productivity-tta-thumb.webp"
@@ -448,7 +477,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="kg4esg" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--kg4esg" href="#kg4esg-figure-full" aria-label="Enlarge KG4ESG overview figure">
                   <img
                     src="assets/kg4esg-overall-thumb.webp"
@@ -535,7 +564,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="autoresearch" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--autoresearch" href="#autoresearch-figure-full" aria-label="Enlarge AutoResearch timeline figure">
                   <img
                     src="assets/autoresearch-timeline-thumb.webp"
@@ -578,7 +607,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="esglass" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--esglass" href="#esglass-figure-full" aria-label="Enlarge ESGlass overview figure">
                   <img
                     src="assets/esglass-overview-thumb.webp"
@@ -621,7 +650,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="synthetic-media-exchange" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--synthetic-media-exchange" href="#synthetic-media-exchange-figure-full" aria-label="Enlarge Synthetic Media Exchange overview figure">
                   <img
                     src="assets/synthetic-media-exchange-overview-thumb.webp"
@@ -664,7 +693,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="agentic-multimedia-firms" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--agentic-multimedia-firms" href="#agentic-multimedia-firms-figure-full" aria-label="Enlarge Agentic Multimedia Firms overview figure">
                   <img
                     src="assets/agentic-multimedia-firms-overview-thumb.webp"
@@ -707,7 +736,7 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <article id="recsys-agents" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--recsys-agents" href="#recsys-agents-figure-full" aria-label="Enlarge recommender systems toward agents figure">
                   <img
                     src="assets/recsys-agents-paradigms-thumb.webp"
@@ -722,7 +751,7 @@
                 <div>
                   <div class="paper-kicker" aria-label="Recommender Systems Toward Agents publication status">
                     <span>Apr 2026</span>
-                    <strong>Submission</strong>
+                    <strong>Submitted</strong>
                   </div>
                   <h3><a href="https://www.preprints.org/manuscript/202604.0201">Recommender Systems Should Now Be Designed Towards Agents</a></h3>
                   <p class="paper-authors"><strong>Chaoyue He</strong>, Xin Zhou, Di Wang, Hong Xu, Wei Liu, Chunyan Miao</p>
@@ -750,7 +779,8 @@
                   </figcaption>
                 </figure>
               </div>
-              <article class="paper-entry--with-figure">
+              <h3 id="earlier-work" class="paper-section-title">Earlier Work</h3>
+              <article id="multi-scale-recsys" class="paper-entry--with-figure">
                 <a class="paper-figure paper-figure--multi-scale-recsys" href="#multi-scale-recsys-figure-full" aria-label="Enlarge multi-scale quasi-RNN recommender figure">
                   <img
                     src="assets/multi-scale-quasi-rnn-thumb.webp"
@@ -765,7 +795,7 @@
                 <div>
                   <div class="paper-kicker" aria-label="Multi-Scale Quasi-RNN publication status">
                     <span>2019</span>
-                    <strong>arXiv</strong>
+                    <strong>Preprint</strong>
                   </div>
                   <h3><a href="https://arxiv.org/abs/1902.09849">Multi-Scale Quasi-RNN for Next Item Recommendation</a></h3>
                   <p class="paper-authors"><strong>Chaoyue He</strong>, Yong Liu, Qingyu Guo, Chunyan Miao</p>
@@ -793,19 +823,11 @@
                   </figcaption>
                 </figure>
               </div>
-              <article>
-                <div class="paper-meta"><span>HCII 2026</span><strong>Accepted</strong></div>
-                <div>
-                  <h3>An Expert-in-the-Loop Design Utilising Knowledge Graphs to Prompt LLMs in Professional Writing</h3>
-                  <p class="paper-authors">Xinjia Yu, <strong>Chaoyue He</strong>, Xin Zhou, Lei Zhang, Chunyan Miao</p>
-                  <p>Knowledge-graph-guided design for LLM-assisted professional writing. Proceedings link forthcoming.</p>
-                </div>
-              </article>
             </div>
           </section>
         </article>
       </div>
     </main>
-    <script src="site.js?v=20260614-image-loading" defer></script>
+    <script src="site.js?v=20260616-site-polish" defer></script>
   </body>
 </html>

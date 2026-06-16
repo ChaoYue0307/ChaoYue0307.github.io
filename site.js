@@ -1,10 +1,19 @@
 (() => {
-  const hydrateFigure = (hash = window.location.hash) => {
-    if (!hash || hash.length < 2) return;
+  let lastFigureTrigger = null;
+
+  const getLightboxFromHash = (hash = window.location.hash) => {
+    if (!hash || hash.length < 2) return null;
 
     const id = decodeURIComponent(hash.slice(1));
     const lightbox = document.getElementById(id);
-    if (!lightbox || !lightbox.classList.contains("figure-lightbox")) return;
+    if (!lightbox || !lightbox.classList.contains("figure-lightbox")) return null;
+
+    return lightbox;
+  };
+
+  const hydrateFigure = (hash = window.location.hash) => {
+    const lightbox = getLightboxFromHash(hash);
+    if (!lightbox) return;
 
     const image = lightbox.querySelector("img");
     const source = lightbox.querySelector("figcaption a[href]");
@@ -26,11 +35,39 @@
     fullImage.src = fullSrc;
   };
 
+  const closeLightbox = () => {
+    const lightbox = getLightboxFromHash();
+    if (!lightbox) return;
+
+    const closeTarget = lightbox.querySelector(".figure-lightbox__close")?.hash || "#papers";
+    window.location.hash = closeTarget;
+
+    window.requestAnimationFrame(() => {
+      if (lastFigureTrigger) {
+        lastFigureTrigger.focus({ preventScroll: true });
+        lastFigureTrigger = null;
+      }
+    });
+  };
+
   window.addEventListener("hashchange", () => hydrateFigure());
+
   document.addEventListener("click", (event) => {
     const trigger = event.target.closest('a[href^="#"]');
     if (!trigger) return;
+
+    const lightbox = getLightboxFromHash(trigger.hash);
+    if (lightbox) {
+      lastFigureTrigger = trigger;
+    }
+
     window.requestAnimationFrame(() => hydrateFigure(trigger.hash));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
   });
 
   if (document.readyState === "loading") {

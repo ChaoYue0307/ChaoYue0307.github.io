@@ -14,15 +14,24 @@
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chaoyue0307.github.io/research.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Research | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Research map across sustainability and ESG AI, evaluation, post-training, agent infrastructure, RecSys, mobility, and embodied AI."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <title>Research | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/research.html">
-    <link rel="stylesheet" href="styles.css?v=20260614-product-polish">
+    <link rel="stylesheet" href="styles.css?v=20260616-site-polish">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Chaoyue He",
         "url": "https://chaoyue0307.github.io/",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
         "email": "mailto:cyhe@ntu.edu.sg",
         "jobTitle": "Research Scientist",
         "affiliation": {
@@ -50,8 +59,7 @@
           "https://huggingface.co/cy0307",
           "https://scholar.google.com/citations?user=59FPEzkAAAAJ&hl=en",
           "https://www.linkedin.com/in/chaoyue-he-a4103558/",
-          "https://x.com/CYH37",
-          "https://www.alphaxiv.org/"
+          "https://x.com/CYH37"
         ]
       }
     </script>
@@ -65,7 +73,7 @@
         <a href="research.html" aria-current="page">Research</a>
         <a href="experience.html">Experience</a>
         <a href="projects.html">Projects</a>
-        <a href="thoughts.html">Thoughts</a>
+        <a href="thoughts.html">Notes</a>
       </nav>
     </header>
 
@@ -114,12 +122,13 @@
                 <img src="assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
               </span>
             </a>
-            <a href="https://www.alphaxiv.org/" aria-label="alphaXiv" title="alphaXiv">
-              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
-                <img src="assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
-              </span>
-            </a>
           </nav>
+          <nav class="profile-text-links" aria-label="Quick contact links">
+            <a href="mailto:cyhe@ntu.edu.sg">Email</a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en">Scholar</a>
+            <a href="https://github.com/ChaoYue0307">GitHub</a>
+          </nav>
+          <!-- CV link placeholder: add a committed CV file before exposing a visible CV link. -->
           <div class="keyword-panel" aria-label="Research focus areas">
             <h2>Focus Areas</h2>
             <div>
@@ -144,12 +153,70 @@
               benchmarks, knowledge layers, agent harnesses, post-training methods, and
               domain-facing applications.
             </p>
-            <ul class="interest-list">
-              <li><strong>Sustainability and ESG AI</strong><span>Benchmarks, standards knowledge graphs, report generation, and climate-adaptation systems.</span></li>
-              <li><strong>LLM Evaluation and Post-Training</strong><span>Acceptance tests, preference optimization, distillation, auditing, and productivity evidence.</span></li>
-              <li><strong>AI Agents and Research Workflows</strong><span>Harness engineering, public agent ecosystems, research automation, and audit-friendly runtimes.</span></li>
-              <li><strong>RecSys, Mobility, and Embodied AI</strong><span>Sequential recommendation, activity recognition, embodied-agent evaluation, fall detection, and mobility risk assessment.</span></li>
-            </ul>
+            <div class="research-card-grid">
+              <article class="research-card">
+                <h3>Sustainability &amp; ESG AI</h3>
+                <p>Benchmarks, standards knowledge graphs, report-generation support, and climate-adaptation systems for auditable sustainability workflows.</p>
+                <div class="topic-chips" aria-label="Sustainability and ESG AI topics">
+                  <span>ESG Benchmarks</span>
+                  <span>Standards KGs</span>
+                  <span>Report Generation</span>
+                  <span>Climate Adaptation</span>
+                </div>
+                <div class="text-links">
+                  <a href="publications.html#esgenius">ESGenius</a>
+                  <a href="publications.html#mmesgbench">MMESGBench</a>
+                  <a href="publications.html#sskg-hub">SSKG Hub</a>
+                  <a href="publications.html#pca-os">PCA-OS</a>
+                </div>
+              </article>
+              <article class="research-card">
+                <h3>Evaluation &amp; Post-training</h3>
+                <p>Acceptance tests, preference optimization, auditing, and productivity evidence for LLM systems that need defensible evaluation.</p>
+                <div class="topic-chips" aria-label="Evaluation and post-training topics">
+                  <span>Acceptance Tests</span>
+                  <span>Preference Optimization</span>
+                  <span>Auditing</span>
+                  <span>Post-training</span>
+                </div>
+                <div class="text-links">
+                  <a href="publications.html#sp2dpo">SP2DPO</a>
+                  <a href="publications.html#human-ai-productivity">Human-AI Productivity</a>
+                  <a href="projects.html#open-source">Projects</a>
+                </div>
+              </article>
+              <article class="research-card">
+                <h3>Agent Infrastructure &amp; Research Workflows</h3>
+                <p>Harness layers, public agent ecosystems, research automation, and runtime reliability for agentic AI systems.</p>
+                <div class="topic-chips" aria-label="Agent infrastructure topics">
+                  <span>Harness Engineering</span>
+                  <span>OpenClaw</span>
+                  <span>Research Automation</span>
+                  <span>Runtime Reliability</span>
+                </div>
+                <div class="text-links">
+                  <a href="publications.html#openclaw">OpenClaw</a>
+                  <a href="publications.html#harness-engineering">Harness Engineering</a>
+                  <a href="publications.html#autoresearch">AutoResearch</a>
+                  <a href="projects.html#project-agent-security">Agent Tooling</a>
+                </div>
+              </article>
+              <article class="research-card">
+                <h3>RecSys, Mobility, and Embodied AI</h3>
+                <p>Sequential recommendation, activity recognition, embodied-agent evaluation, fall detection, and mobility-risk assessment.</p>
+                <div class="topic-chips" aria-label="RecSys, mobility, and embodied AI topics">
+                  <span>Sequential RecSys</span>
+                  <span>Mobility Risk</span>
+                  <span>Activity Recognition</span>
+                  <span>Embodied AI</span>
+                </div>
+                <div class="text-links">
+                  <a href="publications.html#multi-scale-recsys">Multi-Scale Quasi-RNN</a>
+                  <a href="publications.html#recsys-agents">RecSys Toward Agents</a>
+                  <a href="projects.html#project-public-repos">Egocentric Projects</a>
+                </div>
+              </article>
+            </div>
           </section>
         </article>
       </div>

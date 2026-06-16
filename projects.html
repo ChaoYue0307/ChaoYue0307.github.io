@@ -14,15 +14,24 @@
     >
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://chaoyue0307.github.io/projects.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Projects | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Selected public repositories, private prototypes, and agent tooling from Chaoyue He."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <title>Projects | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/projects.html">
-    <link rel="stylesheet" href="styles.css?v=20260614-product-polish">
+    <link rel="stylesheet" href="styles.css?v=20260616-site-polish">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Chaoyue He",
         "url": "https://chaoyue0307.github.io/",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
         "email": "mailto:cyhe@ntu.edu.sg",
         "jobTitle": "Research Scientist",
         "affiliation": {
@@ -50,8 +59,7 @@
           "https://huggingface.co/cy0307",
           "https://scholar.google.com/citations?user=59FPEzkAAAAJ&hl=en",
           "https://www.linkedin.com/in/chaoyue-he-a4103558/",
-          "https://x.com/CYH37",
-          "https://www.alphaxiv.org/"
+          "https://x.com/CYH37"
         ]
       }
     </script>
@@ -65,7 +73,7 @@
         <a href="research.html">Research</a>
         <a href="experience.html">Experience</a>
         <a href="projects.html" aria-current="page">Projects</a>
-        <a href="thoughts.html">Thoughts</a>
+        <a href="thoughts.html">Notes</a>
       </nav>
     </header>
 
@@ -114,12 +122,13 @@
                 <img src="assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
               </span>
             </a>
-            <a href="https://www.alphaxiv.org/" aria-label="alphaXiv" title="alphaXiv">
-              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
-                <img src="assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
-              </span>
-            </a>
           </nav>
+          <nav class="profile-text-links" aria-label="Quick contact links">
+            <a href="mailto:cyhe@ntu.edu.sg">Email</a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en">Scholar</a>
+            <a href="https://github.com/ChaoYue0307">GitHub</a>
+          </nav>
+          <!-- CV link placeholder: add a committed CV file before exposing a visible CV link. -->
           <div class="keyword-panel" aria-label="Research focus areas">
             <h2>Focus Areas</h2>
             <div>
@@ -147,8 +156,8 @@
               workflows, open-world evaluation, MCP security, and production AI engineering.
             </p>
             <div class="project-stack" aria-label="Selected projects and repositories">
-              <section class="project-group" aria-labelledby="project-egocentric">
-                <h3 id="project-egocentric">Embodied Vision and Egocentric AI</h3>
+              <section class="project-group" aria-labelledby="project-public-repos">
+                <h3 id="project-public-repos">Public repositories</h3>
                 <div class="repo-list">
                   <article class="repo-card">
                     <a class="repo-visual repo-visual--vision" href="https://github.com/ChaoYue0307/egocentric-vision-learning-hub" aria-label="Open egocentric-vision-learning-hub repository">
@@ -226,30 +235,6 @@
                       </div>
                     </div>
                   </article>
-                </div>
-              </section>
-
-              <section class="project-group" aria-labelledby="project-ai-systems">
-                <h3 id="project-ai-systems">Research Systems and AI Engineering</h3>
-                <div class="repo-list">
-                  <article class="repo-card">
-                    <div class="repo-visual repo-visual--private" aria-hidden="true">
-                      <span>R2C</span>
-                    </div>
-                    <div class="repo-body">
-                      <div class="repo-kicker">
-                        <span>Private</span>
-                        <span>TypeScript</span>
-                      </div>
-                      <h4>r2c-os</h4>
-                      <p>Research-to-capital operating system for turning academic papers into commercialization reports, product ideas, startup paths, APIs, services, and capital plans.</p>
-                      <div class="repo-tags" aria-label="Topics">
-                        <span>Research Automation</span>
-                        <span>Commercialization</span>
-                        <span>Capital Planning</span>
-                      </div>
-                    </div>
-                  </article>
                   <article class="repo-card">
                     <a class="repo-visual repo-visual--field" href="https://github.com/ChaoYue0307/production-ai-engineering-field-guide" aria-label="Open production-ai-engineering-field-guide repository">
                       <span>PE</span>
@@ -290,8 +275,32 @@
                 </div>
               </section>
 
+              <section class="project-group project-group--private" aria-labelledby="project-private-systems">
+                <h3 id="project-private-systems">Selected systems / private prototypes</h3>
+                <div class="repo-list">
+                  <article class="repo-card">
+                    <div class="repo-visual repo-visual--private" aria-hidden="true">
+                      <span>R2C</span>
+                    </div>
+                    <div class="repo-body">
+                      <div class="repo-kicker">
+                        <span>Private</span>
+                        <span>TypeScript</span>
+                      </div>
+                      <h4>r2c-os</h4>
+                      <p>Research-to-capital operating system for turning academic papers into commercialization reports, product ideas, startup paths, APIs, services, and capital plans.</p>
+                      <div class="repo-tags" aria-label="Topics">
+                        <span>Research Automation</span>
+                        <span>Commercialization</span>
+                        <span>Capital Planning</span>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
               <section class="project-group" aria-labelledby="project-agent-security">
-                <h3 id="project-agent-security">Agent Tooling and MCP Security</h3>
+                <h3 id="project-agent-security">Agent tooling and MCP security</h3>
                 <div class="repo-list">
                   <article class="repo-card">
                     <a class="repo-visual repo-visual--security" href="https://github.com/ChaoYue0307/mcp-guard" aria-label="Open mcp-guard repository">
