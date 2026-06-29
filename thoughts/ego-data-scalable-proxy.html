@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's research note arguing that ego data is a scalable proxy for embodied AI, not the final substrate for embodied intelligence."
+    >
+    <meta property="og:title" content="Ego Data Is a Scalable Proxy | Chaoyue He">
+    <meta
+      property="og:description"
+      content="A research note on why ego data matters for embodied AI, why scaling laws do not settle the data question, and why task-centric physical transition data may matter more."
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Ego Data Is a Scalable Proxy | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Why ego data is useful for embodied AI, but not the final data substrate for embodied intelligence."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <title>Ego Data Is a Scalable Proxy | Chaoyue He</title>
+    <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html">
+    <link rel="stylesheet" href="../styles.css?v=20260629-blog-index">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Chaoyue He",
+        "url": "https://chaoyue0307.github.io/",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
+        "email": "mailto:cyhe@ntu.edu.sg",
+        "jobTitle": "Research Scientist",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Alibaba-NTU Global e-Sustainability CorpLab"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Nanyang Technological University, Singapore"
+        },
+        "knowsAbout": [
+          "Large language models",
+          "Post-training",
+          "Recommender systems",
+          "Embodied AI",
+          "AI agents",
+          "Sustainability AI",
+          "ESG AI",
+          "Climate adaptation",
+          "AI evaluation",
+          "Research infrastructure"
+        ],
+        "sameAs": [
+          "https://github.com/ChaoYue0307",
+          "https://huggingface.co/cy0307",
+          "https://scholar.google.com/citations?user=59FPEzkAAAAJ&hl=en",
+          "https://www.linkedin.com/in/chaoyue-he-a4103558/",
+          "https://x.com/CYH37",
+          "https://www.alphaxiv.org/@chaoyue-he"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to main content</a>
+    <header class="site-header" aria-label="Primary">
+      <nav class="nav-links" aria-label="Site">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../thoughts.html" aria-current="page">Notes</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="academic-shell">
+        <aside class="profile-sidebar" aria-label="Profile">
+          <img
+            class="profile-photo"
+            src="../assets/profile-photo.webp"
+            alt="Portrait of Chaoyue He"
+            width="112"
+            height="112"
+            decoding="async"
+          >
+          <h1>Chaoyue He</h1>
+          <p class="profile-role">AI Research Scientist</p>
+          <p class="profile-updated">Updated <time datetime="2026-06-29">2026-06-29</time></p>
+          <nav class="profile-links" aria-label="External profile links">
+            <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-email.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://github.com/ChaoYue0307" aria-label="GitHub profile" title="GitHub" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-github.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://huggingface.co/cy0307" aria-label="Hugging Face profile" title="Hugging Face" rel="me">
+              <span class="profile-icon profile-icon--huggingface" aria-hidden="true">
+                <img src="../assets/icon-huggingface.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en" aria-label="Google Scholar profile" title="Google Scholar" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-googlescholar.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.linkedin.com/in/chaoyue-he-a4103558/" aria-label="LinkedIn profile" title="LinkedIn" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-linkedin.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://x.com/CYH37" aria-label="X profile" title="X" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.alphaxiv.org/@chaoyue-he" aria-label="alphaXiv profile" title="alphaXiv" rel="me">
+              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
+                <img src="../assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+          </nav>
+          <nav class="profile-text-links" aria-label="Quick contact links">
+            <a href="mailto:cyhe@ntu.edu.sg">Email</a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en">Scholar</a>
+            <a href="https://github.com/ChaoYue0307">GitHub</a>
+          </nav>
+          <!-- CV link placeholder: add a committed CV file before exposing a visible CV link. -->
+          <div class="keyword-panel" aria-label="Research focus areas">
+            <h2>Focus Areas</h2>
+            <div>
+              <span>LLMs</span>
+              <span>Evaluation</span>
+              <span>Sustainability AI</span>
+              <span>ESG</span>
+              <span>Climate Adaptation</span>
+              <span>Post-training</span>
+              <span>RecSys</span>
+              <span>Embodied AI</span>
+              <span>Research Systems</span>
+            </div>
+          </div>
+        </aside>
+
+        <article id="content" class="content-column">
+          <section id="thoughts" aria-labelledby="thoughts-title">
+            <h2 id="thoughts-title">Research Notes</h2>
+            <p class="section-intro">
+              <a class="back-link" href="../thoughts.html">Back to all notes</a>
+            </p>
+            <p class="thoughts-disclaimer">All views expressed here are my own.</p>
+
+            <article class="essay-note" aria-labelledby="ego-data-title">
+              <header class="essay-header">
+                <p class="essay-kicker">Embodied AI / Data</p>
+                <h3 id="ego-data-title">Ego Data Is a Scalable Proxy, Not the Final Substrate for Embodied Intelligence</h3>
+                <div class="essay-meta">
+                  <time datetime="2026-06-29">June 29, 2026</time>
+                  <span>Research note</span>
+                </div>
+                <p class="essay-deck">
+                  Ego data is valuable because it is large, natural, semantically rich, and close to
+                  everyday human physical experience. But embodied intelligence is not the same as
+                  reproducing human behavior. The deeper data problem is how to represent tasks as
+                  physical state transformations.
+                </p>
+              </header>
+
+              <div class="essay-body">
+                <p class="essay-thesis">
+                  Ego data is a scalable proxy, not the final substrate.
+                </p>
+
+                <p>
+                  The recent enthusiasm around ego data is easy to understand. Embodied AI has a data
+                  bottleneck. Language models can absorb web text, and vision models can absorb web
+                  images and video, but robots do not have an equivalent public ocean of interaction
+                  data. Real robot trajectories are expensive: they require hardware, space,
+                  teleoperation, maintenance, safety procedures, and repeated collection under
+                  physical constraints.
+                </p>
+
+                <p>
+                  Ego video offers a practical answer to that scarcity. It is cheaper to collect than
+                  robot interaction data, grounded in the real world, and full of everyday human
+                  activities. <a href="https://ego4d-data.org/">Ego4D</a>, for example, reports more
+                  than 3,670 hours of daily-life first-person video from 923 participants across 74
+                  locations and 9 countries. <a href="https://ego-exo4d-data.org/">Ego-Exo4D</a>
+                  goes further by synchronizing egocentric and exocentric video and adding modalities
+                  such as audio, gaze, point clouds, localization, and IMU signals. These projects
+                  matter because they make human physical experience trainable at a scale that robot
+                  data has struggled to reach.
+                </p>
+
+                <p>
+                  In this sense, ego data is beginning to play a role for embodied AI that internet
+                  text played for language modeling. It is not perfect, but it is large, messy,
+                  diverse, natural, and semantically dense. It captures kitchens, tools, clothing,
+                  furniture, social activity, repair, cooking, cleaning, attention, intention, and
+                  object use. It also fits naturally into the training pipelines of vision-language
+                  models and video models. That makes it an obvious frontier for scaling.
+                </p>
+
+                <h4>The Core Limitation</h4>
+
+                <p>
+                  The problem is that ego data mostly teaches models how humans act. Embodied
+                  intelligence ultimately asks a different question: how should an agent change the
+                  physical world to reach a goal?
+                </p>
+
+                <p>
+                  Those two questions can look similar, but they are not the same. Consider folding
+                  clothes. Human folding strategies are shaped by the human body: two hands, flexible
+                  fingers, limited force, visual blind spots, social habits, and a preference for
+                  motions that look natural to us. A robot may have very different affordances. It
+                  might pull a garment flat with two grippers, anchor a corner with suction, use a
+                  table edge as a tool, roll fabric through a fixture, or execute a strategy that does
+                  not look human but produces a more stable final fold.
+                </p>
+
+                <p>
+                  A human demonstration is therefore one feasible solution under human embodiment.
+                  It is not necessarily the best robot solution, and it is not necessarily the best
+                  task solution. It is useful to separate three notions of optimality:
+                </p>
+
+                <ul class="essay-bullets">
+                  <li><strong>Human optimality:</strong> what is natural, efficient, and socially familiar for a human body.</li>
+                  <li><strong>Robot optimality:</strong> what is stable, fast, low-cost, and robust for a particular robot morphology.</li>
+                  <li><strong>Task optimality:</strong> what physical transformation reaches the goal state most effectively, whether or not it resembles human action.</li>
+                </ul>
+
+                <p>
+                  Ego data mostly approximates the first. Embodied AI often needs the second, and in
+                  the long run may need the third.
+                </p>
+
+                <h4>What Scaling Laws Do Not Prove</h4>
+
+                <p>
+                  Scaling laws are important, but they should not be over-interpreted. They tell us
+                  that within a given data distribution and training objective, larger models, more
+                  data, and more compute can produce predictable gains. A 2024 study on
+                  <a href="https://arxiv.org/abs/2405.14005">neural scaling laws in robotics</a>
+                  reports a meta-analysis of 327 papers and finds power-law improvements as resources
+                  increase for robot foundation models and robotics-oriented LLMs.
+                </p>
+
+                <p>
+                  That is a meaningful result. But it does not prove that any particular data
+                  distribution is the right one for the task. More ego video may make a model better
+                  at predicting human actions, understanding human intent, and recognizing object
+                  interactions from a human viewpoint. It does not automatically teach the model the
+                  best control strategy for a robot with different sensors, actuators, constraints,
+                  and failure modes.
+                </p>
+
+                <p>
+                  The analogy is board games. Training on human games can give a model a strong
+                  human prior, but superhuman play required search, self-play, and the discovery of
+                  strategies that did not simply imitate human style. In robotics, ego data can supply
+                  a powerful human-experience prior. It is not the same thing as machine-optimal
+                  strategy discovery.
+                </p>
+
+                <p>
+                  Put more sharply: scaling laws are optimization curves, not a data philosophy. They
+                  can tell us that the current path still has returns. They do not tell us whether
+                  the path is the shortest route to embodied intelligence, or whether it is even
+                  optimizing the right target.
+                </p>
+
+                <h4>The Missing Pieces: Causality and Counterfactuals</h4>
+
+                <p>
+                  Ego video is primarily observational. It shows that something happened, but often
+                  not why it happened, what forces were applied, what alternative actions would have
+                  caused, or where the boundary between success and failure lies.
+                </p>
+
+                <p>
+                  A first-person video may show a person picking up a cup, pouring water, and putting
+                  the cup down. But the video usually does not tell us the contact forces, friction
+                  coefficients, exact contact patches, tactile feedback, or recovery options if the
+                  cup slips. It also does not answer counterfactual questions: what if the grasp were
+                  from another side, the force were larger, the object were wet, the table were more
+                  slippery, or the agent used a different tool?
+                </p>
+
+                <p>
+                  Control depends on these counterfactuals. A robot does not only need to know what
+                  action was observed; it needs to know what action would change the world in the
+                  direction of the goal. That requires intervention data, failure data, recovery data,
+                  and physical state transition data.
+                </p>
+
+                <h4>From Human-Centric to Task-Centric Data</h4>
+
+                <p>
+                  This points to a more fundamental shift. Much of today's data is human-centric: it
+                  records human actions from a human viewpoint. A better substrate for embodied
+                  intelligence may be task-centric: organized around current states, goal states,
+                  physical interventions, and the resulting world changes.
+                </p>
+
+                <p>
+                  Folding clothes should not only be represented as "how humans fold clothes." It
+                  can be represented as: how to transform a deformable object from initial state S0
+                  to goal state Sg while minimizing time, failure rate, energy, hardware complexity,
+                  and environmental dependence.
+                </p>
+
+                <p>
+                  In that formulation, the central object is not a video clip. It is a transition:
+                </p>
+
+                <p class="state-transition">
+                  S0 -> action / intervention -> S1 -> action / intervention -> S2 -> ... -> Sg
+                </p>
+
+                <p>
+                  Each step can include object geometry, contact points, force direction, visual
+                  observations, tactile feedback, constraints, intermediate failures, recovery
+                  attempts, and a task score. This structure asks a different question from imitation
+                  learning. Ego data asks, "What would a person do next?" Task-centric transition
+                  data asks, "What intervention would move the world closer to the goal?"
+                </p>
+
+                <p class="essay-thesis">
+                  Ego data treats action as imitation. Task-centric data treats action as state
+                  transformation.
+                </p>
+
+                <h4>What the Next Data Layer Might Look Like</h4>
+
+                <p>
+                  Ego data should not be discarded. It should be placed into a broader data ecology.
+                  Several complementary data forms seem especially important.
+                </p>
+
+                <p>
+                  <strong>State-transition data</strong> records the state, action, next state, goal,
+                  success signal, and cost. This is closer to physical control than raw video because
+                  it makes the consequence of intervention explicit.
+                </p>
+
+                <p>
+                  <strong>Object-centric affordance data</strong> shifts attention from the human to
+                  the object. It describes where an object can be grasped, pushed, rotated, opened,
+                  stretched, supported, or damaged. For many tasks, the key question is not "what did
+                  the person do?" but "what does the object allow?"
+                </p>
+
+                <p>
+                  <strong>Failure-rich data</strong> records slipping, collision, over-pulling,
+                  occlusion, unstable intermediate states, false perception, and recovery. Human
+                  everyday video is biased toward fluent success. Robots need to know the boundary of
+                  failure and how to recover when execution drifts.
+                </p>
+
+                <p>
+                  <strong>Counterfactual interaction data</strong> records not only the action that
+                  happened, but what would happen under nearby alternatives. This can come from robot
+                  exploration, simulation, planning, reinforcement learning, or active data
+                  collection. Its value is that the model learns a local physical model instead of a
+                  single demonstrated trajectory.
+                </p>
+
+                <p>
+                  <strong>Robot-native self-generated data</strong> is already becoming more
+                  prominent. <a href="https://robotics-transformer-x.github.io/">Open X-Embodiment</a>
+                  pools more than 1 million real robot trajectories across 22 robot embodiments.
+                  <a href="https://droid-dataset.github.io/">DROID</a> reports 76,000 demonstration
+                  trajectories, 350 hours of interaction data, 564 scenes, and 86 tasks. Physical
+                  Intelligence's <a href="https://physicalintelligence.company/blog/pi0">pi-zero</a> is another
+                  sign of the trend, combining internet-scale vision-language pretraining with
+                  open-source and internally collected robot data to produce low-level motor commands.
+                </p>
+
+                <p>
+                  These projects show that the field already understands a key point: human video is
+                  not enough. But even robot trajectory data may be an intermediate stage. The next
+                  step is not only more trajectories. It is more structured interaction data with
+                  states, goals, interventions, failures, counterfactuals, costs, and physical
+                  constraints.
+                </p>
+
+                <h4>Where Ego Data Fits</h4>
+
+                <p>
+                  The balanced view is not "ego data versus robot data." Ego data is useful, but it
+                  should occupy a specific layer in the stack. It is strong for learning human
+                  intent, open-world semantics, daily activity structure, tool use, and behavioral
+                  priors. It is weaker for precise control, contact dynamics, force feedback,
+                  morphology adaptation, non-human strategy discovery, failure recovery, and
+                  counterfactual action selection.
+                </p>
+
+                <p>
+                  A more complete embodied data stack might look like this: ego data provides
+                  semantics and intent; exocentric and 3D data provide spatial structure; robot
+                  interaction data grounds action; failure data maps the boundary; simulation and
+                  self-play provide counterfactuals; task-centric state-transition data defines the
+                  optimization target.
+                </p>
+
+                <p>
+                  The final goal is not for robots to act like people. The goal is for robots to
+                  understand the current world state, the desired goal state, the physical
+                  interventions available, and the path that best fits their own embodiment.
+                </p>
+
+                <p>
+                  Ego data may be embodied AI's ImageNet moment: large, natural, generic, and powerful
+                  enough to trigger the first wave of breakthroughs. But higher-level embodied
+                  intelligence will likely require a new data paradigm. The center of gravity may move
+                  from human experience to physical task optimization.
+                </p>
+              </div>
+            </article>
+          </section>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

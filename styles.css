@@ -1011,12 +1011,25 @@ main {
   line-height: 1.5;
 }
 
-.thoughts-list article {
+.thoughts-list article,
+.thought-card {
   display: grid;
   grid-template-columns: 112px minmax(0, 1fr);
   gap: 20px;
   border-bottom: 1px solid var(--soft-line);
   padding: 16px 0;
+}
+
+.thought-card {
+  color: inherit;
+  transition: background-color 150ms ease, padding 150ms ease;
+}
+
+.thought-card:hover {
+  background: #f8fafc;
+  color: inherit;
+  padding-right: 12px;
+  padding-left: 12px;
 }
 
 .thoughts-list time {
@@ -1036,6 +1049,24 @@ main {
 .thoughts-list p {
   margin: 0;
   color: var(--muted);
+}
+
+.thought-card-topic {
+  margin-bottom: 5px !important;
+  color: var(--faint) !important;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.25 !important;
+  text-transform: uppercase;
+}
+
+.thought-card-cta {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--link);
+  font-size: 0.84rem;
+  font-weight: 650;
 }
 
 .essay-note {
@@ -1410,7 +1441,8 @@ a.repo-visual:hover {
 @media (max-width: 760px) {
   .paper-list article,
   .paper-list .paper-entry--with-figure,
-  .thoughts-list article {
+  .thoughts-list article,
+  .thought-card {
     grid-template-columns: 1fr;
     gap: 6px;
   }
@@ -1538,6 +1570,8 @@ a.repo-visual:hover {
   .repo-card h4,
   .repo-card p,
   .repo-tags,
+  .thought-card,
+  .thoughts-list h3,
   .thoughts-list p {
     max-width: 100%;
     min-width: 0;

@@ -11,7 +11,8 @@ The site is intentionally zero-build: plain HTML, CSS, vanilla JavaScript, and l
 - `research.html` - research map across sustainability and ESG AI, evaluation, agents, RecSys, mobility, and embodied AI.
 - `experience.html` - roles, education, selected capabilities, and toolkit.
 - `projects.html` - public repositories, private prototypes, and agent/MCP tooling.
-- `thoughts.html` - longer-form research notes and essays.
+- `thoughts.html` - index of longer-form research notes and essays.
+- `thoughts/` - individual note pages linked from `thoughts.html`.
 - `styles.css` - shared visual system and responsive layout.
 - `site.js` - publication figure lightbox hydration and keyboard behavior.
 - `assets/` - profile photo, icons, paper thumbnails, and source figures.
