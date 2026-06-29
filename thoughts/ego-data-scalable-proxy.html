@@ -10,7 +10,7 @@
     <meta property="og:title" content="Ego Data May Not Be the Final Substrate | Chaoyue He">
     <meta
       property="og:description"
-      content="A research note on why ego data matters for embodied AI, why scaling laws may not settle the data question, and why task-centric physical transition data may be needed."
+      content="A research note on why recent ego-data scaling results matter, why they may not settle the data question, and why task-centric physical transition data may still be needed."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html">
@@ -311,11 +311,43 @@
                 </p>
 
                 <p>
-                  That is a meaningful result. But it should not be read as proving that any
-                  particular data distribution is the right one for the task. More ego video may make
-                  a model better at predicting human actions, understanding human intent, and
-                  recognizing object interactions from a human viewpoint. It does not automatically
-                  teach the model the best control strategy for a robot with different sensors,
+                  More recent ego-data work makes the picture more interesting.
+                  <a href="https://arxiv.org/abs/2410.24221">EgoMimic</a> treats egocentric human
+                  videos with 3D hand tracking as embodied demonstration data, not just high-level
+                  intent data, and reports a favorable scaling trend where additional hand data can
+                  be especially valuable for imitation learning.
+                  <a href="https://arxiv.org/abs/2509.04443">EMMA</a> extends a similar idea to
+                  mobile manipulation by co-training human full-body motion data with static robot
+                  data, and reports positive performance scaling as the hours of human data increase.
+                </p>
+
+                <p>
+                  <a href="https://arxiv.org/abs/2602.16710">EgoScale</a> is the most direct recent
+                  evidence in this direction. It trains a vision-language-action model on more than
+                  20,854 hours of action-labeled egocentric human video, reports a log-linear scaling
+                  law between human data scale and validation loss, and finds that this validation
+                  loss strongly correlates with downstream real-robot performance. Its final policy
+                  improves average success rate by 54% over a no-pretraining baseline on a 22-DoF
+                  dexterous robotic hand, with transfer to lower-DoF hands.
+                </p>
+
+                <p>
+                  These results are important because they weaken the simple objection that ego data
+                  is only semantic or observational. Under the right representation, ego data can
+                  encode reusable motor priors. But they also sharpen the qualification: the useful
+                  signal is not raw first-person video alone. It comes from action labels, hand or
+                  body tracking, cross-domain alignment, human-robot co-training or mid-training, and
+                  real robot evaluation. Ego data scales best when it is transformed into a bridge
+                  between human motion and robot control.
+                </p>
+
+                <p>
+                  These are meaningful results. But they should not be read as proving that any
+                  particular data distribution is the right one for every task. More ego video may
+                  make a model better at predicting human actions, understanding human intent, and
+                  recognizing object interactions from a human viewpoint. With the right action
+                  representation, it may also improve robot manipulation. It still does not
+                  automatically teach the best control strategy for a robot with different sensors,
                   actuators, constraints, and failure modes.
                 </p>
 
@@ -490,6 +522,14 @@
                 </p>
 
                 <p>
+                  <strong>Human-to-robot alignment data</strong> maps egocentric hand trajectories,
+                  full-body motion, or action labels into robot action spaces. This is the layer where
+                  EgoMimic, EMMA, and EgoScale are especially informative: they show that ego data can
+                  become more than semantic pretraining when it is paired with the right action
+                  representation and alignment recipe.
+                </p>
+
+                <p>
                   <strong>Robot-native self-generated data</strong> is already becoming more
                   prominent. <a href="https://robotics-transformer-x.github.io/">Open X-Embodiment</a>
                   pools more than 1 million real robot trajectories across 22 robot embodiments.
@@ -568,6 +608,21 @@
                     Sartor, S., &amp; Thompson, N. (2024).
                     <a href="https://arxiv.org/abs/2405.14005">Neural Scaling Laws in Robotics</a>.
                     arXiv:2405.14005.
+                  </li>
+                  <li>
+                    Kareer, S., Patel, D., Punamiya, R., et al. (2024).
+                    <a href="https://arxiv.org/abs/2410.24221">EgoMimic: Scaling Imitation Learning via Egocentric Video</a>.
+                    arXiv:2410.24221.
+                  </li>
+                  <li>
+                    Zhu, L. Y., Kuppili, P., Punamiya, R., et al. (2025).
+                    <a href="https://arxiv.org/abs/2509.04443">EMMA: Scaling Mobile Manipulation via Egocentric Human Data</a>.
+                    arXiv:2509.04443.
+                  </li>
+                  <li>
+                    Zheng, R., Niu, D., Xie, Y., et al. (2026).
+                    <a href="https://arxiv.org/abs/2602.16710">EgoScale: Scaling Dexterous Manipulation with Diverse Egocentric Human Data</a>.
+                    arXiv:2602.16710.
                   </li>
                   <li>
                     Open X-Embodiment Collaboration, O'Neill, A., Rehman, A., Gupta, A., et al. (2023).
