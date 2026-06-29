@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Chaoyue He's research note arguing that ego data is a scalable proxy for embodied AI, not the final substrate for embodied intelligence."
+      content="Chaoyue He's research note exploring why ego data may be a scalable proxy for embodied AI, but may not be the final substrate for embodied intelligence."
     >
-    <meta property="og:title" content="Ego Data Is a Scalable Proxy | Chaoyue He">
+    <meta property="og:title" content="Ego Data May Not Be the Final Substrate | Chaoyue He">
     <meta
       property="og:description"
-      content="A research note on why ego data matters for embodied AI, why scaling laws do not settle the data question, and why task-centric physical transition data may matter more."
+      content="A research note on why ego data matters for embodied AI, why scaling laws may not settle the data question, and why task-centric physical transition data may be needed."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html">
     <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Ego Data Is a Scalable Proxy | Chaoyue He">
+    <meta name="twitter:title" content="Ego Data May Not Be the Final Substrate | Chaoyue He">
     <meta
       name="twitter:description"
-      content="Why ego data is useful for embodied AI, but not the final data substrate for embodied intelligence."
+      content="Why ego data is useful for embodied AI, but may not be the final data substrate for embodied intelligence."
     >
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
-    <title>Ego Data Is a Scalable Proxy | Chaoyue He</title>
+    <title>Ego Data May Not Be the Final Substrate | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html">
     <link rel="stylesheet" href="../styles.css?v=20260629-blog-bibtex">
     <script type="application/ld+json">
@@ -162,14 +162,14 @@
             <article class="essay-note" aria-labelledby="ego-data-title">
               <header class="essay-header">
                 <p class="essay-kicker">Embodied AI / Data</p>
-                <h3 id="ego-data-title">Ego Data Is a Scalable Proxy, Not the Final Substrate for Embodied Intelligence</h3>
+                <h3 id="ego-data-title">Ego Data May Be a Scalable Proxy, But May Not Be the Final Substrate for Embodied Intelligence</h3>
                 <div class="essay-meta">
                   <time datetime="2026-06-29">June 29, 2026</time>
                   <span>Research note</span>
                 </div>
                 <p class="essay-deck">
                   Ego data is valuable because it is large, natural, semantically rich, and close to
-                  everyday human physical experience. But embodied intelligence is not the same as
+                  everyday human physical experience. But embodied intelligence may require more than
                   reproducing human behavior. The deeper data problem is how to represent tasks as
                   physical state transformations.
                 </p>
@@ -192,7 +192,8 @@
 
               <div class="essay-body">
                 <p class="essay-thesis">
-                  Ego data is a scalable proxy, not the final substrate.
+                  Ego data may be one of the best scalable proxies we have, but it may not be the
+                  final substrate.
                 </p>
 
                 <p>
@@ -225,12 +226,23 @@
                   models and video models. That makes it an obvious frontier for scaling.
                 </p>
 
-                <h4>The Core Limitation</h4>
+                <p>
+                  The stronger question is not whether ego data matters. It clearly does. The question
+                  is what kind of information it gives us. First-person video is a record of situated
+                  human experience: what a person saw, attended to, and did in a physical scene. It is
+                  much less often a record of controlled intervention: what forces were applied, which
+                  alternatives were available, what would have happened under a different grasp, and
+                  why one action succeeded while a nearby one would fail. That distinction matters
+                  because embodied intelligence is not only about recognizing activity; it is about
+                  choosing interventions that change the world.
+                </p>
+
+                <h4>The Embodiment Gap</h4>
 
                 <p>
-                  The problem is that ego data mostly teaches models how humans act. Embodied
-                  intelligence ultimately asks a different question: how should an agent change the
-                  physical world to reach a goal?
+                  The caution is that ego data mostly teaches models how humans act. Embodied
+                  intelligence often asks a different question: how should an agent change the
+                  physical world to reach a goal, given its own body, sensors, tools, and constraints?
                 </p>
 
                 <p>
@@ -242,6 +254,22 @@
                   table edge as a tool, roll fabric through a fixture, or execute a strategy that does
                   not look human but produces a more stable final fold.
                 </p>
+
+                <figure class="essay-figure essay-figure--wide">
+                  <img
+                    src="../assets/blog/embodiment-gap-folding.webp"
+                    alt="Illustration of the same folded-shirt goal reached by human hands, robot grippers, suction, and a fixture-guided strategy."
+                    width="1672"
+                    height="941"
+                    loading="lazy"
+                    decoding="async"
+                  >
+                  <figcaption>
+                    The same goal state can be reached through different embodiment-specific paths.
+                    Ego data is strongest for the human path; robot and task-optimal paths may require
+                    interaction data that exposes alternative interventions.
+                  </figcaption>
+                </figure>
 
                 <p>
                   A human demonstration is therefore one feasible solution under human embodiment.
@@ -260,7 +288,18 @@
                   the long run may need the third.
                 </p>
 
-                <h4>What Scaling Laws Do Not Prove</h4>
+                <p>
+                  This is why some simple household tasks are deeper than they look. Opening a drawer
+                  is not only a hand motion; it is a constraint problem involving a joint, a handle,
+                  friction, collision, and sometimes a cabinet that moves unless it is braced. A human
+                  may stabilize the drawer with the other hand without thinking about it. A mobile
+                  robot might use its base, a second arm, a hook-like tool, or a pushing contact on
+                  the cabinet frame. The task objective is the same, but the best policy depends on
+                  embodiment and environment. Ego data can suggest the semantic plan; it may not
+                  identify the best physical mechanism.
+                </p>
+
+                <h4>What Scaling Laws May Not Settle</h4>
 
                 <p>
                   Scaling laws are important, but they should not be over-interpreted. They tell us
@@ -272,12 +311,22 @@
                 </p>
 
                 <p>
-                  That is a meaningful result. But it does not prove that any particular data
-                  distribution is the right one for the task. More ego video may make a model better
-                  at predicting human actions, understanding human intent, and recognizing object
-                  interactions from a human viewpoint. It does not automatically teach the model the
-                  best control strategy for a robot with different sensors, actuators, constraints,
-                  and failure modes.
+                  That is a meaningful result. But it should not be read as proving that any
+                  particular data distribution is the right one for the task. More ego video may make
+                  a model better at predicting human actions, understanding human intent, and
+                  recognizing object interactions from a human viewpoint. It does not automatically
+                  teach the model the best control strategy for a robot with different sensors,
+                  actuators, constraints, and failure modes.
+                </p>
+
+                <p>
+                  A useful way to read scaling laws is as a conditional statement: if the data
+                  distribution and objective remain fixed, what happens when resources increase? That
+                  is not the same as asking whether the distribution contains the variables needed for
+                  control. A model can scale beautifully on video prediction while still being blind
+                  to contact pressure, torque limits, hidden compliance, or the low-level cost of a
+                  recovery action. Scale can amplify the signal present in a dataset; it cannot fully
+                  recover information that was never observed.
                 </p>
 
                 <p>
@@ -289,10 +338,10 @@
                 </p>
 
                 <p>
-                  Put more sharply: scaling laws are optimization curves, not a data philosophy. They
-                  can tell us that the current path still has returns. They do not tell us whether
-                  the path is the shortest route to embodied intelligence, or whether it is even
-                  optimizing the right target.
+                  Put more carefully: scaling laws are optimization curves, not a complete data
+                  philosophy. They can tell us that the current path still has returns. They do not,
+                  by themselves, tell us whether the path is the shortest route to embodied
+                  intelligence, or whether it is optimizing the right target.
                 </p>
 
                 <h4>The Missing Pieces: Causality and Counterfactuals</h4>
@@ -310,6 +359,16 @@
                   cup slips. It also does not answer counterfactual questions: what if the grasp were
                   from another side, the force were larger, the object were wet, the table were more
                   slippery, or the agent used a different tool?
+                </p>
+
+                <p>
+                  The same issue appears in cooking, cleaning, and repair. Watching a person wipe a
+                  table tells us the semantic goal and the rough motion pattern. It may not reveal the
+                  pressure needed to remove a stain, the surface material, the cloth saturation, or
+                  the tradeoff between speed and damage. Watching a person tighten a screw shows a
+                  trajectory, but the important variable may be torque. Watching a person carry a
+                  bowl shows balance, but the hidden variable may be the liquid's slosh dynamics.
+                  These are not small details for a robot; they are often the task.
                 </p>
 
                 <p>
@@ -333,6 +392,15 @@
                   can be represented as: how to transform a deformable object from initial state S0
                   to goal state Sg while minimizing time, failure rate, energy, hardware complexity,
                   and environmental dependence.
+                </p>
+
+                <p>
+                  More generally, the useful unit of data may need to shift from the clip to the
+                  transition. A clip is organized around what was visible to an observer. A transition
+                  is organized around what changed in the world. That means the representation should
+                  include not just pixels and language, but also object state, contact, constraints,
+                  action parameters, success metrics, and the local neighborhood of failed or
+                  near-miss actions.
                 </p>
 
                 <p>
@@ -367,15 +435,15 @@
                 </p>
 
                 <p class="essay-thesis">
-                  Ego data treats action as imitation. Task-centric data treats action as state
+                  Ego data often treats action as imitation. Task-centric data treats action as state
                   transformation.
                 </p>
 
                 <h4>What the Next Data Layer Might Look Like</h4>
 
                 <p>
-                  Ego data should not be discarded. It should be placed into a broader data ecology.
-                  Several complementary data forms seem especially important.
+                  The point is not to discard ego data. It may be best understood as one layer in a
+                  broader data ecology. Several complementary data forms seem especially important.
                 </p>
 
                 <figure class="essay-figure">
@@ -434,17 +502,17 @@
 
                 <p>
                   These projects show that the field already understands a key point: human video is
-                  not enough. But even robot trajectory data may be an intermediate stage. The next
-                  step is not only more trajectories. It is more structured interaction data with
-                  states, goals, interventions, failures, counterfactuals, costs, and physical
-                  constraints.
+                  unlikely to be enough by itself. But even robot trajectory data may be an
+                  intermediate stage. The next step is not only more trajectories. It is more
+                  structured interaction data with states, goals, interventions, failures,
+                  counterfactuals, costs, and physical constraints.
                 </p>
 
                 <h4>Where Ego Data Fits</h4>
 
                 <p>
                   The balanced view is not "ego data versus robot data." Ego data is useful, but it
-                  should occupy a specific layer in the stack. It is strong for learning human
+                  may occupy a specific layer in the stack. It is strong for learning human
                   intent, open-world semantics, daily activity structure, tool use, and behavioral
                   priors. It is weaker for precise control, contact dynamics, force feedback,
                   morphology adaptation, non-human strategy discovery, failure recovery, and
@@ -468,15 +536,15 @@
                 <p>
                   Ego data may be embodied AI's ImageNet moment: large, natural, generic, and powerful
                   enough to trigger the first wave of breakthroughs. But higher-level embodied
-                  intelligence will likely require a new data paradigm. The center of gravity may move
-                  from human experience to physical task optimization.
+                  intelligence may require a more intervention-centered data paradigm. The center of
+                  gravity may move from human experience alone toward physical task optimization.
                 </p>
 
                 <h4>Cite This Post</h4>
 
                 <pre class="citation-bibtex"><code>@misc{he2026egoDataProxy,
   author = {He, Chaoyue},
-  title = {Ego Data Is a Scalable Proxy, Not the Final Substrate for Embodied Intelligence},
+  title = {Ego Data May Be a Scalable Proxy, But May Not Be the Final Substrate for Embodied Intelligence},
   year = {2026},
   month = jun,
   howpublished = {\url{https://chaoyue0307.github.io/thoughts/ego-data-scalable-proxy.html}},
