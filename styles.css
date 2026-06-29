@@ -1195,6 +1195,23 @@ main {
   white-space: nowrap;
 }
 
+.citation-bibtex {
+  overflow-x: auto;
+  border: 1px solid var(--soft-line);
+  background: #f8fafc;
+  color: var(--ink);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  margin: 0;
+  padding: 13px 14px;
+  white-space: pre;
+}
+
+.citation-bibtex code {
+  font-family: inherit;
+}
+
 .reference-list {
   margin: 0;
   padding-left: 20px;
