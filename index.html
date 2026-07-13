@@ -24,7 +24,8 @@
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <title>Chaoyue He | Research Scientist</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/">
-    <link rel="stylesheet" href="styles.css?v=20260616-site-polish">
+    <link rel="icon" type="image/webp" href="assets/profile-photo.webp">
+    <link rel="stylesheet" href="styles.css?v=20260713-editorial">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -68,7 +69,12 @@
   <body>
     <a class="skip-link" href="#content">Skip to main content</a>
     <header class="site-header" aria-label="Primary">
-      <nav class="nav-links" aria-label="Site">
+      <a class="site-brand" href="index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
         <a href="index.html" aria-current="page">About</a>
         <a href="publications.html">Publications</a>
         <a href="research.html">Research</a>
@@ -76,11 +82,13 @@
         <a href="projects.html">Projects</a>
         <a href="thoughts.html">Notes</a>
       </nav>
+      <a class="header-email" href="mailto:cyhe@ntu.edu.sg">Email</a>
     </header>
 
     <main id="top">
       <div class="academic-shell">
         <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
           <img
             class="profile-photo"
             src="assets/profile-photo.webp"
@@ -91,7 +99,8 @@
           >
           <h1>Chaoyue He</h1>
           <p class="profile-role">AI Research Scientist</p>
-          <p class="profile-updated">Updated <time datetime="2026-06-12">2026-06-12</time></p>
+          <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
           <nav class="profile-links" aria-label="External profile links">
             <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
               <span class="profile-icon" aria-hidden="true">
@@ -155,13 +164,11 @@
           <section id="about" aria-labelledby="about-title">
             <h2 id="about-title">AI systems for evaluation, sustainability, and agentic research workflows.</h2>
             <p class="lead-copy">
-              I am a Research Scientist at Alibaba-NTU Global e-Sustainability CorpLab (ANGEL),
-              with a PhD in Computer Science from Nanyang Technological University, Singapore
-              (CCDS), and a BEng in Electrical and Electronic Engineering from NTU (EEE). I work on
-              LLMs, post-training, AI agents, recommender systems, embodied AI, sustainability and
-              ESG AI, climate adaptation, evaluation, and applied research systems. My work connects
-              benchmarks, knowledge systems, model adaptation, and software infrastructure so AI
-              systems become more reliable, useful, and reproducible in real workflows.
+              I am a Research Scientist at Alibaba-NTU Global e-Sustainability CorpLab (ANGEL) and
+              hold a PhD in Computer Science from Nanyang Technological University, Singapore. I build
+              reliable AI systems across LLM evaluation and post-training, agents, recommender and
+              embodied systems, and sustainability—connecting benchmarks, knowledge layers, model
+              adaptation, and research infrastructure to real workflows.
             </p>
             <nav class="entry-links" aria-label="Primary site paths">
               <a href="publications.html">
@@ -190,8 +197,34 @@
               <li><time>Apr 2025</time><span>Joined Alibaba-NTU Global e-Sustainability CorpLab as Research Scientist.</span></li>
             </ul>
           </section>
+
+          <section class="selected-work" aria-labelledby="selected-work-title">
+            <div class="section-head">
+              <h2 id="selected-work-title">Selected Work</h2>
+              <a href="publications.html">View all publications</a>
+            </div>
+            <div class="selected-work-grid">
+              <a href="publications.html#pca-os">
+                <img src="assets/pca-os-overall-thumb.webp" alt="PCA-OS planetary climate adaptation system overview" width="1916" height="821" decoding="async">
+                <span><strong>PCA-OS</strong><small>Climate adaptation systems</small></span>
+              </a>
+              <a href="publications.html#esgenius">
+                <img src="assets/esgenius-pipeline-thumb.webp" alt="ESGenius benchmarking pipeline overview" width="3322" height="1177" decoding="async">
+                <span><strong>ESGenius</strong><small>ESG knowledge evaluation</small></span>
+              </a>
+              <a href="publications.html#mmesgbench">
+                <img src="assets/mmesgbench-pipeline-thumb.webp" alt="MMESGBench multimodal ESG evaluation overview" width="4000" height="2050" decoding="async">
+                <span><strong>MMESGBench</strong><small>Multimodal ESG reasoning</small></span>
+              </a>
+              <a href="publications.html#sskg-hub">
+                <img src="assets/sskg-hub-overall-thumb.webp" alt="SSKG Hub sustainability standards knowledge graph overview" width="1442" height="758" decoding="async">
+                <span><strong>SSKG Hub</strong><small>Standards knowledge graphs</small></span>
+              </a>
+            </div>
+          </section>
         </article>
       </div>
     </main>
+    <script src="site.js?v=20260713-editorial" defer></script>
   </body>
 </html>

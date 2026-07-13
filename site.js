@@ -1,4 +1,28 @@
 (() => {
+  document.documentElement.classList.add("js");
+
+  const navToggle = document.querySelector(".nav-toggle");
+  const siteNavigation = document.getElementById("site-navigation");
+
+  const setMenuState = (isOpen) => {
+    if (!navToggle || !siteNavigation) return;
+
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    siteNavigation.toggleAttribute("data-open", isOpen);
+  };
+
+  navToggle?.addEventListener("click", () => {
+    setMenuState(navToggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  siteNavigation?.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setMenuState(false);
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 760) setMenuState(false);
+  });
+
   let lastFigureTrigger = null;
 
   const getLightboxFromHash = (hash = window.location.hash) => {
@@ -66,6 +90,7 @@
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      setMenuState(false);
       closeLightbox();
     }
   });

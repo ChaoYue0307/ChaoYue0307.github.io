@@ -24,7 +24,8 @@
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
     <title>Research Notes | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts.html">
-    <link rel="stylesheet" href="styles.css?v=20260629-blog-bibtex">
+    <link rel="icon" type="image/webp" href="assets/profile-photo.webp">
+    <link rel="stylesheet" href="styles.css?v=20260713-editorial">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -68,7 +69,12 @@
   <body>
     <a class="skip-link" href="#content">Skip to main content</a>
     <header class="site-header" aria-label="Primary">
-      <nav class="nav-links" aria-label="Site">
+      <a class="site-brand" href="index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
         <a href="index.html">About</a>
         <a href="publications.html">Publications</a>
         <a href="research.html">Research</a>
@@ -76,11 +82,13 @@
         <a href="projects.html">Projects</a>
         <a href="thoughts.html" aria-current="page">Notes</a>
       </nav>
+      <a class="header-email" href="mailto:cyhe@ntu.edu.sg">Email</a>
     </header>
 
     <main id="top">
       <div class="academic-shell">
         <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
           <img
             class="profile-photo"
             src="assets/profile-photo.webp"
@@ -91,7 +99,8 @@
           >
           <h1>Chaoyue He</h1>
           <p class="profile-role">AI Research Scientist</p>
-          <p class="profile-updated">Updated <time datetime="2026-06-29">2026-06-29</time></p>
+          <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
           <nav class="profile-links" aria-label="External profile links">
             <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
               <span class="profile-icon" aria-hidden="true">
@@ -177,5 +186,6 @@
         </article>
       </div>
     </main>
+    <script src="site.js?v=20260713-editorial" defer></script>
   </body>
 </html>
