@@ -1906,20 +1906,26 @@ button:focus-visible {
 
 .profile-links {
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   margin-top: 26px;
   padding-top: 22px;
 }
 
 .profile-links a {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
 }
 
 .profile-icon {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border-radius: 5px;
+}
+
+.profile-icon--xiaohongshu img {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
 }
 
 .keyword-panel {
@@ -2588,10 +2594,11 @@ button:focus-visible {
 
   .profile-links {
     order: 3;
-    display: flex;
+    display: grid;
     grid-column: 1 / -1;
-    justify-content: space-between;
-    gap: 8px;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    justify-items: center;
+    gap: 0;
     margin-top: 28px;
     border-top: 1px solid var(--line);
     padding-top: 18px;
