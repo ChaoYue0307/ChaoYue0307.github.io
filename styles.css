@@ -540,6 +540,10 @@ main {
   --paper-figure-ratio: 1312 / 422;
 }
 
+.paper-figure--expert-loop-writing {
+  --paper-figure-ratio: 1774 / 887;
+}
+
 .paper-figure--recsys-agents {
   --paper-figure-ratio: 1188 / 460;
 }
