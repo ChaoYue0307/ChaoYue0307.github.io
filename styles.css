@@ -515,74 +515,14 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: var(--paper-figure-ratio, 1916 / 821);
+  width: 100%;
+  aspect-ratio: 2 / 1;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: var(--paper-figure-bg, #fff);
   overflow: hidden;
+  padding: clamp(6px, 0.65vw, 10px);
   transition: border-color 160ms ease, box-shadow 160ms ease;
-}
-
-.paper-figure--esgenius {
-  --paper-figure-ratio: 3322 / 1177;
-}
-
-.paper-figure--mmesgbench {
-  --paper-figure-ratio: 4000 / 2050;
-  max-height: 176px;
-}
-
-.paper-figure--sp2dpo {
-  --paper-figure-ratio: 2560 / 1410;
-}
-
-.paper-figure--human-ai-productivity {
-  --paper-figure-ratio: 1312 / 422;
-}
-
-.paper-figure--expert-loop-writing {
-  --paper-figure-ratio: 1774 / 887;
-}
-
-.paper-figure--recsys-agents {
-  --paper-figure-ratio: 1188 / 460;
-}
-
-.paper-figure--multi-scale-recsys {
-  --paper-figure-ratio: 1272 / 562;
-}
-
-.paper-figure--esglass {
-  --paper-figure-ratio: 2417 / 1138;
-}
-
-.paper-figure--synthetic-media-exchange {
-  --paper-figure-ratio: 2471 / 1400;
-}
-
-.paper-figure--agentic-multimedia-firms {
-  --paper-figure-ratio: 2380 / 1475;
-}
-
-.paper-figure--kg4esg {
-  --paper-figure-ratio: 1536 / 1024;
-}
-
-.paper-figure--sskg {
-  --paper-figure-ratio: 1442 / 758;
-}
-
-.paper-figure--openclaw {
-  --paper-figure-ratio: 998 / 782;
-  max-height: 360px;
-}
-
-.paper-figure--autoresearch {
-  --paper-figure-ratio: 1446 / 622;
-}
-
-.paper-figure--harness {
-  --paper-figure-ratio: 1536 / 1024;
 }
 
 .paper-figure:hover {
@@ -618,6 +558,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 
 .paper-kicker {
@@ -1497,10 +1438,6 @@ a.repo-visual:hover {
   .paper-figure {
     margin: 4px 0 6px;
     max-width: 100%;
-  }
-
-  .paper-figure--mmesgbench {
-    max-height: none;
   }
 
   .paper-figure span {
@@ -2391,6 +2328,13 @@ button:focus-visible {
 
   .selected-work-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1180px) {
+  .paper-list .paper-entry--with-figure {
+    grid-template-columns: minmax(320px, 48%) minmax(0, 1fr);
+    gap: 24px;
   }
 }
 
