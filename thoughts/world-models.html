@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's working notes on world models and why large language models can already function as partial, implicit world models."
+    >
+    <meta property="og:title" content="Thoughts on World Models | Chaoyue He">
+    <meta
+      property="og:description"
+      content="A functional view of world models and a careful argument that LLMs can already be partial, implicit world models."
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/world-models.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Thoughts on World Models | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="What counts as a world model, how LLMs may already qualify, and where grounding and intervention still matter."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <title>Thoughts on World Models | Chaoyue He</title>
+    <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/world-models.html">
+    <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
+    <link rel="stylesheet" href="../styles.css?v=20260717-xiaohongshu">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Thoughts on World Models",
+        "description": "A functional view of world models and why LLMs can already be partial, implicit world models.",
+        "datePublished": "2026-07-24",
+        "dateModified": "2026-07-24",
+        "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/world-models.html",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
+        "author": {
+          "@type": "Person",
+          "name": "Chaoyue He",
+          "url": "https://chaoyue0307.github.io/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to main content</a>
+    <header class="site-header" aria-label="Primary">
+      <a class="site-brand" href="../index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../thoughts.html" aria-current="page">Notes</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="academic-shell">
+        <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
+            <img
+              class="profile-photo"
+              src="../assets/profile-photo.webp"
+              alt="Portrait of Chaoyue He"
+              width="112"
+              height="112"
+              decoding="async"
+            >
+            <h1>Chaoyue He</h1>
+            <p class="profile-role">AI Research Scientist</p>
+            <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
+          <nav class="profile-links" aria-label="External profile links">
+            <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-email.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://github.com/ChaoYue0307" aria-label="GitHub profile" title="GitHub" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-github.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://huggingface.co/cy0307" aria-label="Hugging Face profile" title="Hugging Face" rel="me">
+              <span class="profile-icon profile-icon--huggingface" aria-hidden="true">
+                <img src="../assets/icon-huggingface.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en" aria-label="Google Scholar profile" title="Google Scholar" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-googlescholar.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.linkedin.com/in/chaoyue-he-a4103558/" aria-label="LinkedIn profile" title="LinkedIn" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-linkedin.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://x.com/CYH37" aria-label="X profile" title="X" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/6612088d000000000d025d10" aria-label="Xiaohongshu profile" title="Xiaohongshu" rel="me">
+              <span class="profile-icon profile-icon--xiaohongshu" aria-hidden="true">
+                <img src="../assets/icon-xiaohongshu.png" alt="" width="18" height="18" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.alphaxiv.org/@chaoyue-he" aria-label="alphaXiv profile" title="alphaXiv" rel="me">
+              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
+                <img src="../assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+          </nav>
+          <div class="keyword-panel" aria-label="Research focus areas">
+            <h2>Focus Areas</h2>
+            <div>
+              <span>LLMs</span>
+              <span>Evaluation</span>
+              <span>Sustainability AI</span>
+              <span>ESG</span>
+              <span>Climate Adaptation</span>
+              <span>Post-training</span>
+              <span>RecSys</span>
+              <span>Embodied AI</span>
+              <span>Research Systems</span>
+            </div>
+          </div>
+        </aside>
+
+        <article id="content" class="content-column">
+          <section id="thoughts" aria-labelledby="thoughts-title">
+            <h2 id="thoughts-title">Research Notes</h2>
+            <p class="section-intro">
+              <a class="back-link" href="../thoughts.html">Back to all notes</a>
+            </p>
+            <p class="thoughts-disclaimer">All views expressed here are my own.</p>
+
+            <article class="essay-note" aria-labelledby="world-models-title">
+              <header class="essay-header">
+                <p class="essay-kicker">Foundation Models / World Models</p>
+                <h3 id="world-models-title">Thoughts on World Models</h3>
+                <div class="essay-meta">
+                  <time datetime="2026-07-24">July 24, 2026</time>
+                  <span>Working note</span>
+                </div>
+                <p class="essay-deck">
+                  A world model need not be a perfect simulator. It can be any learned structure
+                  that supports prediction, counterfactual reasoning, and action—and language
+                  models may already satisfy part of that definition.
+                </p>
+              </header>
+
+              <div class="essay-body">
+                <p class="essay-thesis">
+                  The useful question may not be whether a model contains “the world,” but which
+                  world it models, through which observations, and for which decisions.
+                </p>
+
+                <h4>What Do We Mean by a World Model?</h4>
+
+                <p>
+                  The term can refer to a predictive model of an environment, a compact latent
+                  state for planning, a simulator of future observations, or a structured account
+                  of how entities interact. These definitions overlap, but they imply different
+                  standards. A model can be useful without being complete, and it can model one
+                  domain well while remaining unreliable outside it.
+                </p>
+
+                <h4 id="llms-can-already-be-world-models">LLMs Can Already Be World Models</h4>
+
+                <p>
+                  Under a functional definition, an LLM can already be considered a kind of world
+                  model. Predicting language across diverse domains creates pressure to encode many
+                  regularities behind language: people’s goals, physical constraints, social
+                  conventions, temporal sequences, institutional processes, and likely consequences
+                  of actions. When an LLM predicts how a situation may unfold, compares possible
+                  interventions, or constructs a plausible intermediate state, it can be understood
+                  as drawing on an implicit, text-mediated model of the world.
+                </p>
+
+                <p>
+                  This claim should be stated carefully. It does not mean that an LLM contains a
+                  complete, grounded, or consistently accurate simulation of reality. Its world is
+                  largely mediated by human-produced records, and its internal state can be
+                  uncertain, fragmented, or sensitive to phrasing. Still, incompleteness does not
+                  disqualify something from being a model. An LLM can already be a
+                  <strong>partial, implicit, and socially learned world model</strong>, even if it
+                  is not yet a universally reliable one.
+                </p>
+
+                <h4>Where Language-Only Models Remain Limited</h4>
+
+                <p>
+                  Text often omits what people consider obvious: continuous motion, spatial detail,
+                  physical effort, sensor noise, and the consequences of low-level actions.
+                  Next-token prediction can also reward plausibility without guaranteeing causal
+                  or temporal consistency. A model may describe a coherent future while failing to
+                  maintain the hidden state needed to produce that future in a real environment.
+                </p>
+
+                <h4>World Models May Be Systems</h4>
+
+                <p>
+                  A practical world model could combine an LLM with perception, memory, simulators,
+                  tools, and feedback from action. The LLM contributes abstractions and broad prior
+                  knowledge; external components provide current state, precise computation, and
+                  grounded correction. The important unit may therefore be the complete
+                  agent–environment loop rather than a single isolated neural network.
+                </p>
+
+                <h4>Evaluation Should Focus on Intervention</h4>
+
+                <p>
+                  A convincing world model should do more than answer factual questions or produce
+                  realistic descriptions. It should anticipate the consequences of actions, update
+                  after surprising evidence, distinguish possible from impossible transitions, and
+                  support better decisions. Intervention and adaptation tests may reveal more than
+                  asking whether a model can verbally explain how the world works.
+                </p>
+
+                <h4>Directions I Want to Explore</h4>
+
+                <ul class="essay-bullets">
+                  <li>What minimum capabilities justify calling a model a world model?</li>
+                  <li>How can we test whether an LLM tracks latent state instead of plausible text?</li>
+                  <li>When does multimodal grounding materially change an LLM’s internal model?</li>
+                  <li>Should quality be measured through prediction, planning, control, or adaptation?</li>
+                  <li>How can an agent identify the boundaries of the world it models reliably?</li>
+                </ul>
+              </div>
+            </article>
+          </section>
+        </article>
+      </div>
+    </main>
+    <script src="../site.js?v=20260713-editorial" defer></script>
+  </body>
+</html>

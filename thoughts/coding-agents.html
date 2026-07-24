@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's working notes on coding agents, repository context, verification, and human-agent collaboration."
+    >
+    <meta property="og:title" content="Thoughts on Coding Agents | Chaoyue He">
+    <meta
+      property="og:description"
+      content="Working directions on coding agents as closed-loop collaborators that inspect, modify, and verify software systems."
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/coding-agents.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Thoughts on Coding Agents | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Working directions on coding agents, contextual understanding, verification, and useful human-agent delegation."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <title>Thoughts on Coding Agents | Chaoyue He</title>
+    <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/coding-agents.html">
+    <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
+    <link rel="stylesheet" href="../styles.css?v=20260717-xiaohongshu">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Thoughts on Coding Agents",
+        "description": "Working directions on coding agents, repository context, verification, and human-agent collaboration.",
+        "datePublished": "2026-07-24",
+        "dateModified": "2026-07-24",
+        "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/coding-agents.html",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
+        "author": {
+          "@type": "Person",
+          "name": "Chaoyue He",
+          "url": "https://chaoyue0307.github.io/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to main content</a>
+    <header class="site-header" aria-label="Primary">
+      <a class="site-brand" href="../index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../thoughts.html" aria-current="page">Notes</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="academic-shell">
+        <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
+            <img
+              class="profile-photo"
+              src="../assets/profile-photo.webp"
+              alt="Portrait of Chaoyue He"
+              width="112"
+              height="112"
+              decoding="async"
+            >
+            <h1>Chaoyue He</h1>
+            <p class="profile-role">AI Research Scientist</p>
+            <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
+          <nav class="profile-links" aria-label="External profile links">
+            <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-email.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://github.com/ChaoYue0307" aria-label="GitHub profile" title="GitHub" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-github.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://huggingface.co/cy0307" aria-label="Hugging Face profile" title="Hugging Face" rel="me">
+              <span class="profile-icon profile-icon--huggingface" aria-hidden="true">
+                <img src="../assets/icon-huggingface.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en" aria-label="Google Scholar profile" title="Google Scholar" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-googlescholar.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.linkedin.com/in/chaoyue-he-a4103558/" aria-label="LinkedIn profile" title="LinkedIn" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-linkedin.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://x.com/CYH37" aria-label="X profile" title="X" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/6612088d000000000d025d10" aria-label="Xiaohongshu profile" title="Xiaohongshu" rel="me">
+              <span class="profile-icon profile-icon--xiaohongshu" aria-hidden="true">
+                <img src="../assets/icon-xiaohongshu.png" alt="" width="18" height="18" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.alphaxiv.org/@chaoyue-he" aria-label="alphaXiv profile" title="alphaXiv" rel="me">
+              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
+                <img src="../assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+          </nav>
+          <div class="keyword-panel" aria-label="Research focus areas">
+            <h2>Focus Areas</h2>
+            <div>
+              <span>LLMs</span>
+              <span>Evaluation</span>
+              <span>Sustainability AI</span>
+              <span>ESG</span>
+              <span>Climate Adaptation</span>
+              <span>Post-training</span>
+              <span>RecSys</span>
+              <span>Embodied AI</span>
+              <span>Research Systems</span>
+            </div>
+          </div>
+        </aside>
+
+        <article id="content" class="content-column">
+          <section id="thoughts" aria-labelledby="thoughts-title">
+            <h2 id="thoughts-title">Research Notes</h2>
+            <p class="section-intro">
+              <a class="back-link" href="../thoughts.html">Back to all notes</a>
+            </p>
+            <p class="thoughts-disclaimer">All views expressed here are my own.</p>
+
+            <article class="essay-note" aria-labelledby="coding-agents-title">
+              <header class="essay-header">
+                <p class="essay-kicker">Agents / Software Engineering</p>
+                <h3 id="coding-agents-title">Thoughts on Coding Agents</h3>
+                <div class="essay-meta">
+                  <time datetime="2026-07-24">July 24, 2026</time>
+                  <span>Working note</span>
+                </div>
+                <p class="essay-deck">
+                  Coding agents are becoming less like autocomplete tools and more like
+                  collaborators that can navigate, modify, and verify entire software systems.
+                </p>
+              </header>
+
+              <div class="essay-body">
+                <p class="essay-thesis">
+                  The important shift is not simply better code generation. It is the emergence of
+                  an inspect–act–verify loop in which an agent works inside a living software system.
+                </p>
+
+                <h4>Beyond Code Generation</h4>
+
+                <p>
+                  A useful coding agent does more than produce a patch from a prompt. It inspects a
+                  repository, forms a plan, edits files, runs tools, observes failures, and revises
+                  its approach. Coding becomes a process of situated problem solving rather than a
+                  one-shot prediction task.
+                </p>
+
+                <h4>Context Is Part of the Problem</h4>
+
+                <p>
+                  Most coding tasks depend on architecture, conventions, dependencies, tests,
+                  recent changes, and the intent behind existing code. Larger context windows help,
+                  but the harder problem is deciding what to inspect, what to remember, and what can
+                  be safely ignored. Repository understanding should therefore be treated as an
+                  active information-gathering policy.
+                </p>
+
+                <h4>Verification Should Be First-Class</h4>
+
+                <p>
+                  Plausible code is not necessarily correct code. An agent should gather evidence
+                  through tests, static analysis, runtime observation, and direct comparison with
+                  the requested behavior. A central research question is not only whether an agent
+                  can write a patch, but whether it can determine when the task is genuinely complete.
+                </p>
+
+                <h4>Collaboration, Not Just Replacement</h4>
+
+                <p>
+                  Coding agents may be most valuable when they make software work more legible:
+                  explaining unfamiliar systems, exposing assumptions, proposing alternatives, and
+                  lowering the cost of experimentation. Productive delegation should keep
+                  responsibility, uncertainty, and control visible to the person supervising the work.
+                </p>
+
+                <h4>Directions I Want to Explore</h4>
+
+                <ul class="essay-bullets">
+                  <li>How should an agent decide which repository context is relevant?</li>
+                  <li>What evidence is sufficient before an agent can claim a task is complete?</li>
+                  <li>How can agents communicate uncertainty without becoming unhelpfully cautious?</li>
+                  <li>What interfaces help people supervise several long-running coding tasks?</li>
+                  <li>Can coding agents improve maintainability rather than merely add more code?</li>
+                </ul>
+              </div>
+            </article>
+          </section>
+        </article>
+      </div>
+    </main>
+    <script src="../site.js?v=20260713-editorial" defer></script>
+  </body>
+</html>

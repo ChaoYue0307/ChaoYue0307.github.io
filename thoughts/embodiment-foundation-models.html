@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's working notes on embodiment foundation models, multimodal learning, interaction data, modularity, and reliability."
+    >
+    <meta property="og:title" content="Thoughts on Embodiment Foundation Models | Chaoyue He">
+    <meta
+      property="og:description"
+      content="Working directions on connecting multimodal understanding, action, embodiment, and reliable adaptation."
+    >
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/embodiment-foundation-models.html">
+    <meta property="og:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Thoughts on Embodiment Foundation Models | Chaoyue He">
+    <meta
+      name="twitter:description"
+      content="Working directions on embodied foundation models, interaction data, reliable action, and modular intelligence."
+    >
+    <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/profile-photo.webp">
+    <title>Thoughts on Embodiment Foundation Models | Chaoyue He</title>
+    <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/embodiment-foundation-models.html">
+    <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
+    <link rel="stylesheet" href="../styles.css?v=20260717-xiaohongshu">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Thoughts on Embodiment Foundation Models",
+        "description": "Working directions on embodied foundation models, interaction data, reliable action, and modular intelligence.",
+        "datePublished": "2026-07-24",
+        "dateModified": "2026-07-24",
+        "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/embodiment-foundation-models.html",
+        "image": "https://chaoyue0307.github.io/assets/profile-photo.webp",
+        "author": {
+          "@type": "Person",
+          "name": "Chaoyue He",
+          "url": "https://chaoyue0307.github.io/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to main content</a>
+    <header class="site-header" aria-label="Primary">
+      <a class="site-brand" href="../index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../thoughts.html" aria-current="page">Notes</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="academic-shell">
+        <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
+            <img
+              class="profile-photo"
+              src="../assets/profile-photo.webp"
+              alt="Portrait of Chaoyue He"
+              width="112"
+              height="112"
+              decoding="async"
+            >
+            <h1>Chaoyue He</h1>
+            <p class="profile-role">AI Research Scientist</p>
+            <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
+          <nav class="profile-links" aria-label="External profile links">
+            <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-email.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://github.com/ChaoYue0307" aria-label="GitHub profile" title="GitHub" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-github.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://huggingface.co/cy0307" aria-label="Hugging Face profile" title="Hugging Face" rel="me">
+              <span class="profile-icon profile-icon--huggingface" aria-hidden="true">
+                <img src="../assets/icon-huggingface.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en" aria-label="Google Scholar profile" title="Google Scholar" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-googlescholar.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.linkedin.com/in/chaoyue-he-a4103558/" aria-label="LinkedIn profile" title="LinkedIn" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-linkedin.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://x.com/CYH37" aria-label="X profile" title="X" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/6612088d000000000d025d10" aria-label="Xiaohongshu profile" title="Xiaohongshu" rel="me">
+              <span class="profile-icon profile-icon--xiaohongshu" aria-hidden="true">
+                <img src="../assets/icon-xiaohongshu.png" alt="" width="18" height="18" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.alphaxiv.org/@chaoyue-he" aria-label="alphaXiv profile" title="alphaXiv" rel="me">
+              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
+                <img src="../assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+          </nav>
+          <div class="keyword-panel" aria-label="Research focus areas">
+            <h2>Focus Areas</h2>
+            <div>
+              <span>LLMs</span>
+              <span>Evaluation</span>
+              <span>Sustainability AI</span>
+              <span>ESG</span>
+              <span>Climate Adaptation</span>
+              <span>Post-training</span>
+              <span>RecSys</span>
+              <span>Embodied AI</span>
+              <span>Research Systems</span>
+            </div>
+          </div>
+        </aside>
+
+        <article id="content" class="content-column">
+          <section id="thoughts" aria-labelledby="thoughts-title">
+            <h2 id="thoughts-title">Research Notes</h2>
+            <p class="section-intro">
+              <a class="back-link" href="../thoughts.html">Back to all notes</a>
+            </p>
+            <p class="thoughts-disclaimer">All views expressed here are my own.</p>
+
+            <article class="essay-note" aria-labelledby="embodiment-foundation-models-title">
+              <header class="essay-header">
+                <p class="essay-kicker">Embodied AI / Foundation Models</p>
+                <h3 id="embodiment-foundation-models-title">Thoughts on Embodiment Foundation Models</h3>
+                <div class="essay-meta">
+                  <time datetime="2026-07-24">July 24, 2026</time>
+                  <span>Working note</span>
+                </div>
+                <p class="essay-deck">
+                  Embodied foundation models extend general intelligence from interpreting
+                  observations to acting in environments where decisions have physical and
+                  temporal consequences.
+                </p>
+              </header>
+
+              <div class="essay-body">
+                <p class="essay-thesis">
+                  A foundation model for embodiment should connect perception, prediction,
+                  planning, action, and adaptation—not simply attach an action head to a
+                  multimodal model.
+                </p>
+
+                <h4>Embodiment Changes the Learning Problem</h4>
+
+                <p>
+                  An embodied system does not merely describe the world. It changes the world and
+                  receives new observations as a consequence. Actions have duration, cost,
+                  uncertainty, and sometimes irreversible effects. Embodiment is therefore a useful
+                  test of whether abstract knowledge can support situated decision making.
+                </p>
+
+                <h4>From Multimodal Understanding to Action</h4>
+
+                <p>
+                  Images, language, video, audio, proprioception, and action traces provide
+                  complementary views of an environment. The challenge is not only to place these
+                  modalities in one model, but to learn representations that remain useful across
+                  perception, prediction, planning, and control. High-level instructions must
+                  connect to the detailed state transitions required to realize them.
+                </p>
+
+                <h4>Data Is a Central Bottleneck</h4>
+
+                <p>
+                  Internet-scale text and image data are abundant compared with high-quality
+                  interaction data. Physical experience is expensive, platform-specific, and hard
+                  to reproduce. Simulation, teleoperation, ego video, synthetic trajectories, and
+                  shared robot datasets can help, but each introduces a different gap between
+                  recorded behavior and reliable real-world action.
+                </p>
+
+                <h4>Reliability Must Be Designed In</h4>
+
+                <p>
+                  Embodied models operate where confident mistakes can have physical consequences.
+                  They need mechanisms for uncertainty estimation, constraint checking, recovery,
+                  and asking for assistance. A capable model is not automatically a trustworthy
+                  embodied agent; reliability also depends on memory, controllers, safety layers,
+                  and the human interface around it.
+                </p>
+
+                <h4>Generality May Emerge Through Composition</h4>
+
+                <p>
+                  The practical path may not be a single network controlling everything end to end.
+                  A foundation model can provide semantic understanding, world knowledge, and
+                  task-level planning while specialized perception and control modules provide
+                  precision and safety. The research opportunity lies in how these components
+                  communicate, adapt across embodiments, and accumulate experience together.
+                </p>
+
+                <h4>Directions I Want to Explore</h4>
+
+                <ul class="essay-bullets">
+                  <li>Which abstractions transfer reliably across robots, tasks, and environments?</li>
+                  <li>How can models learn from video without observing the actions that produced it?</li>
+                  <li>What should live inside a foundation model, and what should remain modular?</li>
+                  <li>How can an embodied agent recognize when to stop or ask for assistance?</li>
+                  <li>Can physical interaction improve abstract reasoning beyond robotics?</li>
+                </ul>
+              </div>
+            </article>
+          </section>
+        </article>
+      </div>
+    </main>
+    <script src="../site.js?v=20260713-editorial" defer></script>
+  </body>
+</html>
