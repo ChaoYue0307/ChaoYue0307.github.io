@@ -1847,7 +1847,7 @@ button:focus-visible {
 
 .profile-links {
   justify-content: center;
-  gap: 6px;
+  gap: 1px;
   margin-top: 26px;
   padding-top: 22px;
 }
@@ -1866,6 +1866,12 @@ button:focus-visible {
 .profile-icon--xiaohongshu img {
   width: 18px;
   height: 18px;
+  border-radius: 3px;
+}
+
+.profile-icon--modelscope img {
+  width: 16px;
+  height: 16px;
   border-radius: 3px;
 }
 
@@ -2544,7 +2550,7 @@ button:focus-visible {
     order: 3;
     display: grid;
     grid-column: 1 / -1;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(9, minmax(0, 1fr));
     justify-items: center;
     gap: 0;
     margin-top: 28px;
@@ -2553,12 +2559,13 @@ button:focus-visible {
   }
 
   .profile-links a {
-    width: 42px;
+    width: 100%;
+    max-width: 42px;
     height: 42px;
   }
 
   .profile-icon {
-    width: 34px;
+    width: min(34px, 100%);
     height: 34px;
   }
 
