@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Chaoyue He's working notes on coding agents, repository context, verification, and human-agent collaboration."
+      content="Chaoyue He's working notes on coding agents, verification, and balancing human judgment with agent execution."
     >
     <meta property="og:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       property="og:description"
-      content="Working directions on coding agents as closed-loop collaborators that inspect, modify, and verify software systems."
+      content="Working directions on coding agents, closed-loop verification, and a healthy balance between human coding and agent delegation."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/coding-agents.html">
@@ -25,7 +25,7 @@
     <meta name="twitter:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       name="twitter:description"
-      content="Working directions on coding agents, contextual understanding, verification, and useful human-agent delegation."
+      content="Working directions on coding agents, verification, and preserving human understanding while delegating effectively."
     >
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/blog/coding-agents-loop.webp">
     <meta
@@ -35,15 +35,15 @@
     <title>Thoughts on Coding Agents | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/coding-agents.html">
     <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
-    <link rel="stylesheet" href="../styles.css?v=20260728-modelscope-v2">
+    <link rel="stylesheet" href="../styles.css?v=20260730-human-agent-balance">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Thoughts on Coding Agents",
-        "description": "Working directions on coding agents, repository context, verification, and human-agent collaboration.",
+        "description": "Working directions on coding agents, verification, and balancing human judgment with agent execution.",
         "datePublished": "2026-07-24",
-        "dateModified": "2026-07-24",
+        "dateModified": "2026-07-30",
         "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/coding-agents.html",
         "image": "https://chaoyue0307.github.io/assets/blog/coding-agents-loop.webp",
         "author": {
@@ -231,6 +231,71 @@
                   responsibility, uncertainty, and control visible to the person supervising the work.
                 </p>
 
+                <section class="essay-balance" aria-labelledby="human-agent-balance-title">
+                  <h4 id="human-agent-balance-title">Balancing Human Coding and Coding Agents</h4>
+
+                  <p>
+                    One question I have been thinking about and actively exploring is what the best
+                    balance should look like for the coder. I do not think it is a fixed percentage
+                    of code written by a person versus an agent. It is an adaptive allocation of
+                    attention and control: the human should remain closest to the decisions that
+                    shape the system, while the agent absorbs work that is inspectable, reversible,
+                    and well supported by evidence.
+                  </p>
+
+                  <p class="essay-balance-principle">
+                    <strong>My current principle:</strong> optimize for leverage, not maximum
+                    delegation. Use the agent to expand capacity without surrendering understanding,
+                    judgment, or ownership.
+                  </p>
+
+                  <div class="essay-balance-grid" aria-label="Suggested human and coding agent roles">
+                    <div class="essay-balance-role">
+                      <h5>Keep human-led</h5>
+                      <ul>
+                        <li>Intent, problem framing, and acceptance criteria</li>
+                        <li>Architecture, abstractions, and difficult trade-offs</li>
+                        <li>Product taste, risk decisions, and final accountability</li>
+                      </ul>
+                    </div>
+                    <div class="essay-balance-role">
+                      <h5>Delegate agent-forward</h5>
+                      <ul>
+                        <li>Repository search and contextual summaries</li>
+                        <li>Routine implementation, refactoring, and alternative drafts</li>
+                        <li>Tests, static checks, documentation, and verification evidence</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p>
+                    I currently adjust autonomy along three dimensions: ambiguity, consequence, and
+                    verifiability. I can delegate more when a task is well specified, easy to test,
+                    and inexpensive to undo. I should stay more directly involved when a change
+                    introduces a core abstraction, carries security or reliability risk, depends on
+                    unclear product intent, or would be costly to reverse. As the specification and
+                    verification become stronger, the agent can safely take a longer loop.
+                  </p>
+
+                  <p>
+                    The operating rhythm I find most promising is: the human frames the problem and
+                    success criteria; the agent explores the repository and proposes options; the
+                    human selects the direction; the agent implements and verifies; and the human
+                    reviews both the diff and the evidence. That final review should update the
+                    coder's mental model, not merely approve a green test suite.
+                  </p>
+
+                  <p>
+                    A healthy balance also preserves deliberate manual practice. I want to predict
+                    before prompting, read diffs rather than only outcomes, ask for explanations
+                    when a design is unclear, and still implement critical paths by hand at times.
+                    If an agent produces changes faster than I can explain or evaluate them,
+                    short-term velocity may create long-term dependency. The agent should remove
+                    friction while the coder continues to develop taste, systems thinking, and the
+                    ability to take over.
+                  </p>
+                </section>
+
                 <h4>Directions I Want to Explore</h4>
 
                 <ul class="essay-bullets">
@@ -239,6 +304,10 @@
                   <li>How can agents communicate uncertainty without becoming unhelpfully cautious?</li>
                   <li>What interfaces help people supervise several long-running coding tasks?</li>
                   <li>Can coding agents improve maintainability rather than merely add more code?</li>
+                  <li>
+                    What balance of manual coding and agent delegation best preserves both velocity
+                    and technical judgment?
+                  </li>
                 </ul>
               </div>
             </article>
