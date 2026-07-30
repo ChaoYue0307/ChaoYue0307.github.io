@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Chaoyue He's working notes on coding agents, verification, and balancing human judgment with agent execution."
+      content="Chaoyue He's working notes on coding agents, verification, responsibility, and balancing human judgment with agent execution."
     >
     <meta property="og:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       property="og:description"
-      content="Working directions on coding agents, closed-loop verification, and a healthy balance between human coding and agent delegation."
+      content="Working directions on coding agents, closed-loop verification, responsibility, and a healthy balance between human coding and agent delegation."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/coding-agents.html">
@@ -25,7 +25,7 @@
     <meta name="twitter:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       name="twitter:description"
-      content="Working directions on coding agents, verification, and preserving human understanding while delegating effectively."
+      content="Working directions on coding agents, responsibility, and preserving human understanding while delegating effectively."
     >
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/blog/coding-agents-loop.webp">
     <meta
@@ -35,13 +35,13 @@
     <title>Thoughts on Coding Agents | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/coding-agents.html">
     <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
-    <link rel="stylesheet" href="../styles.css?v=20260730-human-agent-balance">
+    <link rel="stylesheet" href="../styles.css?v=20260730-agent-responsibility">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Thoughts on Coding Agents",
-        "description": "Working directions on coding agents, verification, and balancing human judgment with agent execution.",
+        "description": "Working directions on coding agents, verification, responsibility, and balancing human judgment with agent execution.",
         "datePublished": "2026-07-24",
         "dateModified": "2026-07-30",
         "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/coding-agents.html",
@@ -296,6 +296,71 @@
                   </p>
                 </section>
 
+                <section class="essay-responsibility" aria-labelledby="agent-responsibility-title">
+                  <h4 id="agent-responsibility-title">Responsibility Must Follow Control</h4>
+
+                  <p>
+                    As coding agents move from suggesting code to editing files, running commands,
+                    and potentially shipping changes, responsibility becomes harder to locate. My
+                    current view is that responsibility should follow decision rights, control, and
+                    visibility. If a person is expected to answer for an outcome, that person must
+                    also have a meaningful ability to shape the task, constrain the agent, inspect
+                    consequential actions, and stop or reverse the work.
+                  </p>
+
+                  <p>
+                    An agent may be the immediate actor that introduces a change, but action is not
+                    the same as accountability. Accountability remains layered across the people
+                    and organizations that frame the task, grant permissions, design safeguards,
+                    review the evidence, and decide to merge or deploy. This avoids both the
+                    convenient excuse that “the agent did it” and the opposite fiction that one
+                    final reviewer can personally own every failure created by a wider system of
+                    tools, incentives, and controls.
+                  </p>
+
+                  <dl class="responsibility-map" aria-label="Responsibility across an agent workflow">
+                    <div>
+                      <dt>Frame</dt>
+                      <dd>
+                        The requester or product owner owns the objective, constraints, and
+                        acceptance criteria.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Authorize</dt>
+                      <dd>
+                        The person or team granting tools and permissions owns the autonomy level
+                        and risk boundary.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Release</dt>
+                      <dd>
+                        A named maintainer owns the merge or deployment decision and the evidence
+                        accepted.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Respond</dt>
+                      <dd>
+                        The team and organization own rollback, incident response, remediation,
+                        and learning.
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <p>
+                    Simply saying “the human remains responsible” is not enough if oversight is
+                    ceremonial—if the agent works too quickly to inspect, important actions are
+                    poorly logged, the reviewer lacks relevant context, or rejecting the change is
+                    unrealistic. Greater agent autonomy should therefore come with stronger
+                    provenance, observability, escalation, and rollback. Model and tool builders
+                    also retain responsibility for predictable system-level failures and missing
+                    safeguards. The goal is not merely to decide whom to blame after failure, but
+                    to make ownership, evidence, and recovery paths explicit before the agent acts.
+                  </p>
+                </section>
+
                 <h4>Directions I Want to Explore</h4>
 
                 <ul class="essay-bullets">
@@ -307,6 +372,10 @@
                   <li>
                     What balance of manual coding and agent delegation best preserves both velocity
                     and technical judgment?
+                  </li>
+                  <li>
+                    How should responsibility be allocated when execution, control, review, and
+                    deployment are distributed across people, agents, and organizations?
                   </li>
                 </ul>
               </div>

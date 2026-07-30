@@ -1183,6 +1183,45 @@ main {
   margin-top: 0;
 }
 
+.essay-responsibility {
+  margin-top: 42px;
+  border-top: 1px solid var(--soft-line);
+  padding-top: 32px;
+}
+
+.essay-responsibility > h4 {
+  margin-top: 0;
+  font-size: 1.28rem;
+}
+
+.responsibility-map {
+  margin: 24px 0 26px;
+  border-top: 1px solid var(--soft-line);
+}
+
+.responsibility-map > div {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 22px;
+  border-bottom: 1px solid var(--soft-line);
+  padding: 15px 0;
+}
+
+.responsibility-map dt {
+  color: var(--link);
+  font-size: 0.77rem;
+  font-weight: 720;
+  letter-spacing: 0.11em;
+  line-height: 1.55;
+  text-transform: uppercase;
+}
+
+.responsibility-map dd {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.62;
+}
+
 .state-transition {
   overflow-x: auto;
   border: 1px solid var(--soft-line);
@@ -2777,6 +2816,17 @@ button:focus-visible {
     border-top: 1px solid var(--soft-line);
     border-left: 0;
     padding-left: 0;
+  }
+
+  .essay-responsibility {
+    margin-top: 36px;
+    padding-top: 28px;
+  }
+
+  .responsibility-map > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 14px 0;
   }
 }
 
