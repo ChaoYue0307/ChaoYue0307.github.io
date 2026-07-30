@@ -1028,6 +1028,13 @@ main {
   line-height: 1.08;
 }
 
+.essay-header h3.essay-title--long {
+  font-size: clamp(2.05rem, 3.7vw, 3.65rem);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
 .essay-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1058,6 +1065,25 @@ main {
 .essay-figure--wide {
   max-width: 920px;
   margin-top: 26px;
+}
+
+.essay-figure--section,
+.essay-figure--agenda {
+  max-width: 900px;
+  margin: 30px 0 36px;
+}
+
+.essay-balance > .essay-figure--section {
+  margin-bottom: 0;
+}
+
+.essay-internalization > .essay-figure--section {
+  margin-bottom: 26px;
+}
+
+.essay-figure--agenda {
+  margin-top: 32px;
+  margin-bottom: 40px;
 }
 
 .essay-figure img {
