@@ -1112,7 +1112,7 @@ main {
   margin-top: 8px;
 }
 
-.essay-balance {
+.content-column section.essay-balance {
   margin-top: 38px;
   border-top: 1px solid var(--soft-line);
   padding-top: 30px;
@@ -1183,17 +1183,6 @@ main {
   margin-top: 0;
 }
 
-.essay-responsibility {
-  margin-top: 42px;
-  border-top: 1px solid var(--soft-line);
-  padding-top: 32px;
-}
-
-.essay-responsibility > h4 {
-  margin-top: 0;
-  font-size: 1.28rem;
-}
-
 .responsibility-map {
   margin: 24px 0 26px;
   border-top: 1px solid var(--soft-line);
@@ -1220,6 +1209,96 @@ main {
   margin: 0;
   color: var(--text);
   line-height: 1.62;
+}
+
+.content-column section.essay-agenda {
+  margin-top: 46px;
+  border-top: 1px solid var(--soft-line);
+  padding-top: 34px;
+}
+
+.essay-agenda-header > h4 {
+  margin-top: 0;
+  font-size: 1.28rem;
+}
+
+.essay-agenda-header > p {
+  margin-top: 12px;
+}
+
+.content-column section.essay-agenda-group {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 34px;
+  margin-top: 36px;
+  border-top: 1px solid var(--soft-line);
+  padding-top: 24px;
+}
+
+.essay-agenda-group-header {
+  align-self: start;
+}
+
+.essay-agenda-number {
+  display: block;
+  color: var(--link);
+  font-family: var(--serif);
+  font-size: 1.52rem;
+  line-height: 1;
+}
+
+.essay-agenda-group-header h5 {
+  margin: 10px 0 0;
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 720;
+  letter-spacing: 0.1em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.essay-agenda-points {
+  min-width: 0;
+}
+
+.content-column section.essay-agenda-point {
+  margin-top: 0;
+}
+
+.content-column section.essay-agenda-point + section.essay-agenda-point {
+  margin-top: 26px;
+  border-top: 1px solid var(--soft-line);
+  padding-top: 26px;
+}
+
+.essay-agenda-point h6 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.06rem;
+  font-weight: 720;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.essay-agenda-thesis {
+  margin-top: 9px !important;
+  color: var(--ink) !important;
+  font-family: var(--serif);
+  font-size: 1.01rem;
+  font-style: italic;
+  line-height: 1.58 !important;
+}
+
+.essay-agenda-point .essay-agenda-thesis + p {
+  margin-top: 12px;
+}
+
+.essay-agenda-point .state-transition {
+  margin-top: 13px;
+}
+
+.essay-agenda-point .state-transition + p {
+  margin-top: 13px;
 }
 
 .state-transition {
@@ -2799,7 +2878,7 @@ button:focus-visible {
     font-size: clamp(2.5rem, 12vw, 4.3rem);
   }
 
-  .essay-balance {
+  .content-column section.essay-balance:not(#about) {
     margin-top: 34px;
     padding-top: 26px;
   }
@@ -2818,15 +2897,50 @@ button:focus-visible {
     padding-left: 0;
   }
 
-  .essay-responsibility {
-    margin-top: 36px;
-    padding-top: 28px;
-  }
-
   .responsibility-map > div {
     grid-template-columns: 1fr;
     gap: 5px;
     padding: 14px 0;
+  }
+
+  .content-column section.essay-agenda:not(#about) {
+    margin-top: 38px;
+    padding-top: 28px;
+  }
+
+  .content-column section.essay-agenda-group:not(#about) {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 30px;
+    padding-top: 20px;
+  }
+
+  .content-column section.essay-agenda-point:not(#about) {
+    margin-top: 0;
+  }
+
+  .content-column section.essay-agenda-point:not(#about) + section.essay-agenda-point {
+    margin-top: 26px;
+  }
+
+  .essay-agenda-point .state-transition {
+    overflow-x: visible;
+    white-space: normal;
+  }
+
+  .essay-agenda-group-header {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 11px;
+    align-items: baseline;
+  }
+
+  .essay-agenda-number {
+    font-size: 1.28rem;
+  }
+
+  .essay-agenda-group-header h5 {
+    margin-top: 0;
   }
 }
 

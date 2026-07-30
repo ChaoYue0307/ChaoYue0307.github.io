@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Chaoyue He's working notes on coding agents, verification, responsibility, and balancing human judgment with agent execution."
+      content="Chaoyue He's working notes on coding agents, human judgment, comprehension debt, calibrated autonomy, verification, responsibility, and agent-ready software."
     >
     <meta property="og:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       property="og:description"
-      content="Working directions on coding agents, closed-loop verification, responsibility, and a healthy balance between human coding and agent delegation."
+      content="Working directions on coding agents: human judgment, calibrated autonomy, independent verification, responsibility, and agent-ready software engineering."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/coding-agents.html">
@@ -25,7 +25,7 @@
     <meta name="twitter:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       name="twitter:description"
-      content="Working directions on coding agents, responsibility, and preserving human understanding while delegating effectively."
+      content="Working directions on coding agents, judgment, autonomy, verification, responsibility, and sustained human understanding."
     >
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/blog/coding-agents-loop.webp">
     <meta
@@ -35,13 +35,13 @@
     <title>Thoughts on Coding Agents | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/coding-agents.html">
     <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
-    <link rel="stylesheet" href="../styles.css?v=20260730-agent-responsibility">
+    <link rel="stylesheet" href="../styles.css?v=20260730-agentic-software-agenda">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Thoughts on Coding Agents",
-        "description": "Working directions on coding agents, verification, responsibility, and balancing human judgment with agent execution.",
+        "description": "Working directions on coding agents, human judgment, comprehension debt, calibrated autonomy, independent verification, responsibility, and agent-ready software engineering.",
         "datePublished": "2026-07-24",
         "dateModified": "2026-07-30",
         "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/coding-agents.html",
@@ -168,8 +168,9 @@
                   <span>Working note</span>
                 </div>
                 <p class="essay-deck">
-                  Coding agents are becoming less like autocomplete tools and more like
-                  collaborators that can navigate, modify, and verify entire software systems.
+                  Coding agents are becoming less like autocomplete tools and more like collaborators
+                  that can navigate and modify software systems. The harder questions now concern
+                  judgment, autonomy, evidence, understanding, and responsibility.
                 </p>
               </header>
 
@@ -269,15 +270,6 @@
                   </div>
 
                   <p>
-                    I currently adjust autonomy along three dimensions: ambiguity, consequence, and
-                    verifiability. I can delegate more when a task is well specified, easy to test,
-                    and inexpensive to undo. I should stay more directly involved when a change
-                    introduces a core abstraction, carries security or reliability risk, depends on
-                    unclear product intent, or would be costly to reverse. As the specification and
-                    verification become stronger, the agent can safely take a longer loop.
-                  </p>
-
-                  <p>
                     The operating rhythm I find most promising is: the human frames the problem and
                     success criteria; the agent explores the repository and proposes options; the
                     human selects the direction; the agent implements and verifies; and the human
@@ -286,96 +278,375 @@
                   </p>
 
                   <p>
-                    A healthy balance also preserves deliberate manual practice. I want to predict
-                    before prompting, read diffs rather than only outcomes, ask for explanations
-                    when a design is unclear, and still implement critical paths by hand at times.
-                    If an agent produces changes faster than I can explain or evaluate them,
-                    short-term velocity may create long-term dependency. The agent should remove
-                    friction while the coder continues to develop taste, systems thinking, and the
-                    ability to take over.
+                    The balance should remain adaptive rather than settle into a permanent division
+                    of labor. Delegation can expand or contract with evidence and risk, but it
+                    should continue to preserve the coder's understanding and ability to take over.
                   </p>
                 </section>
 
-                <section class="essay-responsibility" aria-labelledby="agent-responsibility-title">
-                  <h4 id="agent-responsibility-title">Responsibility Must Follow Control</h4>
+                <section class="essay-agenda" aria-labelledby="agentic-agenda-title">
+                  <header class="essay-agenda-header">
+                    <h4 id="agentic-agenda-title">A Broader Research Agenda</h4>
+                    <p>
+                      The themes below form a broader research agenda I currently see emerging
+                      around coding agents. They move from individual judgment and understanding to
+                      calibrated autonomy, independent verification, repository design, learning,
+                      and coordination across multiple agents.
+                    </p>
+                  </header>
 
-                  <p>
-                    As coding agents move from suggesting code to editing files, running commands,
-                    and potentially shipping changes, responsibility becomes harder to locate. My
-                    current view is that responsibility should follow decision rights, control, and
-                    visibility. If a person is expected to answer for an outcome, that person must
-                    also have a meaningful ability to shape the task, constrain the agent, inspect
-                    consequential actions, and stop or reverse the work.
-                  </p>
+                  <section class="essay-agenda-group" aria-labelledby="agenda-judgment-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">01</span>
+                      <h5 id="agenda-judgment-title">Judgment &amp; Understanding</h5>
+                    </header>
 
-                  <p>
-                    An agent may be the immediate actor that introduces a change, but action is not
-                    the same as accountability. Accountability remains layered across the people
-                    and organizations that frame the task, grant permissions, design safeguards,
-                    review the evidence, and decide to merge or deploy. This avoids both the
-                    convenient excuse that “the agent did it” and the opposite fiction that one
-                    final reviewer can personally own every failure created by a wider system of
-                    tools, incentives, and controls.
-                  </p>
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="judgment-bottleneck-title">
+                        <h6 id="judgment-bottleneck-title">The New Bottleneck Is Judgment</h6>
+                        <p class="essay-agenda-thesis">
+                          As code generation becomes cheaper, the scarce resource shifts from
+                          producing changes to deciding which changes deserve trust.
+                        </p>
+                        <p>
+                          An agent can propose several implementations, tests, and refactors in the
+                          time it takes me to examine one carefully. Progress is therefore limited
+                          less by typing or searching and more by framing the right problem,
+                          comparing alternatives, noticing hidden assumptions, and deciding what
+                          evidence is enough. More output can even slow a team when it creates a
+                          review queue that exceeds human attention. I am interested in interfaces
+                          that compress the decision space rather than merely expand code volume:
+                          surface trade-offs, rank uncertainties, and present the smallest decisive
+                          evidence. The goal should be a higher rate of sound, explainable decisions
+                          per unit of human judgment—not maximum agent throughput.
+                        </p>
+                      </section>
 
-                  <dl class="responsibility-map" aria-label="Responsibility across an agent workflow">
-                    <div>
-                      <dt>Frame</dt>
-                      <dd>
-                        The requester or product owner owns the objective, constraints, and
-                        acceptance criteria.
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Authorize</dt>
-                      <dd>
-                        The person or team granting tools and permissions owns the autonomy level
-                        and risk boundary.
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Release</dt>
-                      <dd>
-                        A named maintainer owns the merge or deployment decision and the evidence
-                        accepted.
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Respond</dt>
-                      <dd>
-                        The team and organization own rollback, incident response, remediation,
-                        and learning.
-                      </dd>
-                    </div>
-                  </dl>
+                      <section class="essay-agenda-point" aria-labelledby="comprehension-debt-title">
+                        <h6 id="comprehension-debt-title">Comprehension Debt</h6>
+                        <p class="essay-agenda-thesis">
+                          When software changes faster than maintainers can update their mental
+                          models, velocity quietly accumulates comprehension debt.
+                        </p>
+                        <p>
+                          Agent-generated code can pass every test and still leave me less able to
+                          explain the system than before. I think of this gap as comprehension debt:
+                          the difference between what the codebase does and what its maintainers
+                          genuinely understand. Like technical debt, it may remain invisible until
+                          a failure, handoff, or architectural change demands knowledge that was
+                          never absorbed. Signals include approving diffs from summaries, repeatedly
+                          asking the agent to rediscover the same context, or being unable to
+                          predict the impact of a small change. I want to study whether explanation
+                          quality, prediction accuracy, and the ability to recover key context
+                          without the agent can serve as early indicators before this debt becomes
+                          operationally expensive.
+                        </p>
+                      </section>
 
-                  <p>
-                    Simply saying “the human remains responsible” is not enough if oversight is
-                    ceremonial—if the agent works too quickly to inspect, important actions are
-                    poorly logged, the reviewer lacks relevant context, or rejecting the change is
-                    unrealistic. Greater agent autonomy should therefore come with stronger
-                    provenance, observability, escalation, and rollback. Model and tool builders
-                    also retain responsibility for predictable system-level failures and missing
-                    safeguards. The goal is not merely to decide whom to blame after failure, but
-                    to make ownership, evidence, and recovery paths explicit before the agent acts.
-                  </p>
+                      <section class="essay-agenda-point" aria-labelledby="learning-production-title">
+                        <h6 id="learning-production-title">Learning Mode and Production Mode</h6>
+                        <p class="essay-agenda-thesis">
+                          The workflow that maximizes delivery is not always the one that develops
+                          expertise.
+                        </p>
+                        <p>
+                          In learning mode, useful friction should remain: I may predict the
+                          solution before asking, implement a critical path manually, request
+                          explanations instead of patches, or compare my approach with the agent's.
+                          The objective is not immediate throughput but a stronger mental model,
+                          transferable skill, and the ability to recognize when an answer is subtly
+                          wrong. In production mode, I may delegate more repository search, routine
+                          implementation, testing, and documentation when the task is well specified
+                          and verifiable. Even then, speed should not remove ownership or meaningful
+                          review. I am interested in interfaces that make the mode explicit and
+                          adjust the agent's behavior accordingly.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="agenda-autonomy-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">02</span>
+                      <h5 id="agenda-autonomy-title">Autonomy, Boundaries &amp; Responsibility</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="earned-autonomy-title">
+                        <h6 id="earned-autonomy-title">Autonomy Must Be Earned</h6>
+                        <p class="essay-agenda-thesis">
+                          Agent autonomy should be a graduated capability supported by accumulated
+                          evidence, not a blanket setting granted by confidence or convenience.
+                        </p>
+                        <p class="state-transition" aria-label="Coding agent autonomy ladder">
+                          Explain → Plan → Draft → Edit → Test → Merge → Deploy
+                        </p>
+                        <p>
+                          Moving upward expands both the scope and consequence of action, so each
+                          transition should have an evidence gate. An agent that reliably explains
+                          context may be allowed to propose plans; one that produces small,
+                          reviewable patches and catches failures may earn editing and testing
+                          privileges. Merge or deployment should require stronger guarantees:
+                          stable tests, bounded permissions, complete logs, monitoring, and a
+                          credible rollback path. Autonomy should also be reversible. A surprising
+                          action, repeated verification failure, or move into an unfamiliar
+                          subsystem should take the agent down the ladder. This could make trust
+                          operational: a changing relationship between demonstrated capability,
+                          task risk, and available safeguards.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="agent-interruption-title">
+                        <h6 id="agent-interruption-title">When Should an Agent Interrupt the Human?</h6>
+                        <p class="essay-agenda-thesis">
+                          A capable coding agent needs a stopping policy: it should know when
+                          continued autonomy is more costly than a focused human decision.
+                        </p>
+                        <p>
+                          Interrupting too often turns the agent into a slow command-line assistant;
+                          interrupting too late lets a small misunderstanding become an expensive
+                          branch of work. I think interruption should be triggered not by
+                          uncertainty alone, but by uncertainty multiplied by consequence and
+                          irreversibility. The agent should pause when requirements admit materially
+                          different interpretations, a new core abstraction is needed, permissions
+                          must expand, sensitive or production data may be affected, or available
+                          tests cannot distinguish success from a plausible failure. A good
+                          interruption should be economical: explain what changed, why it matters,
+                          present the smallest set of viable options, and ask for one decision.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="when-not-to-use-title">
+                        <h6 id="when-not-to-use-title">When Not to Use a Coding Agent</h6>
+                        <p class="essay-agenda-thesis">
+                          Knowing when not to delegate is part of using coding agents well.
+                        </p>
+                        <p>
+                          I would hesitate to delegate execution when the objective is fundamentally
+                          unclear, an action is difficult to reverse, a task touches sensitive data
+                          without appropriate isolation and auditable access controls, or there is
+                          no reliable way to test the result. I would also limit delegation when
+                          understanding the implementation is itself the goal—for example, while
+                          learning a foundational concept or taking ownership of an unfamiliar
+                          critical subsystem. This does not always mean excluding the agent. It may
+                          still map the repository, identify risks, ask questions, or propose
+                          alternatives while leaving implementation to the human. My current
+                          boundary is simple: if I cannot define the intended outcome, inspect
+                          consequential decisions, or recover safely from failure, the agent should
+                          remain advisory.
+                        </p>
+                      </section>
+
+                      <section
+                        class="essay-agenda-point essay-agenda-point--responsibility"
+                        aria-labelledby="agent-responsibility-title"
+                      >
+                        <h6 id="agent-responsibility-title">Responsibility Must Follow Control</h6>
+                        <p class="essay-agenda-thesis">
+                          Accountability is credible only when it is matched by meaningful decision
+                          rights, visibility, and the ability to intervene.
+                        </p>
+                        <p>
+                          As coding agents move from suggesting code to editing files, running
+                          commands, and potentially shipping changes, responsibility becomes harder
+                          to locate. My current view is that responsibility should follow decision
+                          rights, control, and visibility. If a person is expected to answer for an
+                          outcome, that person must also have a meaningful ability to shape the
+                          task, constrain the agent, inspect consequential actions, and stop or
+                          reverse the work.
+                        </p>
+
+                        <p>
+                          An agent may be the immediate actor that introduces a change, but action
+                          is not the same as accountability. Accountability remains layered across
+                          the people and organizations that frame the task, grant permissions,
+                          design safeguards, review the evidence, and decide to merge or deploy.
+                          This avoids both the convenient excuse that “the agent did it” and the
+                          opposite fiction that one final reviewer can personally own every failure
+                          created by a wider system of tools, incentives, and controls.
+                        </p>
+
+                        <dl
+                          class="responsibility-map"
+                          aria-label="Responsibility across an agent workflow"
+                        >
+                          <div>
+                            <dt>Frame</dt>
+                            <dd>
+                              The requester or product owner owns the objective, constraints, and
+                              acceptance criteria.
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Authorize</dt>
+                            <dd>
+                              The person or team granting tools and permissions owns the autonomy
+                              level and risk boundary.
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Release</dt>
+                            <dd>
+                              A named maintainer owns the merge or deployment decision and the
+                              evidence accepted.
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Respond</dt>
+                            <dd>
+                              The team and organization own rollback, incident response,
+                              remediation, and learning.
+                            </dd>
+                          </div>
+                        </dl>
+
+                        <p>
+                          Simply saying “the human remains responsible” is not enough if oversight
+                          is ceremonial—if the agent works too quickly to inspect, important actions
+                          are poorly logged, the reviewer lacks relevant context, or rejecting the
+                          change is unrealistic. Greater agent autonomy should therefore come with
+                          stronger provenance, observability, escalation, and rollback. Model and
+                          tool builders also retain responsibility for predictable system-level
+                          failures and missing safeguards. The goal is not merely to decide whom to
+                          blame after failure, but to make ownership, evidence, and recovery paths
+                          explicit before the agent acts.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="agenda-verification-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">03</span>
+                      <h5 id="agenda-verification-title">Verification &amp; Evaluation</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="independent-verification-title">
+                        <h6 id="independent-verification-title">
+                          Do Not Let the Agent Grade Its Own Homework
+                        </h6>
+                        <p class="essay-agenda-thesis">
+                          Verification is weakest when implementation and evaluation share the
+                          same assumptions, context, and incentives.
+                        </p>
+                        <p>
+                          If one agent interprets the task, writes the patch, creates the tests, and
+                          declares success, a mistaken premise can propagate through the entire loop.
+                          The issue is not dishonesty; it is correlated error. Tests may encode the
+                          same narrow reading that shaped the implementation, while a polished
+                          summary makes internal consistency look like correctness. Consequential
+                          changes need some independence between builder and verifier: an external
+                          test oracle, a second agent given only the specification, property-based
+                          or adversarial checks, or a human reviewing failure modes rather than only
+                          the diff. Independence need not duplicate every task; it should increase
+                          with ambiguity and consequence. A useful verifier should actively seek
+                          disconfirming evidence.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="whole-system-evaluation-title">
+                        <h6 id="whole-system-evaluation-title">
+                          Measure the Whole System, Not Code Output
+                        </h6>
+                        <p class="essay-agenda-thesis">
+                          Coding agents should be evaluated by reliable outcomes, including the
+                          human work and downstream costs required to achieve them.
+                        </p>
+                        <p>
+                          Tokens generated, tasks closed, and time to first patch can reward
+                          activity while hiding review burden, rework, escaped defects, brittle
+                          abstractions, and declining human understanding. A patch produced in
+                          minutes is not efficient if it takes hours to validate or creates
+                          maintenance costs later. A more useful unit is the complete human–agent
+                          system. I would want to track time to trustworthy evidence, human review
+                          effort, correction and rollback rates, maintainability, and whether the
+                          coder can still explain the resulting design. These measurements are
+                          context-dependent, but that is part of the research problem. The goal is
+                          dependable progress with an acceptable cognitive and operational cost.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="agenda-engineering-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">04</span>
+                      <h5 id="agenda-engineering-title">Engineering &amp; Coordination</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="agent-ready-title">
+                        <h6 id="agent-ready-title">Agent-Ready Software Engineering</h6>
+                        <p class="essay-agenda-thesis">
+                          A repository that an agent can work in safely is usually also one that
+                          humans can understand, test, and recover.
+                        </p>
+                        <p>
+                          This is the engineering response to the earlier context problem. I
+                          increasingly think agent readiness should be treated as a software
+                          quality, not merely a property of the model. An agent performs better when
+                          a repository has explicit setup instructions, discoverable commands,
+                          stable tests, clear module boundaries, typed interfaces, short feedback
+                          loops, and conventions that can be inspected rather than guessed. These
+                          properties also help a new human contributor. An agent-ready repository
+                          should make the safe path easy: permissions are scoped, destructive
+                          actions are separated, tests produce useful evidence, and rollback is
+                          routine. Instead of expecting the agent to infer every unwritten norm, we
+                          can improve the environment in which it reasons.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="multi-agent-title">
+                        <h6 id="multi-agent-title">From One Agent to Many</h6>
+                        <p class="essay-agenda-thesis">
+                          Multiple agents increase coordination demands as well as capacity, so
+                          parallelism needs explicit ownership, isolation, and integration.
+                        </p>
+                        <p>
+                          More agents do not automatically mean more progress. They may inspect the
+                          same files, make incompatible assumptions, duplicate work, or produce
+                          individually reasonable changes that fail when combined. The human
+                          supervisor can then become an integration and attention bottleneck. I am
+                          interested in shared task models, explicit ownership of files or
+                          interfaces, isolated workspaces, visible dependencies, and checkpoints
+                          before changes are merged. Agents may also take distinct implementation,
+                          verification, and integration roles without assuming that role separation
+                          alone guarantees independence. The deeper question is how to gain parallel
+                          capacity without losing a coherent system model, trustworthy evidence, or
+                          traceable responsibility.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
                 </section>
 
-                <h4>Directions I Want to Explore</h4>
+                <h4>Open Research Questions</h4>
 
                 <ul class="essay-bullets">
-                  <li>How should an agent decide which repository context is relevant?</li>
-                  <li>What evidence is sufficient before an agent can claim a task is complete?</li>
-                  <li>How can agents communicate uncertainty without becoming unhelpfully cautious?</li>
-                  <li>What interfaces help people supervise several long-running coding tasks?</li>
-                  <li>Can coding agents improve maintainability rather than merely add more code?</li>
                   <li>
-                    What balance of manual coding and agent delegation best preserves both velocity
-                    and technical judgment?
+                    How can comprehension debt and long-term skill retention be measured before a
+                    failure or handoff reveals the gap?
                   </li>
                   <li>
-                    How should responsibility be allocated when execution, control, review, and
-                    deployment are distributed across people, agents, and organizations?
+                    What evidence, risk, and reversibility conditions should move an agent up or
+                    down an autonomy ladder?
+                  </li>
+                  <li>
+                    How independent should builder and verifier be at different levels of ambiguity
+                    and consequence?
+                  </li>
+                  <li>
+                    Which repository properties make human–agent work reliably maintainable rather
+                    than merely easy to generate?
+                  </li>
+                  <li>
+                    How should evaluation combine delivery speed, review cost, escaped defects,
+                    maintainability, and human learning?
+                  </li>
+                  <li>
+                    How can multiple agents coordinate while preserving coherent context, decision
+                    rights, and accountability?
                   </li>
                 </ul>
               </div>
