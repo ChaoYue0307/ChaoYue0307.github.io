@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Chaoyue He's working notes on coding agents, human judgment, comprehension debt, calibrated autonomy, verification, responsibility, and agent-ready software."
+      content="Chaoyue He's working notes on coding agents, human judgment, durable engineering skill, calibrated autonomy, verification, responsibility, and agent-ready software."
     >
     <meta property="og:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       property="og:description"
-      content="Working directions on coding agents: human judgment, calibrated autonomy, independent verification, responsibility, and agent-ready software engineering."
+      content="Working directions on coding agents: internalized engineering skill, human judgment, calibrated autonomy, independent verification, responsibility, and agent-ready software."
     >
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://chaoyue0307.github.io/thoughts/coding-agents.html">
@@ -25,7 +25,7 @@
     <meta name="twitter:title" content="Thoughts on Coding Agents | Chaoyue He">
     <meta
       name="twitter:description"
-      content="Working directions on coding agents, judgment, autonomy, verification, responsibility, and sustained human understanding."
+      content="Working directions on coding agents, internalized engineering skill, judgment, autonomy, verification, and responsibility."
     >
     <meta name="twitter:image" content="https://chaoyue0307.github.io/assets/blog/coding-agents-loop.webp">
     <meta
@@ -35,13 +35,13 @@
     <title>Thoughts on Coding Agents | Chaoyue He</title>
     <link rel="canonical" href="https://chaoyue0307.github.io/thoughts/coding-agents.html">
     <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
-    <link rel="stylesheet" href="../styles.css?v=20260730-agentic-software-agenda">
+    <link rel="stylesheet" href="../styles.css?v=20260730-internalized-capability">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Thoughts on Coding Agents",
-        "description": "Working directions on coding agents, human judgment, comprehension debt, calibrated autonomy, independent verification, responsibility, and agent-ready software engineering.",
+        "description": "Working directions on coding agents, human judgment, internalized engineering skill, comprehension debt, calibrated autonomy, independent verification, responsibility, and agent-ready software engineering.",
         "datePublished": "2026-07-24",
         "dateModified": "2026-07-30",
         "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/coding-agents.html",
@@ -278,9 +278,74 @@
                   </p>
 
                   <p>
-                    The balance should remain adaptive rather than settle into a permanent division
-                    of labor. Delegation can expand or contract with evidence and risk, but it
-                    should continue to preserve the coder's understanding and ability to take over.
+                    Allocation during the task is only half of the balance; the other half is what
+                    capability remains with the coder afterward. Delegation can expand or contract
+                    with evidence and risk, but it should continue to preserve the coder's
+                    understanding and ability to take over.
+                  </p>
+                </section>
+
+                <section
+                  class="essay-internalization"
+                  aria-labelledby="internalization-externalization-title"
+                >
+                  <h4 id="internalization-externalization-title">
+                    Internalization and Externalization
+                  </h4>
+
+                  <p class="essay-thesis">
+                    A productive project should leave two durable outputs: an artifact the world can
+                    inspect, and an increase in capability that remains with me after the agent is
+                    gone.
+                  </p>
+
+                  <p>
+                    Coding agents make externalized progress—code, documentation, diagrams, demos,
+                    and publications—fast and visible. But I do not want that visibility to become
+                    my only measure of progress. At the end of a project, I want to ask not only,
+                    “What did I ship?” but also, “What can I now understand, decide, diagnose, or
+                    build that I could not before?” That second question captures internalization:
+                    the mental models, engineering judgment, debugging instincts, and
+                    implementation fluency that become part of my own durable capability.
+                  </p>
+
+                  <div
+                    class="capability-ledger"
+                    aria-label="Internalized capability and externalized output"
+                  >
+                    <div class="capability-ledger-column">
+                      <p class="capability-ledger-label">Internalized · what changes in me</p>
+                      <ul>
+                        <li>Causal mental models of the system</li>
+                        <li>Architectural judgment and trade-off reasoning</li>
+                        <li>Debugging intuition and remembered failure patterns</li>
+                        <li>Ability to rebuild, extend, and adapt the work independently</li>
+                      </ul>
+                    </div>
+                    <div class="capability-ledger-column">
+                      <p class="capability-ledger-label">
+                        Externalized · what becomes inspectable
+                      </p>
+                      <ul>
+                        <li>Working code, prototypes, and systems</li>
+                        <li>Tests, documentation, and diagrams</li>
+                        <li>Benchmarks, demos, and publications</li>
+                        <li>Clear records of decisions, evidence, and results</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p>
+                    These two outputs should reinforce each other. External artifacts make thinking
+                    testable, useful, and communicable; internalized capability lets me create,
+                    critique, and extend those artifacts with genuine independence. I therefore
+                    want every substantial agent-assisted project to leave an
+                    <strong>internalization dividend</strong>. I do not need to write every line
+                    manually, but the project should preserve and ideally enlarge the engineering
+                    capability I can exercise independently. The goal is not less externalization;
+                    it is for visible output and durable capability to compound together. That is
+                    what makes progress feel grounded and earned: the work exists outside me, while
+                    some of its structure and insight now lives within me.
                   </p>
                 </section>
 
@@ -350,16 +415,17 @@
                           expertise.
                         </p>
                         <p>
-                          In learning mode, useful friction should remain: I may predict the
-                          solution before asking, implement a critical path manually, request
-                          explanations instead of patches, or compare my approach with the agent's.
-                          The objective is not immediate throughput but a stronger mental model,
-                          transferable skill, and the ability to recognize when an answer is subtly
-                          wrong. In production mode, I may delegate more repository search, routine
-                          implementation, testing, and documentation when the task is well specified
-                          and verifiable. Even then, speed should not remove ownership or meaningful
-                          review. I am interested in interfaces that make the mode explicit and
-                          adjust the agent's behavior accordingly.
+                          Learning mode is one way to increase that internalization dividend. Useful
+                          friction should remain: I may predict the solution before asking,
+                          implement a critical path manually, request explanations instead of
+                          patches, or compare my approach with the agent's. The objective is not
+                          immediate throughput but a stronger mental model, transferable skill, and
+                          the ability to recognize when an answer is subtly wrong. In production
+                          mode, I may delegate more repository search, routine implementation,
+                          testing, and documentation when the task is well specified and verifiable.
+                          Even then, speed should not remove ownership or meaningful review. I am
+                          interested in interfaces that make the mode explicit and adjust the
+                          agent's behavior accordingly.
                         </p>
                       </section>
                     </div>
@@ -625,8 +691,8 @@
 
                 <ul class="essay-bullets">
                   <li>
-                    How can comprehension debt and long-term skill retention be measured before a
-                    failure or handoff reveals the gap?
+                    How can we distinguish durable internalization from superficial familiarity,
+                    and detect comprehension debt before a failure or handoff exposes the gap?
                   </li>
                   <li>
                     What evidence, risk, and reversibility conditions should move an agent up or
