@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Chaoyue He's working notes on pursuing top-conference AI research without letting acceptance, benchmarks, or review scores replace scientific depth, rigor, and durable impact."
+    >
+    <meta
+      property="og:title"
+      content="Beyond Acceptance: A Discipline for Durable AI Research | Chaoyue He"
+    >
+    <meta
+      property="og:description"
+      content="A richer reward architecture and a practical discipline for producing AI research that survives the deadline, the review cycle, and the benchmark."
+    >
+    <meta property="og:type" content="article">
+    <meta
+      property="og:url"
+      content="https://chaoyue0307.github.io/thoughts/research-beyond-acceptance.html"
+    >
+    <meta
+      property="og:image"
+      content="https://chaoyue0307.github.io/assets/blog/research-beyond-acceptance.webp"
+    >
+    <meta
+      property="og:image:alt"
+      content="A researcher follows a rigorous evidence loop through a conference checkpoint toward replication, reuse, and long-term impact, while a metric-seeking shortcut dead-ends."
+    >
+    <meta property="og:image:width" content="1672">
+    <meta property="og:image:height" content="941">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta
+      name="twitter:title"
+      content="Beyond Acceptance: A Discipline for Durable AI Research | Chaoyue He"
+    >
+    <meta
+      name="twitter:description"
+      content="How to pursue top AI conferences without allowing the acceptance signal to become the research objective."
+    >
+    <meta
+      name="twitter:image"
+      content="https://chaoyue0307.github.io/assets/blog/research-beyond-acceptance.webp"
+    >
+    <meta
+      name="twitter:image:alt"
+      content="A researcher follows a rigorous evidence loop through a conference checkpoint toward replication, reuse, and long-term impact, while a metric-seeking shortcut dead-ends."
+    >
+    <title>Beyond Acceptance: A Discipline for Durable AI Research | Chaoyue He</title>
+    <link
+      rel="canonical"
+      href="https://chaoyue0307.github.io/thoughts/research-beyond-acceptance.html"
+    >
+    <link rel="icon" type="image/webp" href="../assets/profile-photo.webp">
+    <link rel="stylesheet" href="../styles.css?v=20260730-illustrated-engineering">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Beyond Acceptance: A Discipline for Durable AI Research",
+        "description": "A richer reward architecture and a practical discipline for producing AI research that survives the deadline, the review cycle, and the benchmark.",
+        "datePublished": "2026-08-09",
+        "dateModified": "2026-08-09",
+        "mainEntityOfPage": "https://chaoyue0307.github.io/thoughts/research-beyond-acceptance.html",
+        "image": "https://chaoyue0307.github.io/assets/blog/research-beyond-acceptance.webp",
+        "author": {
+          "@type": "Person",
+          "name": "Chaoyue He",
+          "url": "https://chaoyue0307.github.io/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to main content</a>
+    <header class="site-header" aria-label="Primary">
+      <a class="site-brand" href="../index.html" aria-label="Chaoyue He home">
+        <span aria-hidden="true">CH</span>
+        <strong>Chaoyue He</strong>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu</button>
+      <nav id="site-navigation" class="nav-links" aria-label="Site">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../research.html">Research</a>
+        <a href="../experience.html">Experience</a>
+        <a href="../projects.html">Projects</a>
+        <a href="../thoughts.html" aria-current="page">Notes</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <div class="academic-shell">
+        <aside class="profile-sidebar" aria-label="Profile">
+          <div class="profile-identity">
+            <img
+              class="profile-photo"
+              src="../assets/profile-photo.webp"
+              alt="Portrait of Chaoyue He"
+              width="112"
+              height="112"
+              decoding="async"
+            >
+            <h1>Chaoyue He</h1>
+            <p class="profile-role">AI Research Scientist</p>
+            <p class="profile-updated">Updated <time datetime="2026-07-13">2026-07-13</time></p>
+          </div>
+          <nav class="profile-links" aria-label="External profile links">
+            <a href="mailto:cyhe@ntu.edu.sg" aria-label="Email Chaoyue He" title="Email">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-email.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://github.com/ChaoYue0307" aria-label="GitHub profile" title="GitHub" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-github.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://huggingface.co/cy0307" aria-label="Hugging Face profile" title="Hugging Face" rel="me">
+              <span class="profile-icon profile-icon--huggingface" aria-hidden="true">
+                <img src="../assets/icon-huggingface.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.modelscope.cn/my/overview" aria-label="ModelScope profile" title="ModelScope" rel="me">
+              <span class="profile-icon profile-icon--modelscope" aria-hidden="true">
+                <img src="../assets/icon-modelscope.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://scholar.google.com/citations?user=59FPEzkAAAAJ&amp;hl=en" aria-label="Google Scholar profile" title="Google Scholar" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-googlescholar.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.linkedin.com/in/chaoyue-he-a4103558/" aria-label="LinkedIn profile" title="LinkedIn" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-linkedin.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://x.com/CYH37" aria-label="X profile" title="X" rel="me">
+              <span class="profile-icon" aria-hidden="true">
+                <img src="../assets/icon-x.svg" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/6612088d000000000d025d10" aria-label="Xiaohongshu profile" title="Xiaohongshu" rel="me">
+              <span class="profile-icon profile-icon--xiaohongshu" aria-hidden="true">
+                <img src="../assets/icon-xiaohongshu.png" alt="" width="18" height="18" decoding="async">
+              </span>
+            </a>
+            <a href="https://www.alphaxiv.org/@chaoyue-he" aria-label="alphaXiv profile" title="alphaXiv" rel="me">
+              <span class="profile-icon profile-icon--alpha" aria-hidden="true">
+                <img src="../assets/alphaxiv-icon.png" alt="" width="16" height="16" decoding="async">
+              </span>
+            </a>
+          </nav>
+          <div class="keyword-panel" aria-label="Research focus areas">
+            <h2>Focus Areas</h2>
+            <div>
+              <span>LLMs</span>
+              <span>Evaluation</span>
+              <span>Sustainability AI</span>
+              <span>ESG</span>
+              <span>Climate Adaptation</span>
+              <span>Post-training</span>
+              <span>RecSys</span>
+              <span>Embodied AI</span>
+              <span>Research Systems</span>
+            </div>
+          </div>
+        </aside>
+
+        <article id="content" class="content-column">
+          <section id="thoughts" aria-labelledby="thoughts-title">
+            <h2 id="thoughts-title">Research Notes</h2>
+            <p class="section-intro">
+              <a class="back-link" href="../thoughts.html">Back to all notes</a>
+            </p>
+            <p class="thoughts-disclaimer">All views expressed here are my own.</p>
+
+            <article class="essay-note" aria-labelledby="beyond-acceptance-title">
+              <header class="essay-header">
+                <p class="essay-kicker">Research Practice / Scientific Integrity</p>
+                <h3 id="beyond-acceptance-title" class="essay-title--long">
+                  Beyond Acceptance: A Discipline for Durable AI Research
+                </h3>
+                <div class="essay-meta">
+                  <time datetime="2026-08-09">August 9, 2026</time>
+                  <span>Working note</span>
+                </div>
+                <p class="essay-deck">
+                  Top-conference acceptance is worth pursuing, but it is still a noisy, gameable
+                  proxy. These notes propose a richer reward architecture and a set of self-binding
+                  practices for producing work that survives the deadline, the review cycle, and
+                  the benchmark.
+                </p>
+              </header>
+
+              <figure class="essay-figure essay-figure--wide">
+                <img
+                  src="../assets/blog/research-beyond-acceptance.webp"
+                  alt="A researcher moves through repeated hypothesis, experiment, analysis, and verification loops, passes a paper-acceptance checkpoint, and continues toward replication, reusable artifacts, community uptake, and long-term impact; a metric-optimizing shortcut below ends in failure."
+                  width="1672"
+                  height="941"
+                  decoding="async"
+                  fetchpriority="high"
+                >
+                <figcaption>
+                  Acceptance can be a valuable checkpoint. Durable research continues through
+                  validation, reuse, community scrutiny, and questions that remain important after
+                  the conference cycle ends.
+                </figcaption>
+              </figure>
+
+              <div class="essay-body">
+                <p class="essay-thesis">
+                  The goal is not to stop seeking reward. It is to refuse a reward function simple
+                  enough to game.
+                </p>
+
+                <h4>When a Useful Ambition Becomes the Objective Function</h4>
+
+                <p>
+                  Before every deadline, two questions quietly compete: what is true, and what can
+                  be made legible enough to score? They often align. A clear contribution, fair
+                  evaluation, strong writing, and thoughtful venue fit can improve both the paper
+                  and its chance of acceptance. Wanting a top-conference paper is therefore not a
+                  failure of scientific values. Conferences concentrate feedback, attention,
+                  collaborators, career opportunities, and a deadline that can turn unfinished
+                  thinking into a public contribution.
+                </p>
+
+                <p>
+                  The danger begins when anticipated review scores stop being feedback about the
+                  research and become the objective function of the research. The question shifts
+                  from “What uncertainty is worth reducing?” to “What contribution will look new?”
+                  The benchmark stops representing the construct and becomes the target. Evidence
+                  is selected for narrative neatness. Boundary conditions become inconvenient.
+                  The project may become increasingly optimized for acceptance while becoming less
+                  capable of surviving contact with reality.
+                </p>
+
+                <p>
+                  This is a form of proxy capture. Work on
+                  <a href="https://arxiv.org/abs/1803.04585">Goodhart effects</a> distinguishes
+                  several ways in which a measure can lose its relationship to the goal under
+                  optimization pressure. In research, the pressure need not produce one dramatic
+                  act of misconduct. It can instead operate through a sequence of locally
+                  defensible choices that all lean in the same direction.
+                </p>
+
+                <dl class="responsibility-map" aria-label="Research reward failure modes">
+                  <div>
+                    <dt>Seeking</dt>
+                    <dd>
+                      Pursuing acceptance, visibility, and recognition. This is normal ambition
+                      and can create useful discipline.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Proxy optimization</dt>
+                    <dd>
+                      Improving a proxy—reviewer familiarity, a leaderboard score, or novelty
+                      language—until it starts displacing the underlying scientific objective.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Hacking</dt>
+                    <dd>
+                      Exploiting blind spots in evaluation to obtain the signal without earning the
+                      substance the signal is supposed to represent.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Self-hacking</dt>
+                    <dd>
+                      Training my own taste to recognize only what looks publishable, until I stop
+                      seeing questions whose value is difficult to compress into one review cycle.
+                    </dd>
+                  </div>
+                </dl>
+
+                <p>
+                  I am borrowing the language of reward hacking from AI systems, but the
+                  distinctions matter. Most everyday drift is unintentional proxy optimization,
+                  not misconduct. Reward hacking is the stronger case in which an evaluation blind
+                  spot is used to obtain the signal without the corresponding substance.
+                  “Self-hacking” is my informal name for the quieter process by which the incentive
+                  changes what I learn to notice and value.
+                </p>
+
+                <h4>How Good Researchers Accidentally Game Themselves</h4>
+
+                <p>
+                  This is not only a problem of individual character. Smaldino and McElreath's
+                  model of the
+                  <a href="https://doi.org/10.1098/rsos.160384">natural selection of bad science</a>
+                  shows how incentives for publication output can favor weaker methods even without
+                  deliberate cheating. That is why good intentions are not a sufficient control.
+                  The research process needs structures that make distortion harder and honest
+                  correction easier.
+                </p>
+
+                <p>
+                  Proxy optimization can happen without fraud or conscious shortcutting. An
+                  experiment is rerun on several seeds, but only the stable-looking setting enters
+                  the main table. A weak baseline is tuned less carefully than the proposed method.
+                  A small benchmark gain becomes a broad claim about capability. The story is
+                  decided first and the ablations are chosen to support it. A deadline forces the
+                  experiment to shrink, but the claim expands to preserve excitement. Complexity
+                  is interpreted as depth because it is easier to display than understanding.
+                </p>
+
+                <p>
+                  Machine learning makes this especially easy because benchmarks give precise
+                  feedback while many true goals—robustness, explanatory depth, usefulness, and
+                  downstream consequence—remain partially observed. The
+                  <a href="https://arxiv.org/abs/2107.07002">benchmark lottery</a> shows how choices
+                  of tasks and evaluation setup can change apparent algorithmic superiority.
+                  Leaderboards can clarify progress, but their precision should not be confused
+                  with completeness.
+                </p>
+
+                <p>
+                  AI research agents increase both sides of this problem. They can search, code,
+                  experiment, and write faster, but they can also industrialize plausible shallow
+                  work. More runs can hide weaker experimental taste; smoother prose can hide a
+                  gap between claim and evidence; a large generated pipeline can exceed the
+                  understanding of every author. Automation should increase the amount of
+                  verification we can afford, not reduce the amount of understanding we require.
+                </p>
+
+                <section class="essay-balance" aria-labelledby="reward-architecture-title">
+                  <h4 id="reward-architecture-title">
+                    Acceptance Is Not a Scalar Reward
+                  </h4>
+
+                  <p>
+                    A binary accept–reject result compresses a high-dimensional research process
+                    into one consequential bit. That bit matters, but it cannot tell me whether the
+                    question was important, the central claim is true, the evidence will replicate,
+                    the artifact will be reused, or the project made me a better researcher. I want
+                    to read the decision alongside several independent scoreboards rather than let
+                    it overwrite them.
+                  </p>
+
+                  <p class="essay-balance-principle">
+                    <strong>My current principle:</strong> acceptance is an external signal inside
+                    the reward architecture, not the reward architecture itself.
+                  </p>
+
+                  <div class="essay-balance-grid" aria-label="Four scoreboards for research success">
+                    <div class="essay-balance-role">
+                      <h5>Venue &amp; communication</h5>
+                      <ul>
+                        <li>Is the problem legible and relevant to the community?</li>
+                        <li>Can reviewers identify the contribution and test its claims?</li>
+                        <li>Did the work enter the right scientific conversation?</li>
+                      </ul>
+                    </div>
+                    <div class="essay-balance-role">
+                      <h5>Science &amp; evidence</h5>
+                      <ul>
+                        <li>Is the central claim falsifiable and proportional to the evidence?</li>
+                        <li>Does it survive strong baselines, reruns, and adversarial checks?</li>
+                        <li>Are mechanisms, uncertainty, and boundary conditions understood?</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="essay-balance-grid" aria-label="Endurance and researcher scoreboards">
+                    <div class="essay-balance-role">
+                      <h5>Endurance &amp; community value</h5>
+                      <ul>
+                        <li>Can others reuse the artifact, measurement, or abstraction?</li>
+                        <li>Does the insight survive a benchmark or trend changing?</li>
+                        <li>Does it generate better questions rather than only variants?</li>
+                      </ul>
+                    </div>
+                    <div class="essay-balance-role">
+                      <h5>Researcher growth</h5>
+                      <ul>
+                        <li>What technical capability and judgment became genuinely mine?</li>
+                        <li>Can I reproduce and explain the core result independently?</li>
+                        <li>Did the project improve how I ask, test, debug, and reason?</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p>
+                    These scoreboards should not be combined into one larger weighted sum. That
+                    would merely create a more elaborate proxy. Some conditions are
+                    non-compensable: ten attractive experiments cannot rescue leakage in the
+                    evaluation; elegant writing cannot compensate for a claim that the evidence
+                    does not support; acceptance cannot retroactively make a fragile result robust.
+                    My preferred order is closer to a constraint system:
+                  </p>
+
+                  <p class="state-transition" aria-label="Research optimization order">
+                    Integrity constraints → Scientific value → Communication &amp; venue fit
+                  </p>
+                </section>
+
+                <section class="essay-internalization" aria-labelledby="success-milestones-title">
+                  <h4 id="success-milestones-title">A More Granular Meaning of Success</h4>
+
+                  <p>
+                    “Did it get in?” is too coarse for understanding what a project achieved. I find
+                    it more useful to separate venue milestones from scientific and endurance
+                    milestones. These are not one prestige ladder. A project can advance along one
+                    dimension without advancing along the other, which is precisely why a venue
+                    decision should not monopolize the evaluation.
+                  </p>
+
+                  <p class="capability-ledger-label">Venue milestones</p>
+                  <dl class="responsibility-map" aria-label="Venue milestones for a research project">
+                    <div>
+                      <dt>Review-ready</dt>
+                      <dd>
+                        The question, claim, evidence, limitations, and artifact form a complete
+                        contribution that another researcher can evaluate seriously.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Engaged</dt>
+                      <dd>
+                        The work reached a submission, workshop, presentation, or serious exchange
+                        and began receiving external scrutiny.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Accepted</dt>
+                      <dd>
+                        The paper passed a venue's threshold under a particular scope, reviewer
+                        pool, and moment in the field.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Recognized</dt>
+                      <dd>
+                        The community gave an additional signal—discussion, spotlight, oral,
+                        award, or sustained attention—that the contribution was especially useful
+                        or timely.
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <p class="capability-ledger-label">Scientific &amp; endurance milestones</p>
+                  <dl
+                    class="responsibility-map"
+                    aria-label="Scientific and endurance milestones for a research project"
+                  >
+                    <div>
+                      <dt>Validated</dt>
+                      <dd>
+                        The central result survives reruns, stronger alternatives, stress tests,
+                        and ideally independent reproduction.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Reused</dt>
+                      <dd>
+                        Other people build on the code, data, method, measurement, or conceptual
+                        framing rather than only cite the paper.
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Enduring</dt>
+                      <dd>
+                        The work remains useful after the benchmark, model generation, or trend
+                        changes, and improves how the field thinks or builds.
+                      </dd>
+                    </div>
+                  </dl>
+                </section>
+
+                <section class="essay-internalization" aria-labelledby="research-constitution-title">
+                  <h4 id="research-constitution-title">
+                    A Research Constitution for Each Project
+                  </h4>
+
+                  <p class="essay-thesis">
+                    Self-constraint is not a moral pose. It is research governance designed before
+                    the result, the deadline, and the temptation to rationalize.
+                  </p>
+
+                  <p>
+                    The moment of maximum temptation is a poor time to invent standards. At the
+                    beginning of a substantial project, I want a one-page research constitution:
+                    a small set of commitments that remains visible while methods, results, and the
+                    paper evolve. It should be lightweight enough to use and concrete enough to
+                    make deviations obvious.
+                  </p>
+
+                  <ul class="essay-bullets">
+                    <li>What important uncertainty are we trying to reduce?</li>
+                    <li>What is the smallest falsifiable version of the central claim?</li>
+                    <li>What evidence would make us abandon, narrow, or revise it?</li>
+                    <li>Which primary metrics, baselines, and evaluation choices should be fixed before final results?</li>
+                    <li>What are we unwilling to do even if it improves acceptance probability?</li>
+                    <li>What would remain valuable if the expected positive result disappears?</li>
+                    <li>If the current benchmark vanished next year, what insight would survive?</li>
+                    <li>Which claims and limits must every author understand, and who owns each critical evidence path well enough to rebuild it?</li>
+                  </ul>
+
+                  <p class="essay-balance-principle">
+                    <strong>Minimum viable protocol before submission:</strong> lock the primary
+                    claim, metric, and strongest baseline; preserve an experiment ledger; run one
+                    explicit falsification pass; and reproduce the central evidence from a clean
+                    environment. Stronger claims and higher-risk settings should trigger stronger
+                    controls, including independent reproduction and broader boundary mapping.
+                  </p>
+
+                  <p>
+                    This is related to the logic of
+                    <a href="https://doi.org/10.1073/pnas.1708274114">preregistration</a>: decisions
+                    and predictions stated before outcomes are known make later deviations and
+                    selective analyses easier to detect. Not every AI project supports formal
+                    preregistration, especially exploratory work, but the deeper discipline still
+                    applies. We should distinguish exploration from confirmation, record when
+                    hypotheses change, and disclose which analyses were selected after seeing the
+                    evidence.
+                  </p>
+
+                  <div class="capability-ledger" aria-label="Project integrity and understanding audits">
+                    <div class="capability-ledger-column">
+                      <p class="capability-ledger-label">Evidence audit</p>
+                      <ul>
+                        <li>Every core claim maps to specific supporting and disconfirming tests</li>
+                        <li>The strongest baseline receives comparable care and resources</li>
+                        <li>Failed runs, changed metrics, and killed hypotheses remain traceable</li>
+                        <li>A clean final setting is preserved from repeated optimization</li>
+                      </ul>
+                    </div>
+                    <div class="capability-ledger-column">
+                      <p class="capability-ledger-label">Understanding audit</p>
+                      <ul>
+                        <li>Explain the mechanism without the abstract, slides, or agent</li>
+                        <li>Predict the direction of decisive ablations before running them</li>
+                        <li>Name realistic failure conditions and simpler explanations</li>
+                        <li>Rebuild the central evidence path from a clean environment</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p>
+                    A useful paper should leave two artifacts: public knowledge outside the
+                    researcher and durable capability inside the researcher. If the PDF improves
+                    while the authors lose ownership of the mechanism, implementation, or evidence
+                    chain, the project has externalized output while failing to internalize
+                    expertise.
+                  </p>
+                </section>
+
+                <section class="essay-agenda" aria-labelledby="durable-discipline-title">
+                  <header class="essay-agenda-header">
+                    <h4 id="durable-discipline-title">A Discipline for Durable Work</h4>
+                    <p>
+                      Long-term influence cannot be promised in advance. It is partly contingent on
+                      timing, community attention, and future developments. What a researcher can
+                      control is whether the work creates the conditions for endurance: an
+                      important question, trustworthy evidence, explicit limits, reusable artifacts,
+                      and an insight that compresses rather than decorates complexity.
+                    </p>
+                  </header>
+
+                  <section class="essay-agenda-group" aria-labelledby="discipline-question-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">01</span>
+                      <h5 id="discipline-question-title">Anchor the Question</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="uncertainty-title">
+                        <h6 id="uncertainty-title">Optimize for Reduced Uncertainty</h6>
+                        <p class="essay-agenda-thesis">
+                          A research contribution should make an important part of the world less
+                          confusing, not merely make a table look better.
+                        </p>
+                        <p>
+                          I want to state the uncertainty before naming the method. This makes it
+                          easier to see whether the method answers the question or merely supplies a
+                          publishable object. The project should retain value under a negative
+                          result: a clarified boundary, a failed assumption, a better measurement,
+                          or a reusable experimental system can all reduce uncertainty honestly.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="durability-test-title">
+                        <h6 id="durability-test-title">Apply the Durability Test Early</h6>
+                        <p class="essay-agenda-thesis">
+                          If the benchmark, model family, and trend disappeared next year, what
+                          part of the contribution would still matter?
+                        </p>
+                        <p>
+                          This question does not disqualify timely work. It asks whether the paper
+                          contains a mechanism, measurement, abstraction, dataset, or engineering
+                          insight that travels beyond one leaderboard moment. The earlier this is
+                          asked, the more it can shape the contribution rather than decorate the
+                          conclusion.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="discipline-evidence-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">02</span>
+                      <h5 id="discipline-evidence-title">Make Evidence Costly to Fool</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="falsification-title">
+                        <h6 id="falsification-title">Schedule a Falsification Pass</h6>
+                        <p class="essay-agenda-thesis">
+                          The strongest version of a claim is the one that survives a serious,
+                          honest attempt by its authors to kill it.
+                        </p>
+                        <p>
+                          Before polishing the story, I want a review devoted to alternative
+                          explanations, leakage, unfair baselines, seed sensitivity, hidden data
+                          choices, and the simplest mechanism that could reproduce the result. An
+                          independent collaborator or reviewer—possibly supported by a separately
+                          specified agent—should be rewarded for finding disconfirming evidence
+                          rather than helping the narrative converge.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="claim-evidence-title">
+                        <h6 id="claim-evidence-title">Maintain a Claim–Evidence Map</h6>
+                        <p class="essay-agenda-thesis">
+                          Every major claim should have a visible evidence path and a visible
+                          condition under which it would weaken.
+                        </p>
+                        <p>
+                          A claim–evidence map prevents one attractive result from silently
+                          supporting several stronger conclusions. It also makes rebuttal and
+                          revision more honest: a failed experiment can narrow the relevant claim
+                          without forcing the entire paper into defensive storytelling. The
+                          reproducibility practices reported by the
+                          <a href="https://www.jmlr.org/papers/v22/20-303.html">NeurIPS
+                          reproducibility program</a>—including its checklist, code policy, and
+                          reproducibility challenge—strengthen the case for treating transparency,
+                          code, and verifiable procedures as part of the contribution rather than
+                          administrative material added after it.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="discipline-ownership-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">03</span>
+                      <h5 id="discipline-ownership-title">Preserve Epistemic Ownership</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="agent-ownership-title">
+                        <h6 id="agent-ownership-title">Let AI Increase Leverage, Not Distance</h6>
+                        <p class="essay-agenda-thesis">
+                          Agents may accelerate execution, but they cannot inherit scientific
+                          responsibility or make understanding optional.
+                        </p>
+                        <p>
+                          Core citations should be checked independently. Central experiments
+                          should be reproducible without hidden conversational state. At least one
+                          author should own each critical abstraction, implementation path, and
+                          inference from evidence to claim well enough to rebuild it independently.
+                          Tool separation alone is not epistemic independence when the tools inherit
+                          the same specification, data, and assumptions. Agent-generated complexity
+                          should pass a necessity review: if a simpler mechanism explains the result,
+                          the paper should prefer understanding over ornamental sophistication.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="story-removal-title">
+                        <h6 id="story-removal-title">Perform a Story-Removal Review</h6>
+                        <p class="essay-agenda-thesis">
+                          Temporarily remove the abstract, novelty framing, and intended conclusion;
+                          then ask what the evidence alone permits us to say.
+                        </p>
+                        <p>
+                          Good writing helps a real contribution travel. It becomes dangerous when
+                          narrative coherence is treated as evidence. A story-removal review exposes
+                          whether experiments support the central claim, only a narrower claim, or a
+                          different result that may be less exciting but more true.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+
+                  <section class="essay-agenda-group" aria-labelledby="discipline-clock-title">
+                    <header class="essay-agenda-group-header">
+                      <span class="essay-agenda-number" aria-hidden="true">04</span>
+                      <h5 id="discipline-clock-title">Use the Clock, Keep the Compass</h5>
+                    </header>
+
+                    <div class="essay-agenda-points">
+                      <section class="essay-agenda-point" aria-labelledby="two-clocks-title">
+                        <h6 id="two-clocks-title">Separate the Conference Clock and Research Clock</h6>
+                        <p class="essay-agenda-thesis">
+                          A deadline can decide when to communicate the current evidence; it should
+                          not decide when the research stops being responsible.
+                        </p>
+                        <p>
+                          The conference clock contains submission, rebuttal, camera-ready, and
+                          presentation. The research clock contains mechanism discovery,
+                          replication, boundary mapping, artifact maintenance, and follow-up
+                          questions. Acceptance does not end the second clock, and rejection should
+                          not automatically kill a valuable question. After the decision, I want to
+                          score the project again without looking at the review outcome first.
+                        </p>
+                      </section>
+
+                      <section class="essay-agenda-point" aria-labelledby="scores-sensors-title">
+                        <h6 id="scores-sensors-title">Review Scores Are Sensors, Not Sovereigns</h6>
+                        <p class="essay-agenda-thesis">
+                          Reviewer feedback is evidence about clarity, relevance, credibility, and
+                          fit—not a truth certificate and not a complete judgment of research value.
+                        </p>
+                        <p>
+                          A high-value rejection may reveal a communication gap, missing evidence,
+                          poor fit, or review noise. A low-value acceptance should not be canonized
+                          by the badge; its claims and artifacts still need repair. The right
+                          response is neither to worship acceptance nor romanticize rejection. It
+                          is to diagnose which signal changed and continue making the work more true,
+                          useful, and legible.
+                        </p>
+                      </section>
+                    </div>
+                  </section>
+                </section>
+
+                <h4>What “Hardcore” Research Should Mean</h4>
+
+                <p>
+                  “Hardcore” should not be an aesthetic of larger models, more equations, longer
+                  appendices, more benchmarks, or greater system complexity. Those may be necessary,
+                  but none guarantees depth. Rigor matters, but “hardcore” should also have a
+                  positive definition: the work attacks an important uncertainty, compresses a
+                  confusing mechanism into transferable understanding, maps where the insight does
+                  and does not hold, and gives future researchers better questions, measurements,
+                  or tools.
+                </p>
+
+                <p>
+                  The hardest paper is often not the one with the largest model. It is the one that
+                  turns a consequential but poorly understood phenomenon into knowledge that is
+                  precise, generative, and difficult to misunderstand. Depth means the result
+                  explains more than it obscures, the complexity is necessary, and the insight can
+                  guide work beyond the original setup.
+                </p>
+
+                <h4>Ambition Without Capture</h4>
+
+                <p>
+                  I still want top-conference papers. I want acceptance to be evidence that a
+                  deeper process produced something clear and credible—not a substitute for that
+                  process. I want work that can survive a different reviewer pool, the disappearance
+                  of a benchmark, and the end of a trend. The most durable reward is not a badge but
+                  a strengthened ability to ask, test, explain, and build.
+                </p>
+
+                <p>
+                  The aim is not less ambition. It is ambition anchored to a reward system that
+                  cannot be satisfied by appearance alone.
+                </p>
+
+                <h4>Sources That Informed These Notes</h4>
+
+                <ul class="essay-bullets">
+                  <li>
+                    David Manheim and Scott Garrabrant,
+                    <a href="https://arxiv.org/abs/1803.04585">
+                      “Categorizing Variants of Goodhart's Law”</a> (2018).
+                  </li>
+                  <li>
+                    Paul E. Smaldino and Richard McElreath,
+                    <a href="https://doi.org/10.1098/rsos.160384">
+                      “The Natural Selection of Bad Science”</a> (2016).
+                  </li>
+                  <li>
+                    Mostafa Dehghani et al.,
+                    <a href="https://arxiv.org/abs/2107.07002">
+                      “The Benchmark Lottery”</a> (2021).
+                  </li>
+                  <li>
+                    Joelle Pineau et al.,
+                    <a href="https://www.jmlr.org/papers/v22/20-303.html">
+                      “Improving Reproducibility in Machine Learning Research (A Report from the
+                      NeurIPS 2019 Reproducibility Program)”</a> (2021).
+                  </li>
+                  <li>
+                    Brian A. Nosek et al.,
+                    <a href="https://doi.org/10.1073/pnas.1708274114">
+                      “The Preregistration Revolution”</a> (2018).
+                  </li>
+                </ul>
+              </div>
+            </article>
+          </section>
+        </article>
+      </div>
+    </main>
+    <script src="../site.js?v=20260713-editorial" defer></script>
+  </body>
+</html>
