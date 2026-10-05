@@ -1,0 +1,91 @@
+name: Health Atlas validate and stage
+on:
+  push:
+    branches: [health-atlas-build-20261005]
+    paths: [.github/workflows/health-atlas-publish.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: build-source
+      - uses: actions/checkout@v4
+        with:
+          ref: health-atlas-publish-20261005
+          path: publish-target
+          fetch-depth: 1
+      - name: Verify exact source archive and extract only the new subsite
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,hashlib,base64,tarfile,io
+          parts=sorted(pathlib.Path('build-source/.health-atlas-build').glob('payload.[0-9][0-9]'))
+          assert len(parts)==12, 'Expected twelve payload parts'
+          for p in parts:print(p.name,len(p.read_text().strip()),hashlib.sha256(p.read_bytes()).hexdigest())
+          payload=base64.b64decode(''.join(p.read_text().strip() for p in parts),validate=True)
+          digest=hashlib.sha256(payload).hexdigest();print('Archive SHA256',digest)
+          assert digest=='f53d6b43ac0d06278dd1bd24a3da944ec8825a2fb8188557968e75e8d69f02da','Source archive checksum mismatch'
+          target=pathlib.Path('publish-target').resolve()
+          assert not (target/'health-atlas').exists(), 'Existing subsite: refuse overwrite'
+          with tarfile.open(fileobj=io.BytesIO(payload),mode='r:xz') as archive:
+            members=archive.getmembers()
+            assert len(members)<100 and sum(m.size for m in members)<5_000_000
+            for m in members:
+              assert m.isfile() and m.name.startswith('health-atlas/') and '..' not in pathlib.PurePosixPath(m.name).parts
+              dst=target/m.name;dst.parent.mkdir(parents=True,exist_ok=True)
+              dst.write_bytes(archive.extractfile(m).read())
+          print('Extracted',len(members),'source files; original homepage untouched')
+          PY
+      - name: Materialize editable public data files
+        working-directory: publish-target
+        shell: bash
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs');global.window={};require('./health-atlas/data.js');const D=window.ATLAS;
+          fs.mkdirSync('health-atlas/data',{recursive:true});
+          for(const [name,value] of Object.entries({atlas:D,evidence:D.records,catalogue:D.catalogue,panels:D.panels}))fs.writeFileSync('health-atlas/data/'+name+'.json',JSON.stringify(value,null,2)+'\n');
+          console.log('Records:',D.records.length,'Catalogue entries:',D.catalogue.length);
+          JS
+          python - <<'PY'
+          import json,csv,pathlib
+          p=pathlib.Path('health-atlas/data');data=json.loads((p/'evidence.json').read_text())
+          keys=list(dict.fromkeys(k for r in data for k in r))
+          with (p/'evidence.csv').open('w',encoding='utf-8-sig',newline='') as f:
+            writer=csv.DictWriter(f,fieldnames=keys);writer.writeheader();writer.writerows(data)
+          PY
+      - name: Verify mathematics and evidence integrity
+        working-directory: publish-target
+        run: node health-atlas/tests/engine.test.cjs
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+      - name: Exercise the real HTTP site at desktop and mobile sizes
+        working-directory: publish-target
+        run: python health-atlas/tests/browser.py
+      - name: Commit only the reviewed subsite to the publication branch
+        working-directory: publish-target
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add health-atlas
+          python - <<'PY'
+          import subprocess
+          names=subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()
+          assert names and all(n.startswith('health-atlas/') for n in names), 'Refuse unrelated homepage changes'
+          print('Committing',len(names),'subsite files only')
+          PY
+          git commit -m 'Add Health Atlas: interactive disease evidence and simulation subsite'
+          git push origin HEAD:health-atlas-publish-20261005
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-browser-qa
+          path: publish-target/health-atlas/qa/
+          retention-days: 14
