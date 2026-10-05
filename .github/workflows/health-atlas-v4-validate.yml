@@ -2,7 +2,7 @@ name: Health Atlas Explorer 4 validation
 on:
   push:
     branches: [health-atlas-v4-build-20261006]
-    paths: [.github/workflows/health-atlas-v4-validate.yml]
+    paths: [.github/workflows/health-atlas-v4-validate.yml, .atlas-v4-payload/fixes.py]
 permissions:
   contents: write
 jobs:
