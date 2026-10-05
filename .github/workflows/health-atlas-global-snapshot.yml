@@ -1,0 +1,36 @@
+name: Health Atlas global snapshot validation
+on:
+  push:
+    branches: [health-atlas-v3-global]
+    paths: [.github/workflows/health-atlas-global-snapshot.yml]
+permissions:
+  contents: write
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --quiet requests shapely pyproj pyyaml
+      - name: Fetch current WDI series
+        run: |
+          python - <<'PY'
+          import pathlib,yaml,subprocess
+          workflow=yaml.safe_load(pathlib.Path('.github/workflows/health-atlas-global-data.yml').read_text())
+          script=next(s['run'] for s in workflow['jobs']['snapshot']['steps'] if s.get('name')=='Download public indicators, preserve metadata and missingness')
+          script=script.replace('SH.UHC.SRVS.CV.XD','SH_UHC_SCI').replace("'SH.MLR.INCD'","'SH.MLR.INCD.P3'")
+          subprocess.run(['bash','-e','-c',script],check=True)
+          PY
+      - name: Commit only new global data
+        run: |
+          git config user.name 'Health Atlas build'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add health-atlas/global/data
+          git commit -m 'Add versioned worldwide health indicators and Equal Earth map'
+          git push origin HEAD:health-atlas-v3-global
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-v3-global-source
+          path: health-atlas/
+          retention-days: 14
