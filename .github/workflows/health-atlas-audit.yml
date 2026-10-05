@@ -1,0 +1,68 @@
+name: Health Atlas source audit
+on:
+  push:
+    branches: [health-atlas-build-20261005]
+    paths: [.github/workflows/health-atlas-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - run: python -m pip install --quiet requests beautifulsoup4 pypdf
+      - name: Snapshot public evidence without authentication
+        shell: bash
+        run: |
+          mkdir audit
+          python - <<'PY'
+          import requests,pathlib,json,re,concurrent.futures,hashlib
+          from bs4 import BeautifulSoup
+          from pypdf import PdfReader
+          out=pathlib.Path('audit')
+          slugs='hypertension diabetes asthma depression anxiety-disorders bipolar-disorder schizophrenia dementia epilepsy parkinson-disease multiple-sclerosis hiv-aids hepatitis-b hepatitis-c rheumatoid-arthritis osteoarthritis low-back-pain headache-disorders oral-health obesity-and-overweight blindness-and-visual-impairment deafness-and-hearing-loss mental-disorders musculoskeletal-conditions anaemia endometriosis polycystic-ovary-syndrome-(pcos) neglected-tropical-diseases soil-transmitted-helminth-infections herpes-simplex-virus'.split()
+          urls={s:'https://www.who.int/news-room/fact-sheets/detail/'+s for s in slugs}
+          urls.update({
+            'cancer-world':'https://gco.iarc.who.int/media/globocan/factsheets/populations/900-world-fact-sheet.pdf',
+            'cancer-china':'https://gco.iarc.who.int/media/globocan/factsheets/populations/156-china-fact-sheet.pdf',
+            'cancer-singapore':'https://gco.iarc.who.int/media/globocan/factsheets/populations/702-singapore-fact-sheet.pdf',
+            'china-survey':'https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2023.007',
+            'singapore-nphs2025':'https://www.moh.gov.sg/others/resources-and-statistics/national-population-health-survey--nphs--2025-report/',
+            'singapore-nphs2024':'https://isomer-user-content.by.gov.sg/3/4cad4e62-8093-48de-b0d1-af8e012d4d95/NPHS%202024%20Survey%20Report_Final.pdf',
+            'singapore-elderly':'https://www.nature.com/articles/s41598-025-30311-y',
+            'idf-china':'https://idf.org/our-network/regions-and-members/western-pacific/members/china/',
+            'idf-singapore':'https://idf.org/our-network/regions-and-members/western-pacific/members/singapore/',
+            'gbd-appendix3':'https://pmc.ncbi.nlm.nih.gov/articles/instance/12535840/bin/mmc3.pdf',
+            'gbd-appendix2':'https://pmc.ncbi.nlm.nih.gov/articles/instance/12535840/bin/mmc2.pdf',
+            'gbd-appendix4':'https://pmc.ncbi.nlm.nih.gov/articles/instance/12535840/bin/mmc4.pdf'
+          })
+          def get(entry):
+            name,u=entry;d={'name':name,'url':u}
+            try:
+              r=requests.get(u,timeout=75,headers={'User-Agent':'HealthAtlasResearch/1.0 public-source verification'})
+              d['status']=r.status_code
+              if r.status_code!=200:return d
+              d['sha256']=hashlib.sha256(r.content).hexdigest()
+              if r.content[:4]==b'%PDF':
+                p=out/(name+'.pdf');p.write_bytes(r.content);reader=PdfReader(p)
+                text='\n'.join('\n=== PAGE '+str(i+1)+' ===\n'+(p.extract_text() or '') for i,p in enumerate(reader.pages));d['pages']=len(reader.pages)
+              else:
+                soup=BeautifulSoup(r.text,'html.parser')
+                for el in soup(['script','style','nav','header','footer']):el.decompose()
+                main=soup.find('article') or soup.find('main') or soup
+                text=main.get_text('\n',strip=True)
+                links=[{'text':a.get_text(' ',strip=True),'url':a['href']} for a in soup.find_all('a',href=True)]
+                (out/(name+'-links.json')).write_text(json.dumps(links,ensure_ascii=False))
+              (out/(name+'.txt')).write_text(text);d['characters']=len(text)
+              d['numeric_paragraphs']=[x.strip() for x in text.split('\n') if re.search(r'\d',x) and len(x)>30][:100]
+            except Exception as e:d['error']=str(e)
+            return d
+          with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:results=list(pool.map(get,urls.items()))
+          (out/'manifest.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
+          for d in results:print(json.dumps({k:v for k,v in d.items() if k!='numeric_paragraphs'},ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-source-audit
+          path: audit/
+          retention-days: 7
