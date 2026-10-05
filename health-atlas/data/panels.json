@@ -1,0 +1,290 @@
+[
+  {
+    "id": "WORLD",
+    "region": "全球",
+    "label": "全球 · 更新后的选定问题清单",
+    "population": "82亿固定虚拟尺度；混合来源年与年龄窗",
+    "year": "混合年份",
+    "note": "全球为混合年、混合年龄的构造情景，不代表现实人群；缺失项不是0。",
+    "items": [
+      {
+        "id": "hypertension",
+        "label": "高血压",
+        "p": 0.17073170731707318,
+        "recordId": "E001"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病",
+        "p": 0.10121951219512196,
+        "recordId": "E002"
+      },
+      {
+        "id": "ckd",
+        "label": "慢性肾脏病",
+        "p": 0.09609756097560976,
+        "recordId": "E003"
+      },
+      {
+        "id": "ihd",
+        "label": "缺血性心脏病",
+        "p": 0.029146341463414636,
+        "recordId": "E004"
+      },
+      {
+        "id": "copd",
+        "label": "慢阻肺",
+        "p": 0.04779268292682927,
+        "recordId": "E005"
+      },
+      {
+        "id": "asthma",
+        "label": "哮喘",
+        "p": 0.04426829268292683,
+        "recordId": "E006"
+      },
+      {
+        "id": "depression",
+        "label": "抑郁障碍",
+        "p": 0.03926829268292683,
+        "recordId": "E007"
+      },
+      {
+        "id": "anxiety",
+        "label": "焦虑障碍",
+        "p": 0.05731707317073171,
+        "recordId": "E008"
+      },
+      {
+        "id": "bipolar",
+        "label": "双相障碍",
+        "p": 0.004390243902439025,
+        "recordId": "E009"
+      },
+      {
+        "id": "schizophrenia",
+        "label": "精神分裂症",
+        "p": 0.003292682926829268,
+        "recordId": "E010"
+      },
+      {
+        "id": "dementia",
+        "label": "痴呆",
+        "p": 0.006951219512195122,
+        "recordId": "E011"
+      },
+      {
+        "id": "epilepsy",
+        "label": "癫痫",
+        "p": 0.006097560975609756,
+        "recordId": "E012"
+      },
+      {
+        "id": "parkinson",
+        "label": "帕金森病",
+        "p": 0.0010365853658536586,
+        "recordId": "E013"
+      },
+      {
+        "id": "ms",
+        "label": "多发性硬化",
+        "p": 0.00021951219512195122,
+        "recordId": "E014"
+      },
+      {
+        "id": "hiv",
+        "label": "HIV感染",
+        "p": 0.005,
+        "recordId": "E015"
+      },
+      {
+        "id": "hbv",
+        "label": "慢性乙型肝炎感染",
+        "p": 0.02926829268292683,
+        "recordId": "E016"
+      },
+      {
+        "id": "hcv",
+        "label": "慢性丙型肝炎感染",
+        "p": 0.005731707317073171,
+        "recordId": "E017"
+      },
+      {
+        "id": "ra",
+        "label": "类风湿关节炎",
+        "p": 0.0021951219512195124,
+        "recordId": "E018"
+      },
+      {
+        "id": "oa",
+        "label": "骨关节炎",
+        "p": 0.07256097560975609,
+        "recordId": "E184"
+      },
+      {
+        "id": "low_back",
+        "label": "腰痛",
+        "p": 0.07548780487804878,
+        "recordId": "E020"
+      },
+      {
+        "id": "headache",
+        "label": "头痛类疾病",
+        "p": 0.35365853658536583,
+        "recordId": "E182"
+      },
+      {
+        "id": "oral",
+        "label": "主要口腔疾病",
+        "p": 0.4548780487804878,
+        "recordId": "E183"
+      },
+      {
+        "id": "obesity",
+        "label": "肥胖",
+        "p": 0.10853658536585366,
+        "recordId": "E023"
+      },
+      {
+        "id": "vision",
+        "label": "近或远视力损害",
+        "p": 0.2682926829268293,
+        "recordId": "E024"
+      },
+      {
+        "id": "hearing",
+        "label": "致残性听力损失",
+        "p": 0.0524390243902439,
+        "recordId": "E025"
+      },
+      {
+        "id": "masld",
+        "label": "代谢功能障碍相关脂肪性肝病（MASLD）",
+        "p": 0.15853658536585366,
+        "recordId": "E185"
+      }
+    ]
+  },
+  {
+    "id": "CHINA12",
+    "region": "中国",
+    "label": "中国 · 2018年12项调查",
+    "population": "≥18岁居民 · 中国大陆",
+    "year": "2018",
+    "note": "同源清单；疾病定义与其他面板不同，不能横向排名。",
+    "items": [
+      {
+        "id": "lipids",
+        "label": "血脂异常",
+        "p": 0.382,
+        "recordId": "E126"
+      },
+      {
+        "id": "hypertension",
+        "label": "高血压",
+        "p": 0.281,
+        "recordId": "E127"
+      },
+      {
+        "id": "spine",
+        "label": "颈椎/腰椎疾病",
+        "p": 0.245,
+        "recordId": "E128"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病",
+        "p": 0.119,
+        "recordId": "E129"
+      },
+      {
+        "id": "ckd",
+        "label": "慢性肾脏病指标",
+        "p": 0.085,
+        "recordId": "E130"
+      },
+      {
+        "id": "obesity",
+        "label": "肥胖",
+        "p": 0.165,
+        "recordId": "E131"
+      },
+      {
+        "id": "digestive",
+        "label": "消化系统疾病",
+        "p": 0.149,
+        "recordId": "E132"
+      },
+      {
+        "id": "musculoskeletal",
+        "label": "肌肉骨骼疾病",
+        "p": 0.13,
+        "recordId": "E133"
+      },
+      {
+        "id": "copd",
+        "label": "慢阻肺",
+        "p": 0.037,
+        "recordId": "E134"
+      },
+      {
+        "id": "stroke",
+        "label": "卒中",
+        "p": 0.029,
+        "recordId": "E135"
+      },
+      {
+        "id": "heart",
+        "label": "心脏病",
+        "p": 0.022,
+        "recordId": "E136"
+      },
+      {
+        "id": "cancer_survey",
+        "label": "癌症调查项",
+        "p": 0.017,
+        "recordId": "E137"
+      }
+    ]
+  },
+  {
+    "id": "SG5",
+    "region": "新加坡",
+    "label": "新加坡 · 5项体检指标",
+    "population": "18–74岁居民（公民与永久居民）",
+    "year": "2023–2024",
+    "note": "同源清单；疾病定义与其他面板不同，不能横向排名。",
+    "items": [
+      {
+        "id": "hypertension",
+        "label": "高血压",
+        "p": 0.338,
+        "recordId": "E138"
+      },
+      {
+        "id": "diabetes",
+        "label": "糖尿病",
+        "p": 0.091,
+        "recordId": "E139"
+      },
+      {
+        "id": "lipids",
+        "label": "高脂血症",
+        "p": 0.305,
+        "recordId": "E140"
+      },
+      {
+        "id": "ckd",
+        "label": "肾功能损害/CKD指标",
+        "p": 0.149,
+        "recordId": "E141"
+      },
+      {
+        "id": "obesity",
+        "label": "肥胖",
+        "p": 0.127,
+        "recordId": "E142"
+      }
+    ]
+  }
+]
