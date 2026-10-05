@@ -1,0 +1,112 @@
+[
+  {
+    "url": "https://api.worldbank.org/v2/country?format=json&per_page=500",
+    "sha256": "4bca8777553d4e674df745b0628cbb8bf5efe838ef8f5cb606ad3b15d48b3302",
+    "bytes": 113590
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.TBS.INCD?format=json&source=2",
+    "sha256": "cf814387aaec4b53c786bc1712c00ca3781a9306716681e391debd164e1b709b",
+    "bytes": 764
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.STA.DIAB.ZS?format=json&source=2",
+    "sha256": "09118a6b43986bfdbeaa1881917ce8e0b51833391be1f944e066f1d9ac82138d",
+    "bytes": 504
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.DYN.AIDS.ZS?format=json&source=2",
+    "sha256": "8a4fe9f788a83e6dd73ce1db65a7eb100c847f31f61a96d4c6fc931af2ed36f9",
+    "bytes": 595
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.TBS.INCD?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "89324e597f878b4e761c2553b58117eebfde12f659eb8152d02e39dbeef79d3f",
+    "bytes": 1552659
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.STA.DIAB.ZS?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "6add315100c1f33c9f0e64a937fe99b33124b37058a93c953e6510b66e22dafd",
+    "bytes": 1616619
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.DYN.AIDS.ZS?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "5c11b1c1d8979541399d5b37c24763afa95d19410ba1ff04f9d92e9932e9bd0c",
+    "bytes": 1633187
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SP.DYN.LE00.IN?format=json&source=2",
+    "sha256": "a39cb6fddfbbb953053690366243dffe77a266c4deae79c46ce5a06da9f5fc31",
+    "bytes": 969
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.ANM.ALLW.ZS?format=json&source=2",
+    "sha256": "1b613f318cb214b5a118980d1f37b9937ef611b07d96e1f868a5a3bb913432c8",
+    "bytes": 613
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SP.POP.TOTL?format=json&source=2",
+    "sha256": "2f8491efc00bf2c0995112ff8e87aba69e5e9d22d0880b22f7e3a4ec757ba05c",
+    "bytes": 1099
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.ANM.ALLW.ZS?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "0a68f6e0d8ea288bc0f889e7b7a0b1011c320db766596edc4180cad6ba403335",
+    "bytes": 1800440
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SP.DYN.LE00.IN?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "ffeb1b80709171dd38e4cdc3cca0d1e01db11152f60aefbe23f50576b63be950",
+    "bytes": 1570498
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "9f5b06621149da8759afaa661311af7aab5c8b4d29bf1ae9a76197ab543b9f65",
+    "bytes": 1384770
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.DYN.NCOM.ZS?format=json&source=2",
+    "sha256": "cbde7696f96a39f8daab83504c006da1b6401327710a570140ce58135026961a",
+    "bytes": 852
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.MLR.INCD.P3?format=json&source=2",
+    "sha256": "80c90debc5fb66314daafc61a70f78d80cfd318f3a5473eaefb0991d6f38b924",
+    "bytes": 520
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH_UHC_SCI?format=json&source=2",
+    "sha256": "71ca634941056adc82ec5061c39fe36f6bd592fea98524766dfa843a1500ce8f",
+    "bytes": 703
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.DYN.NCOM.ZS?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "c45a80d0355904f769240056e6479afc4d3fc8b80ebbc9c38ec3190c32233c80",
+    "bytes": 1799397
+  },
+  {
+    "url": "https://api.worldbank.org/v2/indicator/SH.DYN.MORT?format=json&source=2",
+    "sha256": "d6b4f172d2c2b36198d3a0977b21c17740566801f9fd75dda99c82a517f1e3c4",
+    "bytes": 1099
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.DYN.MORT?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "264574bf564f222ef990ae8f66aca7a7b7e13630f24a89df802acd86c549d388",
+    "bytes": 1575975
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH_UHC_SCI?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "4c51fb1523f879acacb44684b0e32b75e2b0c5e0d4ff18ff88361faaff4eae74",
+    "bytes": 1416209
+  },
+  {
+    "url": "https://api.worldbank.org/v2/country/all/indicator/SH.MLR.INCD.P3?format=json&source=2&date=2000:2026&per_page=20000",
+    "sha256": "e6d8d6bd44377f144e0c9b831fd805207ffd893bffe70806d53b0207f0b9469a",
+    "bytes": 1626213
+  },
+  {
+    "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+    "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb",
+    "bytes": 3083490
+  }
+]
