@@ -1,3 +1,5 @@
+> **Application update: Explorer 4.0.** [Read the new visualization and inference safeguards](EXPLORER_V4.md). Statistical snapshot remains v3.0.0; no claim of a refreshed all-disease dataset.
+
 # Global Edition v3.0 — now live
 
 The current homepage is the multilingual global explorer. See [GLOBAL_EDITION.md](GLOBAL_EDITION.md) for the new coverage, methods, limitations and tests. The complete v2 application remains at [research.html](research.html). Original v2 documentation is preserved below.
