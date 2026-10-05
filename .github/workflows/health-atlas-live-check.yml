@@ -1,0 +1,60 @@
+name: Health Atlas live Pages verification
+on:
+  push:
+    branches: [health-atlas-build-20261005]
+    paths: [.github/workflows/health-atlas-live-check.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - name: Wait for public Pages assets and verify published content
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.request,time,json,pathlib
+          base='https://chaoyue0307.github.io/health-atlas/'
+          report={}
+          for attempt in range(18):
+            try:
+              req=urllib.request.Request(base+'?verify=ec89de907d',headers={'Cache-Control':'no-cache'})
+              with urllib.request.urlopen(req,timeout=25) as r:
+                html=r.read().decode();status=r.status
+              assert status==200 and 'Health Atlas' in html
+              break
+            except Exception as e:
+              if attempt==17:raise
+              print('Awaiting Pages publication:',str(e));time.sleep(10)
+          for asset in ['','app.js','engine.js','import.js','data.js','styles.css','data/atlas.json','icon.svg']:
+            with urllib.request.urlopen(base+asset,timeout=25) as r:
+              body=r.read();report[asset or 'index.html']={'status':r.status,'bytes':len(body),'url':r.url}
+              assert r.status==200 and len(body)>100
+              if asset=='data/atlas.json':
+                d=json.loads(body);assert len(d['records'])==203 and len(d['catalogue'])==381
+          pathlib.Path('health-atlas/qa/live-assets.json').write_text(json.dumps(report,indent=2))
+          p=pathlib.Path('health-atlas/tests/browser.py');t=p.read_text()
+          old="URL=f'http://127.0.0.1:{server.server_port}/'"
+          assert old in t
+          t=t.replace(old,"URL='https://chaoyue0307.github.io/health-atlas/'")
+          t=t.replace('page.wait_for_timeout(120)','page.wait_for_timeout(400)')
+          t=t.replace('page.wait_for_timeout(100)','page.wait_for_timeout(400)')
+          p.write_text(t)
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Install Chromium testing tools
+        run: |
+          python -m pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+      - name: Test actual public Pages interactions
+        run: python health-atlas/tests/browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-live-qa
+          path: health-atlas/qa/
+          retention-days: 14
