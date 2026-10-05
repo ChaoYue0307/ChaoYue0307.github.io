@@ -1,0 +1,76 @@
+name: Health Atlas public-data collection
+on:
+  push:
+    branches: [health-atlas-build-20261005]
+    paths: [.github/workflows/health-atlas-research.yml]
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Collect publicly accessible research sources
+        shell: bash
+        run: |
+          python -m pip install --quiet requests beautifulsoup4 openpyxl pypdf
+          mkdir -p public-health-sources
+          python - <<'PY'
+          import requests, json, pathlib, urllib.parse, re, hashlib
+          from bs4 import BeautifulSoup
+          from pypdf import PdfReader
+          import openpyxl
+          out=pathlib.Path('public-health-sources')
+          roots=[
+            ('hierarchy','https://ghdx.healthdata.org/record/gbd-2023-cause-rei-and-location-hierarchies'),
+            ('guide','https://www.healthdata.org/research-analysis/about-gbd/gbd-data-and-tools-guide'),
+            ('paper','https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12535840/fullTextXML'),
+            ('respiratory','https://www.nature.com/articles/s41591-025-04077-9'),
+            ('headache','https://ghdx.healthdata.org/record/ihme-data/gbd-2023-headache-1990-2023')]
+          session=requests.Session()
+          session.headers['User-Agent']='HealthAtlasResearch/1.0 (public academic data; no authentication)'
+          manifest=[]; files=[]
+          for name,url in roots:
+            try:
+              r=session.get(url,timeout=40)
+              manifest.append({'name':name,'url':url,'status':r.status_code})
+              if r.status_code!=200: continue
+              (out/(name+'.html')).write_text(r.text)
+              soup=BeautifulSoup(r.text,'html.parser')
+              links=[{'text':a.get_text(' ',strip=True),'url':urllib.parse.urljoin(url,a.get('href',''))} for a in soup.find_all('a',href=True)]
+              (out/(name+'-links.json')).write_text(json.dumps(links,ensure_ascii=False,indent=2))
+              print(name,json.dumps([x for x in links if any(s in (x['text']+' '+x['url']).lower() for s in ['hierarch','xlsx','supplement','moesm','mmc','download'])],ensure_ascii=False))
+              for x in links:
+                u=x['url']; host=urllib.parse.urlparse(u).hostname or ''
+                if host.endswith(('healthdata.org','springernature.com','ncbi.nlm.nih.gov','els-cdn.com')) and (re.search(r'\.(xlsx|csv|pdf)(\?|$)',u,re.I)) and any(s in (x['text']+' '+u).lower() for s in ['hierarch','supplement','moesm','mmc','results_by_measure']):
+                  if u not in [z[1] for z in files]: files.append((name,u))
+              if name=='paper':
+                for a in soup.find_all(['ext-link','media']):
+                  href=a.get('xlink:href') or a.get('href','')
+                  if href and '.pdf' in href: print('PAPER_SUPPLEMENT',href)
+            except Exception as e: manifest.append({'name':name,'url':url,'error':str(e)})
+          for i,(name,url) in enumerate(files[:12]):
+            try:
+              r=session.get(url,timeout=60); entry={'name':name,'url':url,'status':r.status_code};manifest.append(entry)
+              if r.status_code!=200 or len(r.content)>100_000_000:continue
+              suffix=pathlib.Path(urllib.parse.urlparse(url).path).suffix.lower()
+              dest=out/(name+'-'+str(i)+suffix);dest.write_bytes(r.content)
+              entry['path']=dest.name;entry['sha256']=hashlib.sha256(r.content).hexdigest()
+              if suffix=='.xlsx':
+                w=openpyxl.load_workbook(dest,data_only=True,read_only=True)
+                data={s.title:list(s.values) for s in w}
+                dest.with_suffix('.json').write_text(json.dumps(data,ensure_ascii=False,default=str))
+                print('XLSX',dest.name,[(s,len(rows)) for s,rows in data.items()])
+              elif suffix=='.pdf':
+                reader=PdfReader(dest);text='\n'.join(f'\n=== PAGE {j+1} ===\n'+(p.extract_text() or '') for j,p in enumerate(reader.pages))
+                dest.with_suffix('.txt').write_text(text)
+                print('PDF',dest.name,'pages',len(reader.pages),'chars',len(text))
+            except Exception as e: manifest.append({'url':url,'error':str(e)})
+          (out/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          print(json.dumps(manifest,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-public-sources
+          path: public-health-sources/
+          retention-days: 7
