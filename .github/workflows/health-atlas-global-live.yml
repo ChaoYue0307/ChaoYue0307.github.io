@@ -1,0 +1,60 @@
+name: Health Atlas Global Edition live verification
+on:
+  push:
+    branches: [health-atlas-global-20261005]
+    paths: [.github/workflows/health-atlas-global-live.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 815484f7ea0b1d32dd372cc724ea90f1c3fb97b5
+      - name: Install real browser tools
+        run: |
+          python -m pip install --quiet playwright requests
+          python -m playwright install --with-deps chromium
+      - name: Wait for exact Global Edition assets on GitHub Pages
+        run: |
+          python - <<'PY'
+          import requests,time,pathlib,hashlib,json
+          base='https://chaoyue0307.github.io/health-atlas/'
+          for attempt in range(12):
+            r=requests.get(base+'v3/data/global.json',timeout=30,headers={'Cache-Control':'no-cache'})
+            try:okay=r.status_code==200 and r.json()['meta']['version']=='3.0.0'
+            except Exception:okay=False
+            if okay:break
+            time.sleep(10)
+          else:raise RuntimeError('Global Edition is not yet public')
+          receipts=[]
+          for name in ['index.html','v3/global.js','v3/global.css','v3/charts.js','v3/i18n.js','research.html']:
+            r=requests.get(base+name,timeout=30,headers={'Cache-Control':'no-cache'});r.raise_for_status()
+            expected=pathlib.Path('health-atlas',name).read_bytes()
+            assert r.content==expected,'Stale or different published asset: '+name
+            receipts.append({'path':name,'status':r.status_code,'sha256':hashlib.sha256(r.content).hexdigest()})
+          out=pathlib.Path('/tmp/atlas-v3-live');out.mkdir(exist_ok=True)
+          (out/'published-assets.json').write_text(json.dumps(receipts,indent=2))
+          print('Public assets match the reviewed commit.')
+          PY
+      - name: Exercise eight languages and core workflows on the public website
+        run: python health-atlas/tests/browser-global.py --url https://chaoyue0307.github.io/health-atlas/ --out /tmp/atlas-v3-live
+      - name: Check backward-compatible original research page
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+            b=p.chromium.launch();page=b.new_page()
+            page.goto('https://chaoyue0307.github.io/health-atlas/#library',wait_until='networkidle')
+            assert '/research.html#library' in page.url
+            assert len(page.locator('#main').inner_text())>100
+            b.close()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-global-live-qa
+          path: /tmp/atlas-v3-live/
+          retention-days: 14
