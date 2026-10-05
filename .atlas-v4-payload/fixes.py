@@ -21,7 +21,7 @@ p.write_text(s)
 print('Narrow regression fixes applied: icon-aware map assertion, responsive globe framing, mobile and export tests.')
 p=root/'v4/pro.js';s=p.read_text()
 a="const el=globeEl;globe?.dispose?.();globe=null;el.classList.remove('pro-globe');el.dataset.renderer='fallback';const zoom=el.querySelector('.map-zoom'),c=root.AtlasCharts.createMap(el,options)"
-b="const el=globeEl,zoom=el.querySelector('.map-zoom');globe?.dispose?.();globe=null;el.classList.remove('pro-globe');el.dataset.renderer='fallback';const c=root.AtlasCharts.createMap(el,options)"
+b="const el=globeEl,zoom=el.querySelector('.map-zoom');zoom?.remove();globe?.dispose?.();globe=null;el.classList.remove('pro-globe');el.dataset.renderer='fallback';const c=root.AtlasCharts.createMap(el,options)"
 assert a in s
 s=s.replace(a,b);p.write_text(s)
-print('Fallback preserves detached zoom controls before disposing the WebGL scene.')
+print('Fallback detaches zoom controls before D3 removes the old renderer descendants.')
