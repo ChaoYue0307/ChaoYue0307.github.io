@@ -36,6 +36,7 @@ jobs:
               dest=pathlib.Path('/tmp/atlas-v4-integrate.py') if m.name=='integrate.py' else pathlib.Path('site')/m.name
               dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(t.extractfile(m).read())
           subprocess.run(['python','/tmp/atlas-v4-integrate.py'],cwd='site',check=True)
+          subprocess.run(['python',str(pathlib.Path('builder/.atlas-v4-payload/fixes.py').resolve())],cwd='site',check=True)
           print('Verified archive and lease-checked original source integration.')
           PY
       - name: Retrieve pinned library bundles and preserve upstream licenses
