@@ -1,0 +1,106 @@
+name: Health Atlas Global Edition validation
+on:
+  push:
+    branches: [health-atlas-global-20261005]
+    paths: [.github/workflows/health-atlas-global-publish.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: builder
+      - uses: actions/checkout@v4
+        with:
+          ref: health-atlas-global-publish-20261005
+          path: site
+      - name: Install source reconstruction dependencies
+        run: python -m pip install --quiet requests brotli playwright
+      - name: Verify and reconstruct the reviewed source archive
+        run: |
+          python - <<'PY'
+          import base64,brotli,hashlib,io,pathlib,tarfile
+          parts=sorted(pathlib.Path('builder/.atlas-v3-payload').glob('part-*.txt'))
+          assert len(parts)==4
+          raw=base64.b64decode(''.join(p.read_text().strip() for p in parts),validate=True)
+          assert hashlib.sha256(raw).hexdigest()=='ccd53b121c5c2dc24ccad78127bfea81bb247da749bf8b8892bd9af73ad27f62','Archive integrity failed'
+          allow={'index.html','research.html','README.md','GLOBAL_EDITION.md','v3/global.js','v3/charts.js','v3/global.css','v3/i18n.js','scripts/build_global.py','tests/global-data.test.cjs','tests/browser-global.py'}
+          with tarfile.open(fileobj=io.BytesIO(brotli.decompress(raw)),mode='r:') as t:
+            members=t.getmembers()
+            assert len(members)==len(allow)
+            for m in members:
+              p=pathlib.PurePosixPath(m.name)
+              assert m.isfile() and not p.is_absolute() and '..' not in p.parts
+              assert p.parts[0]=='health-atlas' and str(p.relative_to('health-atlas')) in allow
+            original=pathlib.Path('site/health-atlas/index.html').read_bytes()
+            assert t.extractfile('health-atlas/research.html').read()==original,'Original entrypoint changed; abort rather than overwrite newer edits'
+            for m in members:
+              dest=pathlib.Path('site')/m.name;dest.parent.mkdir(parents=True,exist_ok=True)
+              dest.write_bytes(t.extractfile(m).read())
+          print('Verified source archive; original entrypoint preserved byte-for-byte.')
+          PY
+      - name: Retrieve checksummed public aggregate snapshots
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import requests,os,hashlib,zipfile,io,pathlib
+          archives=[(11337594400,'wb','906cb196f0b88539bb244caeb59cea610a56644d28dc7ccc058b14f5a4c602ff'),(11338845627,'who','90891f6a3ef2bb51f4486aa133177a0f6564f3b5e23952b0d028211e97e02790')]
+          for aid,name,sha in archives:
+            u=f'https://api.github.com/repos/ChaoYue0307/ChaoYue0307.github.io/actions/artifacts/{aid}/zip'
+            r=requests.get(u,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'},timeout=90);r.raise_for_status()
+            assert hashlib.sha256(r.content).hexdigest()==sha,'Source snapshot mismatch'
+            base=pathlib.Path(name);base.mkdir()
+            with zipfile.ZipFile(io.BytesIO(r.content)) as z:
+              for info in z.infolist():
+                p=pathlib.PurePosixPath(info.filename)
+                assert not p.is_absolute() and '..' not in p.parts
+                if not info.is_dir():
+                  dest=base/p;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(z.read(info))
+            print('Verified',name,aid)
+          PY
+      - name: Build the global data and retain original simulation engines
+        run: python site/health-atlas/scripts/build_global.py --wb wb --who who
+      - name: Validate original mathematics and new dimensional integrity
+        run: |
+          mkdir -p /tmp/atlas-global-qa
+          node site/health-atlas/tests/engine.test.cjs | tee /tmp/atlas-global-qa/original-engine.txt
+          node site/health-atlas/tests/global-data.test.cjs | tee /tmp/atlas-global-qa/global-data.txt
+      - name: Install Chromium browser
+        run: python -m playwright install --with-deps chromium
+      - name: Test real HTTP interactions, all languages, RTL, mobile, storage and exports
+        run: |
+          python -m http.server 8000 --directory site >/tmp/atlas-http.log 2>&1 &
+          python site/health-atlas/tests/browser-global.py --url http://localhost:8000/health-atlas/ --out /tmp/atlas-global-qa
+      - name: Check the preserved research interface and commit only the subsite
+        run: |
+          python - <<'PY'
+          import pathlib,subprocess
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+            b=p.chromium.launch();page=b.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+            r=page.goto('http://localhost:8000/health-atlas/research.html#overview',wait_until='networkidle')
+            assert r.status==200 and page.locator('#main').inner_text().strip() and not errors
+            b.close()
+          subprocess.run(['git','-C','site','add','health-atlas'],check=True)
+          changed=subprocess.check_output(['git','-C','site','diff','--cached','--name-only'],text=True).splitlines()
+          assert changed and all(x.startswith('health-atlas/') for x in changed)
+          deleted=subprocess.check_output(['git','-C','site','diff','--cached','--diff-filter=D','--name-only'],text=True).strip()
+          assert not deleted,'Existing files must not be deleted'
+          protected=['app.js','data.js','engine.js','import.js','styles.css','tests/engine.test.cjs','tests/browser.py']
+          assert all('health-atlas/'+x not in changed for x in protected),'Original code must remain unchanged'
+          print('\n'.join(changed))
+          PY
+          git -C site config user.name 'github-actions[bot]'
+          git -C site config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C site commit -m 'Add Health Atlas Global Edition: country explorer, eight languages and audited international data'
+          git -C site push origin health-atlas-global-publish-20261005
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-global-qa
+          path: /tmp/atlas-global-qa/
+          retention-days: 14
