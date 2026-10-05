@@ -1,0 +1,52 @@
+name: Health Atlas global source collection
+on:
+  push:
+    branches: [health-atlas-global-20261005]
+    paths: [.github/workflows/health-atlas-global-sources.yml]
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Download documented public APIs and mapping assets
+        run: |
+          python -m pip install --quiet requests pycountry
+          python - <<'PY'
+          import requests,json,pathlib,time,hashlib,concurrent.futures,pycountry
+          out=pathlib.Path('global-sources');out.mkdir()
+          jobs=[('wb-countries.json','https://api.worldbank.org/v2/country?format=json&per_page=400'),('who-indicators.json','https://ghoapi.azureedge.net/api/Indicator'),('who-countries.json','https://ghoapi.azureedge.net/api/DIMENSION/COUNTRY/DimensionValues'),('world-50m.json','https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json'),('d3.min.js','https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'),('topojson.min.js','https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js'),('d3-LICENSE','https://cdn.jsdelivr.net/npm/d3@7.9.0/LICENSE'),('topojson-LICENSE','https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/LICENSE'),('world-atlas-LICENSE','https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/LICENSE')]
+          codes=['SH.STA.DIAB.ZS','SH.DYN.AIDS.ZS','SH.TBS.INCD','SH.ANM.ALLW.ZS','SH.MLR.INCD','SP.DYN.LE00.IN','SP.POP.TOTL']
+          for c in codes:
+            jobs.extend([(c+'.json',f'https://api.worldbank.org/v2/country/all/indicator/{c}?format=json&per_page=20000&date=2000:2025'),(c+'-meta.json',f'https://api.worldbank.org/v2/indicator/{c}?format=json')])
+          def run(job):
+            name,url=job;entry={'file':name,'url':url}
+            for attempt in range(3):
+              try:
+                r=requests.get(url,timeout=70,headers={'User-Agent':'HealthAtlas/3.0 academic public statistics'})
+                entry['status']=r.status_code
+                if r.status_code==200:
+                  if name.endswith('.json'):r.json()
+                  (out/name).write_bytes(r.content)
+                  entry.update(bytes=len(r.content),sha256=hashlib.sha256(r.content).hexdigest());break
+              except Exception as e: entry['error']=str(e)
+              time.sleep(2)
+            print(json.dumps(entry),flush=True);return entry
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex: manifest=list(ex.map(run,jobs))
+          (out/'manifest.json').write_text(json.dumps(manifest,indent=2))
+          (out/'iso-countries.json').write_text(json.dumps([dict(c) for c in pycountry.countries],ensure_ascii=False))
+          if (out/'who-indicators.json').exists():
+            data=json.loads((out/'who-indicators.json').read_text()).get('value',[])
+            shortlist=[x for x in data if any(t in x.get('IndicatorName','').lower() for t in ['hypertension','diabetes','obesity'])]
+            (out/'who-shortlist.json').write_text(json.dumps(shortlist,indent=2));print('WHO_SHORTLIST',json.dumps(shortlist))
+          for c in codes:
+            p=out/(c+'.json')
+            if p.exists():
+              a=json.loads(p.read_text());print(c,a[0] if isinstance(a,list) else str(a)[:300])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-global-sources
+          path: global-sources/
+          retention-days: 14
