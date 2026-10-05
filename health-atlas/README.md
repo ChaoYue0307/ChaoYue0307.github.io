@@ -1,3 +1,9 @@
+# Global Edition v3.0 — now live
+
+The current homepage is the multilingual global explorer. See [GLOBAL_EDITION.md](GLOBAL_EDITION.md) for the new coverage, methods, limitations and tests. The complete v2 application remains at [research.html](research.html). Original v2 documentation is preserved below.
+
+---
+
 # Health Atlas · 人类健康图谱
 
 全球、中国、新加坡的疾病证据库与多病共存情景实验。研究版 **2.0.0**，来源复核截止 **2026-10-05**。
