@@ -1,0 +1,99 @@
+name: Health Atlas global data snapshot
+on:
+  push:
+    branches: [health-atlas-v3-global]
+    paths: [.github/workflows/health-atlas-global-data.yml]
+permissions:
+  contents: write
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -m pip install --quiet requests shapely pyproj
+      - name: Download public indicators, preserve metadata and missingness
+        run: |
+          mkdir -p health-atlas/global/data
+          python - <<'PY'
+          import requests,json,pathlib,hashlib,datetime,concurrent.futures,math,time
+          from shapely.geometry import shape
+          from shapely.ops import transform
+          from pyproj import Transformer
+          out=pathlib.Path('health-atlas/global/data')
+          root='https://api.worldbank.org/v2/'
+          manifest=[]
+          def get(url):
+              for attempt in range(3):
+                  try:
+                      r=requests.get(url,timeout=90);r.raise_for_status()
+                      manifest.append({'url':url,'sha256':hashlib.sha256(r.content).hexdigest(),'bytes':len(r.content)})
+                      return r.json()
+                  except Exception:
+                      if attempt==2:raise
+                      time.sleep(2+attempt)
+          country=get(root+'country?format=json&per_page=500')
+          assert country[0]['pages']==1
+          countries=[{'id':c['id'],'iso2':c['iso2Code'],'name':c['name'],'region':c['region']['id'],'regionName':c['region']['value'],'income':c['incomeLevel']['value'],'capital':c['capitalCity'],'lat':c['latitude'],'lon':c['longitude']} for c in country[1] if c['region']['id']!='NA']
+          ids={c['id'] for c in countries}|{'WLD'}
+          keys={'diabetes':'SH.STA.DIAB.ZS','hiv':'SH.DYN.AIDS.ZS','tb':'SH.TBS.INCD','anemia':'SH.ANM.ALLW.ZS','life':'SP.DYN.LE00.IN','population':'SP.POP.TOTL','uhc':'SH.UHC.SRVS.CV.XD','ncd':'SH.DYN.NCOM.ZS','malaria':'SH.MLR.INCD','child':'SH.DYN.MORT'}
+          def load(item):
+              key,code=item
+              metadata=get(root+'indicator/'+code+'?format=json&source=2')
+              url=root+'country/all/indicator/'+code+'?format=json&source=2&date=2000:2026&per_page=20000'
+              response=get(url)
+              assert isinstance(response,list) and len(response)>1 and response[0]['pages']==1,(key,response)
+              series={};count=0
+              for row in response[1] or []:
+                  c=row['countryiso3code'];v=row['value'];y=int(row['date'])
+                  if c not in ids or v is None:continue
+                  assert math.isfinite(v) and y<=2026
+                  series.setdefault(c,[]).append([y,v]);count+=1
+              for rows in series.values():rows.sort()
+              meta=metadata[1][0]
+              result={'key':key,'code':code,'name':meta['name'],'definition':meta['sourceNote'],'organization':meta['sourceOrganization'],'url':'https://data.worldbank.org/indicator/'+code,'api':url,'lastUpdated':response[0].get('lastupdated'),'series':series,'observations':count}
+              print(key,len(series),count,result['lastUpdated'],flush=True)
+              return key,result
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:indicators=dict(pool.map(load,keys.items()))
+          data={'version':'3.0.0','retrieved':'2026-10-05','geography':'World Bank country/economy list, excluding regional and income aggregates','countries':countries,'indicators':indicators,'source':'World Bank World Development Indicators; original providers retained per indicator','notes':['Values are estimates or reported observations, not individual patient records.','Indicator-specific age groups and measures are not additive.','Diabetes series is age-standardized; never multiply it by total population.','Annual incidence is not point prevalence.','Missing values remain absent; latest values may refer to different years.']}
+          (out/'indicators.json').write_text(json.dumps(data,ensure_ascii=False,separators=(',',':')))
+          (out/'indicators.js').write_text('window.GLOBAL_HEALTH='+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';')
+          geo_url='https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson'
+          geo=get(geo_url)
+          project=Transformer.from_crs('EPSG:4326','EPSG:8857',always_xy=True).transform
+          paths=[]
+          def pos(x,y):
+              xx,yy=project(x,y)
+              return [(xx+17244000)/34488000*1000, (8393000-yy)/16786000*487]
+          for f in geo['features']:
+              p=f['properties']; iso=p.get('ADM0_A3'); code=p.get('ISO_A3_EH') or p.get('ISO_A3')
+              if code in ('-99',None):code=iso
+              code={'KOS':'XKX','SDS':'SSD','SAH':'ESH'}.get(code,code)
+              if code=='ATA':continue
+              geom=shape(f['geometry']).simplify(.045,preserve_topology=True)
+              polys=[geom] if geom.geom_type=='Polygon' else list(geom.geoms)
+              pieces=[]
+              for poly in polys:
+                  for ring in [poly.exterior]+list(poly.interiors):
+                      pts=[pos(x,y) for x,y in ring.coords]
+                      pieces.append('M'+'L'.join(f'{x:.2f},{y:.2f}' for x,y in pts)+'Z')
+              paths.append({'id':code,'name':p.get('NAME_EN',p.get('NAME')),'d':''.join(pieces)})
+          mapdata={'source':geo_url,'attribution':'Natural Earth 1:50m, public domain. Boundaries are for statistical visualization, not a statement of sovereignty.','projection':'Equal Earth / EPSG:8857','width':1000,'height':487,'paths':paths}
+          (out/'map.json').write_text(json.dumps(mapdata,separators=(',',':')))
+          (out/'map.js').write_text('window.HEALTH_MAP='+json.dumps(mapdata,separators=(',',':'))+';')
+          (out/'provenance.json').write_text(json.dumps(manifest,indent=2))
+          # Package the currently published source so local edits start from the actual branch.
+          print('COUNTRIES',len(countries),'MAP',len(paths),'OBSERVATIONS',sum(i['observations'] for i in indicators.values()))
+          PY
+      - name: Commit only global public-data snapshot on the feature branch
+        run: |
+          git config user.name 'Health Atlas build'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add health-atlas/global/data
+          git commit -m 'Add global WDI health snapshot with per-indicator provenance and Equal Earth geometry'
+          git push origin HEAD:health-atlas-v3-global
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-v3-global-source
+          path: health-atlas/
+          retention-days: 14
