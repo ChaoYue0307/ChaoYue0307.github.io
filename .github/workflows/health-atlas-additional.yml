@@ -1,0 +1,38 @@
+name: Health Atlas additional primary tables
+on:
+  push:
+    branches: [health-atlas-build-20261005]
+    paths: [.github/workflows/health-atlas-additional.yml]
+permissions:
+  contents: read
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - run: python -m pip install --quiet requests beautifulsoup4
+      - name: Collect open-access article tables
+        shell: bash
+        run: |
+          mkdir primary
+          python - <<'PY'
+          import requests,pathlib,json,concurrent.futures
+          from bs4 import BeautifulSoup
+          ids=['PMC13571934','PMC13501145','PMC12801044','PMC9902743','PMC13445524','PMC10477960']
+          def get(id):
+            url='https://www.ebi.ac.uk/europepmc/webservices/rest/'+id+'/fullTextXML'
+            try:
+              r=requests.get(url,timeout=60); print(id,r.status_code,len(r.content))
+              if r.status_code!=200:return
+              p=pathlib.Path('primary')/id;p.with_suffix('.xml').write_text(r.text)
+              soup=BeautifulSoup(r.text,'xml');p.with_suffix('.txt').write_text(soup.get_text('\n',strip=True))
+              tables=[{'caption':(t.find('caption').get_text(' ',strip=True) if t.find('caption') else ''),'rows':[[c.get_text(' ',strip=True) for c in row.find_all(['th','td'])] for row in t.find_all('tr')]} for t in soup.find_all('table-wrap')]
+              p.with_suffix('.json').write_text(json.dumps(tables,ensure_ascii=False,indent=2))
+            except Exception as e:print(id,str(e))
+          with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:list(pool.map(get,ids))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-primary-tables
+          path: primary/
+          retention-days: 7
