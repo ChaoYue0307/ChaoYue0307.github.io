@@ -1,0 +1,97 @@
+name: Health Atlas Explorer 4 validation
+on:
+  push:
+    branches: [health-atlas-v4-build-20261006]
+    paths: [.github/workflows/health-atlas-v4-validate.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: builder
+      - uses: actions/checkout@v4
+        with:
+          ref: health-atlas-v4-publish-20261006
+          path: site
+      - name: Install verification dependencies
+        run: python -m pip install --quiet brotli requests playwright
+      - name: Verify and reconstruct reviewed source archive
+        run: |
+          python - <<'PY'
+          import base64,brotli,hashlib,io,pathlib,tarfile,subprocess
+          parts=sorted(pathlib.Path('builder/.atlas-v4-payload').glob('part-*.txt'))
+          assert len(parts)==4
+          raw=base64.b64decode(''.join(p.read_text().strip() for p in parts),validate=True)
+          assert hashlib.sha256(raw).hexdigest()=='36efbb58f3280500db002dc1e9b4af6f694a5c48ef43377982f88481e742f65c','Source archive integrity failed'
+          allow={'health-atlas/v4/globe.js','health-atlas/v4/pro.js','health-atlas/v4/math.js','health-atlas/v4/i18n.js','health-atlas/v4/pro.css','health-atlas/tests/analysis-v4.test.cjs','health-atlas/tests/browser-v4.py','health-atlas/EXPLORER_V4.md','integrate.py'}
+          with tarfile.open(fileobj=io.BytesIO(brotli.decompress(raw)),mode='r:') as t:
+            assert {m.name for m in t.getmembers()}==allow
+            for m in t.getmembers():
+              p=pathlib.PurePosixPath(m.name)
+              assert m.isfile() and not p.is_absolute() and '..' not in p.parts
+              dest=pathlib.Path('/tmp/atlas-v4-integrate.py') if m.name=='integrate.py' else pathlib.Path('site')/m.name
+              dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(t.extractfile(m).read())
+          subprocess.run(['python','/tmp/atlas-v4-integrate.py'],cwd='site',check=True)
+          print('Verified archive and lease-checked original source integration.')
+          PY
+      - name: Retrieve pinned library bundles and preserve upstream licenses
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import requests,os,hashlib,zipfile,io,pathlib
+          u='https://api.github.com/repos/ChaoYue0307/ChaoYue0307.github.io/actions/artifacts/11365136529/zip'
+          r=requests.get(u,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'},timeout=90);r.raise_for_status()
+          assert hashlib.sha256(r.content).hexdigest()=='3524cc42fe5504e75afe70b8949daae9206260f6b351cfb4bc3de12be8bef992','Library snapshot integrity failed'
+          allow={'three.bundle.js','echarts.bundle.js','THREE-LICENSE','ECHARTS-LICENSE','ECHARTS-NOTICE','ZRENDER-LICENSE','package-lock.json','three-entry.js','charts-entry.js'}
+          out=pathlib.Path('site/health-atlas/v4/vendor');out.mkdir(parents=True,exist_ok=True)
+          with zipfile.ZipFile(io.BytesIO(r.content)) as z:
+            assert allow.issubset(z.namelist())
+            for name in sorted(allow): (out/name).write_bytes(z.read(name))
+          PY
+      - name: Verify original engine, source records and new analytical invariants
+        run: |
+          mkdir -p /tmp/atlas-v4-qa
+          set -o pipefail
+          node site/health-atlas/tests/engine.test.cjs | tee /tmp/atlas-v4-qa/original-engine.txt
+          node site/health-atlas/tests/global-data.test.cjs | tee /tmp/atlas-v4-qa/original-data.txt
+          node site/health-atlas/tests/analysis-v4.test.cjs | tee /tmp/atlas-v4-qa/analysis.txt
+      - name: Install Chromium
+        run: python -m playwright install --with-deps chromium
+      - name: Test real HTTP, real Three.js, fallback, eight languages and the original workflows
+        run: |
+          python -m http.server 8000 --directory site >/tmp/atlas-v4-http.log 2>&1 &
+          python site/health-atlas/tests/browser-global.py --url http://localhost:8000/health-atlas/ --out /tmp/atlas-v4-qa/original
+          python site/health-atlas/tests/browser-v4.py --url http://localhost:8000/health-atlas/ --out /tmp/atlas-v4-qa/new
+      - name: Preserve existing source and stage only reviewed app changes
+        run: |
+          python - <<'PY'
+          import subprocess,pathlib,re,hashlib,json
+          subprocess.run(['git','-C','site','add','health-atlas'],check=True)
+          changed=subprocess.check_output(['git','-C','site','diff','--cached','--name-only'],text=True).splitlines()
+          assert changed and all(x.startswith('health-atlas/') for x in changed)
+          assert not subprocess.check_output(['git','-C','site','diff','--cached','--diff-filter=D','--name-only'],text=True).strip()
+          allowed_existing={'health-atlas/index.html','health-atlas/v3/global.js','health-atlas/README.md'}
+          modified=subprocess.check_output(['git','-C','site','diff','--cached','--diff-filter=M','--name-only'],text=True).splitlines()
+          assert set(modified)<=allowed_existing,(modified,allowed_existing)
+          original=subprocess.check_output(['git','-C','site','show','HEAD:health-atlas/v3/global.js'],text=True)
+          updated=pathlib.Path('site/health-atlas/v3/global.js').read_text()
+          for comment in re.findall(r'/\*[\s\S]*?\*/',original): assert comment in updated,'Original comment lost'
+          receipt={'changed':changed,'data_snapshot_changed':False,'original_comments_preserved':True,'assets':{p:hashlib.sha256(pathlib.Path('site',p).read_bytes()).hexdigest() for p in changed}}
+          pathlib.Path('/tmp/atlas-v4-qa/staging-receipt.json').write_text(json.dumps(receipt,indent=2))
+          print('\n'.join(changed))
+          PY
+          git -C site config user.name 'github-actions[bot]'
+          git -C site config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git -C site commit -m 'Add Explorer 4: Three.js globe, linked analytics and assumption-aware comorbidity'
+          git -C site push origin health-atlas-v4-publish-20261006
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-v4-validation
+          path: /tmp/atlas-v4-qa/
+          retention-days: 14
