@@ -1,0 +1,49 @@
+name: Health Atlas v4 visualization dependencies
+on:
+  push:
+    branches: [health-atlas-v4-build-20261006]
+    paths: [.github/workflows/health-atlas-v4-vendors.yml]
+permissions:
+  contents: read
+jobs:
+  vendors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Bundle pinned libraries without any runtime CDN dependency
+        shell: bash
+        run: |
+          mkdir -p /tmp/atlas-v4-deps vendor-build
+          cd vendor-build
+          npm init -y >/dev/null
+          npm install --ignore-scripts --no-audit --no-fund --save-exact three@0.186.0 echarts@6.0.0 esbuild@0.25.9
+          printf "export * as THREE from 'three'; export {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';\n" > three-entry.js
+          cat > charts-entry.js <<'JS'
+          import * as echarts from 'echarts/core';
+          import {ScatterChart,LineChart,HeatmapChart,BarChart} from 'echarts/charts';
+          import {TooltipComponent,GridComponent,LegendComponent,DataZoomComponent,VisualMapComponent,AriaComponent,MarkLineComponent,MarkPointComponent,BrushComponent} from 'echarts/components';
+          import {CanvasRenderer,SVGRenderer} from 'echarts/renderers';
+          echarts.use([ScatterChart,LineChart,HeatmapChart,BarChart,TooltipComponent,GridComponent,LegendComponent,DataZoomComponent,VisualMapComponent,AriaComponent,MarkLineComponent,MarkPointComponent,BrushComponent,CanvasRenderer,SVGRenderer]);
+          export {echarts};
+          JS
+          node node_modules/esbuild/bin/esbuild three-entry.js --bundle --minify --format=iife --global-name=AtlasThree --outfile=/tmp/atlas-v4-deps/three.bundle.js
+          node node_modules/esbuild/bin/esbuild charts-entry.js --bundle --minify --format=iife --global-name=AtlasECharts --outfile=/tmp/atlas-v4-deps/echarts.bundle.js
+          cp node_modules/three/LICENSE /tmp/atlas-v4-deps/THREE-LICENSE
+          cp node_modules/echarts/LICENSE /tmp/atlas-v4-deps/ECHARTS-LICENSE
+          cp node_modules/echarts/NOTICE /tmp/atlas-v4-deps/ECHARTS-NOTICE
+          cp node_modules/zrender/LICENSE /tmp/atlas-v4-deps/ZRENDER-LICENSE
+          cp package-lock.json /tmp/atlas-v4-deps/package-lock.json
+          cp three-entry.js charts-entry.js /tmp/atlas-v4-deps/
+          cd ..
+          git rev-parse HEAD > /tmp/atlas-v4-deps/base-commit.txt
+          tar -czf /tmp/atlas-v4-deps/current-atlas.tar.gz health-atlas
+          sha256sum /tmp/atlas-v4-deps/* > /tmp/atlas-v4-deps/checksums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: health-atlas-v4-vendors
+          path: /tmp/atlas-v4-deps/
+          retention-days: 14
