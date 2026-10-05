@@ -1,0 +1,65 @@
+name: Health Atlas Explorer 4 public verification
+on:
+  push:
+    branches: [health-atlas-v4-build-20261006]
+    paths: [.github/workflows/health-atlas-v4-live.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: a09b293c37d2c3d6e93f2c5407503ce34987e0b4
+      - name: Install real browser tools
+        run: |
+          python -m pip install --quiet playwright requests
+          python -m playwright install --with-deps chromium
+      - name: Verify exact published files and unchanged statistical snapshot
+        run: |
+          python - <<'PY'
+          import requests,pathlib,hashlib,json,time
+          base='https://chaoyue0307.github.io/health-atlas/'
+          names=['index.html','v3/global.js','v4/globe.js','v4/pro.js','v4/math.js','v4/i18n.js','v4/pro.css','v4/vendor/three.bundle.js','v4/vendor/echarts.bundle.js','v3/data/global.json']
+          receipts=[]
+          for name in names:
+            expected=pathlib.Path('health-atlas',name).read_bytes()
+            for attempt in range(12):
+              try:
+                r=requests.get(base+name,timeout=35,headers={'Cache-Control':'no-cache'})
+                if r.status_code==200 and r.content==expected:break
+              except requests.RequestException: pass
+              time.sleep(5)
+            else: raise RuntimeError('Published asset does not match reviewed commit: '+name)
+            receipts.append({'path':name,'status':r.status_code,'sha256':hashlib.sha256(r.content).hexdigest()})
+          data=json.loads(pathlib.Path('health-atlas/v3/data/global.json').read_text())
+          assert data['meta']['version']=='3.0.0' and data['meta']['retrieved']=='2026-10-05'
+          out=pathlib.Path('/tmp/atlas-v4-live');out.mkdir(exist_ok=True)
+          (out/'published-assets.json').write_text(json.dumps({'commit':'a09b293c37d2c3d6e93f2c5407503ce34987e0b4','assets':receipts,'dataMeta':data['meta']},indent=2))
+          print('Exact Explorer 4 files are public; statistical snapshot is unchanged.')
+          PY
+      - name: Exercise original and new interactions on actual public GitHub Pages
+        run: |
+          python health-atlas/tests/browser-global.py --url https://chaoyue0307.github.io/health-atlas/ --out /tmp/atlas-v4-live/original
+          python health-atlas/tests/browser-v4.py --url https://chaoyue0307.github.io/health-atlas/ --out /tmp/atlas-v4-live/new
+      - name: Verify old shared research links remain usable
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          import json,pathlib
+          with sync_playwright() as p:
+            b=p.chromium.launch();page=b.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+            page.goto('https://chaoyue0307.github.io/health-atlas/#library',wait_until='networkidle')
+            assert '/research.html#library' in page.url
+            assert len(page.locator('#main').inner_text())>100 and not errors
+            pathlib.Path('/tmp/atlas-v4-live/legacy.json').write_text(json.dumps({'redirect':page.url,'errors':errors,'passed':True}))
+            b.close()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: health-atlas-v4-live-qa
+          path: /tmp/atlas-v4-live/
+          retention-days: 14
