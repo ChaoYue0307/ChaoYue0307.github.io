@@ -21,6 +21,7 @@ const report = {
   steps: [], runtime_issues: [], artifacts: [], accessibility: [], browsers: {},
   notes: [
     'Application, viewport and no-JavaScript checks keep CSP enforcement enabled.',
+    'WebKit screenshot artifacts are omitted because Playwright 1.65.1 injects an inline body {} stylesheet during screenshot preparation, even with animations allowed and the initial caret. WebKit functional, layout, target-size and CSP checks still run unchanged; Chromium screenshots remain enabled. Source: https://github.com/microsoft/playwright/blob/v1.65.1/packages/playwright-core/src/server/screenshotter.ts',
     'axe runs in a separate CSP-bypass context solely to inject its local test engine; it does not change the shipped policy.',
     'Automated checks and screenshots complement manual reading and assistive-technology review.',
   ],
@@ -46,6 +47,17 @@ async function checkpoint() {
 }
 
 async function screenshot(page, name) {
+  // Playwright 1.65.1 inPagePrepareForScreenshots injects a body {} stylesheet when WebKit syncAnimations is true.
+  // Source: https://github.com/microsoft/playwright/blob/v1.65.1/packages/playwright-core/src/server/screenshotter.ts
+  // Skip only this artifact operation; all WebKit checks and the actual CSP violation monitors remain active.
+  if (page.context().browser().browserType().name() === 'webkit') {
+    report.artifacts.push({
+      type: 'screenshot-note', name, browser: 'webkit', url: page.url(),
+      reason: 'WebKit screenshot omitted to avoid Playwright injecting an inline stylesheet blocked by the unchanged production CSP. All functional, layout, target-size and CSP checks still run.',
+      source_url: 'https://github.com/microsoft/playwright/blob/v1.65.1/packages/playwright-core/src/server/screenshotter.ts',
+    });
+    return null;
+  }
   const relative = `screens/${slug(name)}.jpg`;
   // Preserve the page's styling: screenshot overrides can inject inline CSS blocked by the real CSP.
   // Context-level reducedMotion remains enabled without adding any test stylesheet.

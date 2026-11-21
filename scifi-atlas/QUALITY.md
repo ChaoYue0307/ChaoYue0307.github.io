@@ -22,7 +22,7 @@
 
 `npm run test:browser` 在 Chromium 的 1440、1024、768、390、320px 视口和 WebKit 的 390px 视口检查页面。流程包括搜索、组合筛选、分页与浏览器历史、模态框键盘循环、跨标签收藏、导入/撤销、实际文件下载，以及关闭 JavaScript 后的目录和详情。对必要页面运行 axe 的 WCAG A/AA 自动规则，保存报告和截图。
 
-普通浏览器检查执行公开页面真实 CSP。Axe 仅在单独的测试上下文注入本地审计引擎，不修改生产策略。截图使用页面自身的减少动画设置，不通过测试样式绕过 CSP。
+普通浏览器检查执行公开页面真实 CSP。Axe 仅在单独的测试上下文注入本地审计引擎，不修改生产策略。截图使用页面自身的减少动画设置，不通过测试样式绕过 CSP。截图复核采用 Chromium；当前 Playwright 的 WebKit 截图会自动注入内联样式，因此该引擎保留功能、布局、尺寸及 CSP 检查，省略截图调用，报告中单独注明原因。
 
 当前运行记录可在 [Sci-Fi Atlas quality checks](https://github.com/ChaoYue0307/ChaoYue0307.github.io/actions/workflows/scifi-atlas.yml) 查看。工作流仅有仓库内容读取权限；Actions 固定到完整 commit SHA，测试依赖固定版本并提供 package-lock.json。验证报告与截图作为 Actions artifact 保留 7 天。
 

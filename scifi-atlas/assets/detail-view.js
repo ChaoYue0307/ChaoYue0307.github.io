@@ -81,8 +81,8 @@ function renderSources(entry) {
       : '来源用于核对作品中的设定。证据标签描述资料与设定的关系，不是科学真实性或技术成熟度评分。'}</p>
     ${themeEvidence ? '<p class="detail-text detail-evidence-note">证据标签不是科学真实性或技术成熟度评分。</p>' : ''}
     ${links.length ? `<ol class="detail-sources">${links.map(link => `<li>
-      <a class="detail-source" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(link.url)}" aria-label="${escapeHTML(text(link.label))} ${escapeHTML(text(link.domain))}（外部资料，新窗口打开）">
-        <span><strong>${escapeHTML(text(link.label))}</strong><span class="source-domain">${escapeHTML(text(link.domain))}</span></span>
+      <a class="detail-source" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(link.url)}">
+        <span><strong>${escapeHTML(text(link.label))}</strong> <span class="source-domain">${escapeHTML(text(link.domain))}</span></span><span class="sr-only">（外部资料，新窗口打开）</span>
         ${icon('external', 18)}
       </a>
     </li>`).join('')}</ol>` : '<p class="detail-text detail-evidence-note">此条暂无可用的来源链接。</p>'}

@@ -32,8 +32,11 @@ test('all entries have independently readable canonical pages and a bounded sema
     assert.ok(catalog.includes(`href="../ideas/${entry.id}/"`));
     for (const key of ['idea', 'premise', 'mechanism', 'implication', 'constraint', 'author']) assert.ok(html.includes(escapeHTML(entry[key])), `${entry.id}.${key}`);
     for (const source of sourceLinks(entry)) {
-      assert.ok(html.includes(`href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer"`));
-      assert.ok(html.includes(`aria-label="${escapeHTML(`${source.label} ${source.domain}（外部资料，新窗口打开）`)}"`), `${entry.id}: source accessible name includes both visible title and domain`);
+      const sourceAnchor = [...html.matchAll(/<a class="detail-source"[\s\S]*?<\/a>/g)].map(match => match[0]).find(anchor => anchor.includes(`href="${escapeHTML(source.url)}"`));
+      assert.ok(sourceAnchor?.includes('target="_blank" rel="noopener noreferrer"'));
+      assert.ok(!sourceAnchor.includes('aria-label='), `${entry.id}: source uses its native text name`);
+      assert.ok(sourceAnchor.includes(`<strong>${escapeHTML(source.label)}</strong> <span class="source-domain">${escapeHTML(source.domain)}</span>`), `${entry.id}: visible source title and domain have an explicit text separator`);
+      assert.ok(sourceAnchor.includes('<span class="sr-only">（外部资料，新窗口打开）</span></a>'), `${entry.id}: native name retains the new-window hint`);
     }
     assert.ok(html.includes('data-entry-actions hidden'));
     assert.ok(html.includes('assets/entry.js'));
