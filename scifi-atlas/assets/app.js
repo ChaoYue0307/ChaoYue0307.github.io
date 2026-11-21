@@ -116,7 +116,7 @@ function updateBookmarkControls() {
     const id = button.dataset.id, entry = index.byId.get(id), saved = bookmarks.has(id);
     button.classList.toggle('is-saved', saved);
     button.setAttribute('aria-pressed', String(saved));
-    button.setAttribute('aria-label', `${saved ? '取消收藏' : '收藏'}：${entry?.idea || id}`);
+    button.setAttribute('aria-label', `${saved ? '已收藏，取消收藏' : '收藏'}：${entry?.idea || id}`);
     button.title = saved ? '取消收藏' : '收藏这条创意';
     const svg = button.querySelector('svg');
     if (svg) svg.outerHTML = icon(saved ? 'bookmark-filled' : 'bookmark');
@@ -532,6 +532,18 @@ function bindEvents() {
   $('#toast').addEventListener('focusin', pauseToast);
   $('#toast').addEventListener('focusout', resumeToast);
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDetail(); });
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Tab' || event.altKey || event.ctrlKey || event.metaKey) return;
+    const controls = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter(element => element.tabIndex >= 0 && element.getClientRects().length && !element.closest('[hidden], [inert]'));
+    const first = controls[0], last = controls.at(-1), active = document.activeElement;
+    if (!first) { event.preventDefault(); $('#detail-title').focus(); return; }
+    if (event.shiftKey && (active === first || !controls.includes(active))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && (active === last || !dialog.contains(active))) {
+      event.preventDefault(); first.focus();
+    }
+  });
   dialog.addEventListener('click', event => {
     if (event.target === dialog) {
       const box = dialog.getBoundingClientRect();

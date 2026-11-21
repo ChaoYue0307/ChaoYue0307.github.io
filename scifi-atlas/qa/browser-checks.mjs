@@ -47,7 +47,9 @@ async function checkpoint() {
 
 async function screenshot(page, name) {
   const relative = `screens/${slug(name)}.jpg`;
-  await page.screenshot({ path: path.join(output, relative), type: 'jpeg', quality: 82, fullPage: false, animations: 'disabled', caret: 'hide' });
+  // Preserve the page's styling: screenshot overrides can inject inline CSS blocked by the real CSP.
+  // Context-level reducedMotion remains enabled without adding any test stylesheet.
+  await page.screenshot({ path: path.join(output, relative), type: 'jpeg', quality: 82, fullPage: false, animations: 'allow', caret: 'initial' });
   report.artifacts.push({ type: 'screenshot', name, path: relative, url: page.url() });
   return relative;
 }

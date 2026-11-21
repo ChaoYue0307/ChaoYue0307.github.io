@@ -31,7 +31,10 @@ test('all entries have independently readable canonical pages and a bounded sema
     assert.ok(html.includes(`href="../ideas/${entry.id}/"`) === false);
     assert.ok(catalog.includes(`href="../ideas/${entry.id}/"`));
     for (const key of ['idea', 'premise', 'mechanism', 'implication', 'constraint', 'author']) assert.ok(html.includes(escapeHTML(entry[key])), `${entry.id}.${key}`);
-    for (const source of sourceLinks(entry)) assert.ok(html.includes(`href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer"`));
+    for (const source of sourceLinks(entry)) {
+      assert.ok(html.includes(`href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer"`));
+      assert.ok(html.includes(`aria-label="${escapeHTML(`${source.label} ${source.domain}（外部资料，新窗口打开）`)}"`), `${entry.id}: source accessible name includes both visible title and domain`);
+    }
     assert.ok(html.includes('data-entry-actions hidden'));
     assert.ok(html.includes('assets/entry.js'));
     assert.ok(!html.includes('assets/app.js'));

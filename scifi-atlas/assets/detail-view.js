@@ -81,7 +81,7 @@ function renderSources(entry) {
       : '来源用于核对作品中的设定。证据标签描述资料与设定的关系，不是科学真实性或技术成熟度评分。'}</p>
     ${themeEvidence ? '<p class="detail-text detail-evidence-note">证据标签不是科学真实性或技术成熟度评分。</p>' : ''}
     ${links.length ? `<ol class="detail-sources">${links.map(link => `<li>
-      <a class="detail-source" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(link.url)}" aria-label="${escapeHTML(text(link.label))}（外部资料，新窗口打开）">
+      <a class="detail-source" href="${escapeHTML(link.url)}" target="_blank" rel="noopener noreferrer" title="${escapeHTML(link.url)}" aria-label="${escapeHTML(text(link.label))} ${escapeHTML(text(link.domain))}（外部资料，新窗口打开）">
         <span><strong>${escapeHTML(text(link.label))}</strong><span class="source-domain">${escapeHTML(text(link.domain))}</span></span>
         ${icon('external', 18)}
       </a>
@@ -112,8 +112,8 @@ export function renderDetail(entry = {}, { related = [], bookmarked = false } = 
     <div class="detail-toolbar">
       <button type="button" class="action-button action-button--quiet detail-close" data-action="close-detail" aria-label="关闭详情">${icon('close', 20)}<span>关闭</span></button>
       <div class="detail-actions">
-        <button type="button" class="action-button bookmark-button${bookmarked ? ' is-saved' : ''}" data-action="bookmark" data-id="${escapeHTML(id)}" aria-pressed="${bookmarked ? 'true' : 'false'}" aria-label="${bookmarked ? '取消收藏这条创意' : '收藏这条创意'}">${icon(bookmarked ? 'bookmark-filled' : 'bookmark', 19)}<span class="bookmark-text">${bookmarked ? '已收藏' : '收藏'}</span></button>
-        <button type="button" class="action-button action-button--quiet" data-action="share" data-id="${escapeHTML(id)}" aria-label="复制这条创意的链接">${icon('link', 19)}<span>复制链接</span></button>
+        <button type="button" class="action-button bookmark-button${bookmarked ? ' is-saved' : ''}" data-action="bookmark" data-id="${escapeHTML(id)}" aria-pressed="${bookmarked ? 'true' : 'false'}" aria-label="${bookmarked ? '已收藏，取消收藏这条创意' : '收藏这条创意'}">${icon(bookmarked ? 'bookmark-filled' : 'bookmark', 19)}<span class="bookmark-text">${bookmarked ? '已收藏' : '收藏'}</span></button>
+        <button type="button" class="action-button action-button--quiet" data-action="share" data-id="${escapeHTML(id)}" aria-label="复制链接：这条创意">${icon('link', 19)}<span>复制链接</span></button>
       </div>
     </div>
 

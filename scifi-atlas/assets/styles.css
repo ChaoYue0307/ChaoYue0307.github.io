@@ -934,6 +934,7 @@ body.modal-open { overflow: hidden; }
 .static-preview-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-ink); text-decoration: underline; }
 .rail-count-note { margin: -5px 0 12px; color: var(--muted-ink); font-size: 12px; line-height: 1.8; }
 .main-nav > a { min-width: 44px; justify-content: center; }
+.detail-title { text-wrap: balance; }
 .search-hint a { display: inline-block; min-height: 44px; margin-left: 12px; padding-block: 9px; color: var(--accent-ink); text-decoration: underline; }
 body:not(.app-ready):not(.static-page) .catalog .search-box,
 body:not(.app-ready):not(.static-page) .catalog .filter-row,

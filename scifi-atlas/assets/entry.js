@@ -23,7 +23,7 @@ function update() {
   const active = saved.has(id);
   bookmark.setAttribute('aria-pressed', String(active));
   bookmark.classList.toggle('is-saved', active);
-  bookmark.setAttribute('aria-label', active ? '取消收藏这条创意' : '收藏这条创意');
+  bookmark.setAttribute('aria-label', active ? '已收藏，取消收藏这条创意' : '收藏这条创意');
   const svg = bookmark.querySelector('svg');
   if (svg) svg.outerHTML = icon(active ? 'bookmark-filled' : 'bookmark');
   const text = bookmark.querySelector('.bookmark-text');
