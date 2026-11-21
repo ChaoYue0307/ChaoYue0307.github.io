@@ -33,10 +33,39 @@ function values(value) {
     .filter(Boolean);
 }
 
+/** Normalize user-entered SF identifiers; malformed values return an empty string. */
+export function normalizeId(value) {
+  if (typeof value !== 'string') return '';
+  const normalized = normalizeText(value).replace(/[‐‑‒–—−]/gu, '-');
+  const match = normalized.match(/^#?sf[\s_-]*(\d{1,9})$/u);
+  if (!match || Number(match[1]) < 1) return '';
+  return `SF${String(Number(match[1])).padStart(3, '0')}`;
+}
+
 function idKey(value) {
-  const normalized = normalizeText(value);
-  const match = normalized.match(/^sf[\s_-]*0*(\d{1,9})$/u);
-  return match ? `SF${String(Number(match[1])).padStart(3, '0')}` : normalized.toUpperCase();
+  return normalizeId(value);
+}
+
+function preparedEntries(entries) {
+  const result = [], issues = [], seen = new Set();
+  requireEntries(entries).forEach((entry, index) => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+      issues.push({ code: 'invalid-record', index });
+      return;
+    }
+    const id = idKey(entry.id);
+    if (!id || entry.id !== id) {
+      issues.push({ code: 'invalid-id', index });
+      return;
+    }
+    if (seen.has(id)) {
+      issues.push({ code: 'duplicate-id', index, id });
+      return;
+    }
+    seen.add(id);
+    result.push(entry);
+  });
+  return { entries: result, issues };
 }
 
 function uniqueNormalized(items) {
@@ -84,13 +113,33 @@ function makeRecord(entry, order) {
  * byId uses canonical keys such as SF019; duplicate IDs retain their first record.
  */
 export function buildIndex(entries = []) {
-  const snapshot = requireEntries(entries).slice();
+  const { entries: snapshot, issues } = preparedEntries(entries);
   const records = snapshot.map(makeRecord);
   const byId = new Map();
   for (const record of records) {
     if (record.id && !byId.has(record.id)) byId.set(record.id, record.entry);
   }
-  return { entries: snapshot, records, byId };
+  return { entries: snapshot, records, byId, issues };
+}
+
+function preparedIndex(index) {
+  return Array.isArray(index?.records) && Array.isArray(index?.entries)
+    ? index : buildIndex(Array.isArray(index) ? index : index?.entries || []);
+}
+
+function queryTerms(query) {
+  const queryText = normalizeText(query).replace(/[‐‑‒–—−]/gu, '-');
+  const ids = [];
+  const words = queryText.replace(/(?<![a-z0-9_])#?sf[\s_-]*\d{1,9}(?![a-z0-9_])/gu, match => {
+    ids.push(idKey(match));
+    return ' ';
+  }).split(/[\s,，;；、]+/u).filter(Boolean);
+  return { ids, words };
+}
+
+function matchesWord(text, word) {
+  if (/^[a-z]{1,3}$/u.test(word)) return new RegExp(`(^|[^a-z])${word}([^a-z]|$)`, 'u').test(text);
+  return text.includes(word);
 }
 
 function selectedKeys(value) {
@@ -108,11 +157,9 @@ function matchesFacet(available, selected) {
  * SF19, sf019, SF-019 and full-width equivalents all resolve to SF019.
  */
 export function filterEntries(index, filters = {}) {
-  const prepared = index?.records ? index : buildIndex(Array.isArray(index) ? index : index?.entries || []);
+  const prepared = preparedIndex(index);
   const { query = '', category, media, genre, evidence, bookmarkedOnly = false, bookmarks = [] } = filters || {};
-  const queryText = normalizeText(query);
-  const exactId = /^sf[\s_-]*\d{1,9}$/u.test(queryText) ? idKey(queryText) : '';
-  const tokens = exactId ? [] : queryText.split(' ').filter(Boolean);
+  const terms = queryTerms(query);
   const selections = {
     category: selectedKeys(category), media: selectedKeys(media),
     genre: selectedKeys(genre), evidence: selectedKeys(evidence),
@@ -120,15 +167,13 @@ export function filterEntries(index, filters = {}) {
   const bookmarkedIds = new Set(values(bookmarks).map(idKey));
 
   return prepared.records.filter(record => {
-    if (exactId && record.id !== exactId) return false;
+    if (!terms.ids.every(id => id && record.id === id)) return false;
     if (bookmarkedOnly && (!record.id || !bookmarkedIds.has(record.id))) return false;
     if (!matchesFacet(record.categoryKeys, selections.category)) return false;
     if (!matchesFacet(record.mediaKeys, selections.media)) return false;
     if (!matchesFacet(record.genreKeys, selections.genre)) return false;
     if (!matchesFacet(record.evidenceKeys, selections.evidence)) return false;
-    return tokens.every(token => /^sf[-_]?\d{1,9}$/u.test(token)
-      ? record.id === idKey(token)
-      : record.text.includes(token));
+    return terms.words.every(word => matchesWord(record.text, word));
   }).map(record => record.entry);
 }
 
@@ -163,7 +208,7 @@ function sourceUrls(entry, primaryOnly = false) {
  * Genre counts are non-exclusive because an entry can have several tags.
  */
 export function getStats(entries = []) {
-  requireEntries(entries);
+  const validEntries = preparedEntries(entries).entries;
   const categories = new Map();
   const media = new Map();
   const genres = new Map();
@@ -172,7 +217,7 @@ export function getStats(entries = []) {
   const sources = new Set();
   const primarySources = new Set();
 
-  for (const entry of entries) {
+  for (const entry of validEntries) {
     const categoryLabel = textValue(entry.category).trim() || '未分类';
     const categoryValue = entry.category_no == null || entry.category_no === '' ? categoryLabel : entry.category_no;
     addCount(categories, categoryValue, categoryLabel);
@@ -187,7 +232,7 @@ export function getStats(entries = []) {
   }
 
   return {
-    totalEntries: entries.length,
+    totalEntries: validEntries.length,
     totalWorks: works.size,
     workCountBasis: 'normalized-source-title-labels',
     totalCategories: categories.size,
@@ -200,6 +245,65 @@ export function getStats(entries = []) {
     genres: counts(genres),
     evidence: counts(evidence),
   };
+}
+
+/** Count each candidate with the other active filters, including zero-count options. */
+export function getFacetCounts(index, filters = {}) {
+  const prepared = preparedIndex(index);
+  const base = getStats(prepared.entries);
+  const result = { totalResults: filterEntries(prepared, filters).length };
+  for (const [field, key] of [['category', 'categories'], ['media', 'media'], ['genre', 'genres'], ['evidence', 'evidence']]) {
+    const subset = getStats(filterEntries(prepared, { ...(filters || {}), [field]: '' }));
+    const available = new Map(subset[key].map(item => [normalizeText(item.value), item.count]));
+    result[key] = base[key].map(item => ({ ...item, count: available.get(normalizeText(item.value)) || 0 }));
+  }
+  return result;
+}
+
+/** Report catalogue schema and reference problems without modifying source records. */
+export function validateCatalog(entries) {
+  const errors = [], warnings = [];
+  if (!Array.isArray(entries)) return { valid: false, errors: [{ code: 'invalid-catalog', field: 'entries' }], warnings };
+  if (!entries.length) return { valid: false, errors: [{ code: 'empty-catalog', field: 'entries' }], warnings };
+  const prepared = preparedEntries(entries);
+  errors.push(...prepared.issues);
+  const known = new Set(prepared.entries.map(entry => entry.id));
+  entries.forEach((entry, index) => {
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+    const id = idKey(entry.id);
+    const report = (code, field, extra = {}) => errors.push({ code, index, id, field, ...extra });
+    for (const field of ['idea', 'kind', 'premise', 'category', 'mechanism', 'implication', 'constraint', 'author', 'form', 'evidence_level', 'source_title']) {
+      if (typeof entry[field] !== 'string' || !entry[field].trim()) report('missing-text', field);
+    }
+    if (!Number.isInteger(entry.category_no) || entry.category_no < 1 || entry.category_no > 20) report('invalid-category', 'category_no');
+    if (![entry.medium, entry.media].some(value => typeof value === 'string' && value.trim())) report('missing-text', 'media');
+    if (![entry.work_en, entry.work_zh].some(value => typeof value === 'string' && value.trim())) report('missing-title', 'work_zh');
+    if (!Array.isArray(entry.subgenre_tags) || entry.subgenre_tags.some(value => typeof value !== 'string' || !value.trim())) report('invalid-tags', 'subgenre_tags');
+    if (typeof entry.source_url !== 'string' || !entry.source_url.trim()) report('missing-source', 'source_url');
+    for (const [field, source] of Object.entries(entry).filter(([key]) => /(?:^|_)source_urls?$/u.test(key))) {
+      const urls = Array.isArray(source) ? source : [source];
+      for (const value of urls) {
+        let valid = false;
+        if (typeof value === 'string') {
+          try { valid = ['http:', 'https:'].includes(new URL(value).protocol); } catch { /* Invalid URL is reported below. */ }
+        }
+        if (!valid) report('invalid-source-url', field);
+      }
+    }
+    if (!Array.isArray(entry.related_ids)) report('invalid-relations', 'related_ids');
+    else {
+      const seen = new Set();
+      for (const value of entry.related_ids) {
+        const related = idKey(value);
+        if (!related || related !== value) report('invalid-related-id', 'related_ids');
+        else if (!known.has(related)) report('unknown-related-id', 'related_ids', { target: related });
+        else if (related === id) warnings.push({ code: 'self-relation', index, id });
+        else if (seen.has(related)) warnings.push({ code: 'duplicate-relation', index, id, target: related });
+        seen.add(related);
+      }
+    }
+  });
+  return { valid: errors.length === 0, errors, warnings };
 }
 
 /** Explicit links in both directions precede category/tag recommendations. */
@@ -226,7 +330,7 @@ export function getRelated(entry, entries, limit = 6) {
 
   for (const relatedId of values(entry.related_ids)) append(index.byId.get(idKey(relatedId)));
   if (originId) {
-    for (const candidate of entries) {
+    for (const candidate of index.entries) {
       if (values(candidate.related_ids).some(relatedId => idKey(relatedId) === originId)) append(candidate);
     }
   }

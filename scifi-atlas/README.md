@@ -1,6 +1,6 @@
 # 科幻创意图谱 · Sci-Fi Atlas
 
-一份可搜索、筛选、收藏和追踪来源的跨媒介科幻创意目录。网站使用原生 HTML、CSS 和 JavaScript，数据随站点提供，无构建步骤、无运行时第三方依赖，可直接部署到 GitHub Pages。
+一份可搜索、筛选、收藏和追踪来源的跨媒介科幻创意目录。网站使用原生 HTML、CSS 和 JavaScript，数据随站点提供，无运行时第三方依赖，已生成的 HTML 可直接部署到 GitHub Pages。修改数据后，运行零依赖生成器同步独立阅读页与 sitemap。
 
 站点地址：<https://chaoyue0307.github.io/scifi-atlas/>
 
@@ -45,7 +45,7 @@
 
 ## 本地运行
 
-需要 Python 3 提供静态服务器。运行测试需要带有 `node:test` 的 Node.js；本项目已在 Node.js 24 上验证。
+需要 Python 3 提供静态服务器。运行生成器和单元测试需要 Node.js 22 或更新版本；浏览器验证依赖只用于开发和 CI，不进入公开页面。
 
 在项目目录执行：
 
@@ -55,7 +55,7 @@ python3 -m http.server 4173
 
 然后打开 <http://localhost:4173/#/explore>。不要依靠双击 `index.html` 后的 `file://` 访问方式运行搜索：浏览器需要通过 HTTP 加载 ES module 和 JSON 数据。
 
-项目无需执行 `npm install`，也没有打包或编译步骤。`package.json` 提供 `npm run serve` 与 `npm test` 作为相同命令的便捷入口。
+运行公开页面和纯函数测试不需要执行 `npm install`。`package.json` 提供 `npm run serve`、`npm test`、`npm run build` 和 `npm run check:build`；后两项生成并检查提交到仓库的静态阅读页。浏览器检查另用 `npm run test:browser`。
 
 ### 运行测试
 
@@ -73,7 +73,7 @@ SCIFI_CATALOG_TEST_PATH=/absolute/path/to/catalog.json node --test tests/*.test.
 
 ## 导航与使用
 
-页面使用 URL hash 路由，分享详情时不需要服务器重写规则。
+交互浏览保留 URL hash 路由。每条创意同时有真实静态路径，分享按钮复制独立阅读页地址；两种入口均不需要服务器重写规则。
 
 | 页面 | 路由 |
 | --- | --- |
@@ -83,15 +83,15 @@ SCIFI_CATALOG_TEST_PATH=/absolute/path/to/catalog.json node --test tests/*.test.
 | 关于、收录方法与证据说明 | `#/about` |
 | 指定创意详情 | `#/idea/SF001` |
 
-例如，第一条创意的公开链接是 <https://chaoyue0307.github.io/scifi-atlas/#/idea/SF001>。
+例如，第一条创意的公开阅读链接是 <https://chaoyue0307.github.io/scifi-atlas/ideas/SF001/>，旧的 `#/idea/SF001` 链接继续可用。
 
-搜索覆盖创意名称、作品、作者、机制、后果、边界说明等字段。空格分隔的多个关键词按 AND 匹配，中文和英文可以混合使用，英文大小写不影响结果。纯编号查询精确定位单条记录；`SF019`、`sf019` 和 `SF19` 均表示同一编号，不会因为其他记录提到这个编号而混入搜索结果。
+搜索覆盖创意名称、作品、作者、机制、后果、边界说明等字段。空格分隔的多个关键词按 AND 匹配，中文和英文可以混合使用，英文大小写不影响结果。编号与关键词混合查询时也精确约束当前记录；`SF019`、`sf019`、`SF19`、`SF 019` 与全角形式均表示同一编号，不会因为其他记录提到这个编号而混入搜索结果。1–3 字母的拉丁词按词边界匹配，`AI` 不会误中 `D-Mail` 或其他英文标题内部的字母。
 
-主题、媒介、子类型和证据筛选可以组合。显式 `related_ids` 的正向与反向关系优先展示，其后才是同主题或同子类型推荐；这些关联不表示已经证实的首次出处或历史影响关系。
+主题、媒介、子类型和证据筛选可以组合。候选数量保留其他已选条件、暂不限制当前维度；没有结果的选项禁用，已选项仍可移除。主题索引页的数量描述完整目录，不受交互筛选影响。显式 `related_ids` 的正向与反向关系优先展示，其后才是同主题或同子类型推荐；这些关联不表示已经证实的首次出处或历史影响关系。
 
-### 收藏与导出
+### 收藏、导入与导出
 
-收藏保存在当前浏览器的本地存储中，不需要账号，不会上传到本站服务器。收藏页提供阅读清单导出，适合保留记录或另行整理。浏览器、设备和站点来源不同，收藏也可能不同；清理浏览器存储可能删除收藏。
+收藏保存在当前浏览器的本地存储中，不需要账号，不会上传到本站服务器。收藏页提供阅读清单导出与导入，导入会合并有效编号并允许撤销本次新增。支持本站导出的 JSON 对象或编号数组，例如 `["SF001", "SF019"]`。单个导入文件上限为 2 MiB；不会采用文件内的作品文字、链接或脚本，未知编号、重复编号和格式不符的项分别报告。无效文件不覆盖现有收藏。浏览器、设备和站点来源不同，收藏也可能不同；清理浏览器存储可能删除收藏。
 
 本站代码不包含访问分析脚本，也不上传检索词。点击来源链接后会访问相应第三方网站。完整目录另提供 `data/catalog.json` 和 `downloads/SF_Ideas_All_Media.xlsx` 下载；完整目录下载与个人收藏导出用途不同。
 
@@ -163,3 +163,73 @@ https://<account>.github.io/scifi-atlas/
 **原始数据、汇总文本和被引用作品并不因此全部成为公有领域内容。** 仓库公开可读、文件可下载或附有来源链接，不代表本项目为所有相关材料提供统一授权，也不代表原作已经进入公有领域。引用或再利用具体内容时，应区分本站整理文本与第三方材料及其适用条款。
 
 提出更正时，建议注明条目 ID、涉及的作品版本、需要修订的具体字段，以及可核对的来源。对于首创、影响关系或现实技术能力的判断，需要单独的证据，不能由本目录中的代表作品或相关链接直接推定。
+
+## 静态阅读、预渲染与信息架构
+
+网站现已增加独立静态阅读层，原有 hash 交互入口继续兼容。已提交的 HTML 可以直接由 GitHub Pages 托管；维护者修改数据后，需要先运行下面的本地生成器，再发布更新后的静态文件。托管服务本身不需要执行新的构建流程。
+
+| 入口 | 用途 |
+| --- | --- |
+| `/scifi-atlas/` | 交互首页；初始 HTML 含 4 条精选预览和完整目录链接 |
+| `/scifi-atlas/catalog/` | 无需 JavaScript 的语义目录，包含全部 20 个主题锚点和每条记录的标题、作品与设想 |
+| `/scifi-atlas/ideas/SF019/` | 一条创意的独立阅读页，具有真实 HTML 文件及自身的 canonical URL |
+| `/scifi-atlas/#/idea/SF019` | 保留的交互详情入口，与独立阅读页使用同一份目录数据 |
+| `/scifi-atlas/sitemap.xml` | 首页、静态目录和独立详情页的 canonical URL 清单 |
+
+独立详情页保留作品题名、作者或主创、机制、分析、边界、版本说明、证据限制、全部来源及相关条目。它加载轻量的 `assets/entry.js`，不加载 `assets/app.js` 或全量 `data/catalog.json`。收藏与复制链接按钮在增强脚本初始化成功后出现；禁用 JavaScript 时，正文、来源、相关条目及返回目录链接仍然可用。完整静态目录本身不加载 JavaScript。
+
+首页的预览由生成器维护，当前选用 `SF001`、`SF008`、`SF135`、`SF201`。预览使用实体详情链接，因此模块加载失败时也可以继续阅读。生成器只替换 `index.html` 中 `<!-- ATLAS_PREVIEW_START -->` 与 `<!-- ATLAS_PREVIEW_END -->` 之间的内容；两个标记和其余文件内容逐字保留。编辑首页时应保留这一对唯一且有序的标记。
+
+### 生成与核对
+
+```bash
+node scripts/build-static.mjs
+node scripts/build-static.mjs --check
+node --test tests/static-build.test.mjs
+```
+
+生成器只依赖 Node.js 内置模块及站点已有的纯函数模块，不需要安装额外包。输入是 `data/catalog.json`，输出是 `catalog/index.html`、`ideas/SFxxx/index.html`、`sitemap.xml` 和首页的受控预览区域。数据文件、下载的 Excel、首页预览区域外的内容及仓库根配置均不由生成器修改。
+
+相同输入产生相同输出。正常构建只写入实际变化的文件；`--check` 只比较，不写入文件，并在文件缺失、内容过期或存在已失效的生成页时以非零状态结束。删除条目后，正常构建只清理带有本生成器标记的过期详情页，不会删除同目录中的手工文件。
+
+公开部署地址默认是 `https://chaoyue0307.github.io/scifi-atlas/`。部署地址变化时，生成与核对都应传入同一个站点目录 URL，并同步核对主入口的元数据：
+
+```bash
+node scripts/build-static.mjs --base-url https://example.github.io/scifi-atlas/
+node scripts/build-static.mjs --check --base-url https://example.github.io/scifi-atlas/
+```
+
+静态构建测试覆盖实际记录的页面与链接完整性、JSON-LD 与正文一致性、CSP 哈希、恶意文本和危险来源 URL、无效 ID 与关联引用、首页受控区域保护，以及构建确定性和只读核对行为。数据原文不会因预渲染而被重新解释或改写。
+
+### 可索引页面与安全边界
+
+独立页以 `WebPage` 描述本站的创意条目，原作品仅作为 `about` 引用对象；不会把原作者误署为本站文章作者。目录使用 `CollectionPage` 和 `ItemList`，页面提供 `BreadcrumbList`。结构化数据反映可见内容，不新增未经核实的发表日期、修改日期、许可证、首创判断或独立作品数量。JSON-LD 的存在不保证搜索排名或富结果展示。
+
+每页的 canonical、Open Graph URL 和 sitemap 使用真实的独立路径，不将 hash 状态当作独立可索引页面。Google 的 [JavaScript SEO 指南](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics)说明了 fragment 路由的发现限制与预渲染的作用；[结构化数据指南](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)要求标记与用户可见内容相符。
+
+生成页面使用早置的 meta CSP，允许同源资源，并为页内 JSON-LD 的确切内容计算 SHA-256；不启用 `unsafe-inline`。引用来源仅接受 HTTP(S)，新窗口外链保留 `noopener noreferrer`，页面提供 `strict-origin-when-cross-origin` referrer 策略。meta CSP 不支持 `frame-ancestors`、报告模式等部分响应头能力，不能将其当成已配置服务器响应头；详见 [CSP 规范的 meta 交付说明](https://www.w3.org/TR/CSP3/#meta-element)。
+
+网站文件位于 `scifi-atlas/`；仓库另增加仅针对本目录的 `.github/workflows/scifi-atlas.yml` 质量检查。不创建子目录级 `robots.txt`，因为有效的 robots 文件必须位于站点主机根目录；参见 [Google robots.txt 文档](https://developers.google.com/crawling/docs/robots-txt/create-robots-txt)。本项目的 sitemap 可由站点所有者在 Search Console 提交，无需为此修改仓库根目录配置。静态页引用 `manifest.webmanifest`，目前不引用尚不存在的 Open Graph 图片。
+
+
+## 维护与自动验证
+
+运行时保持原生模块和同源静态资源，不依赖 CDN、第三方字体、分析 SDK 或后端账号。页面的可访问状态、浏览器历史、输入法组合输入、减少动画偏好和手机触控尺寸在主控制器与样式中维护。独立页脚本与主应用共用收藏存储模块，正常写入前重读最新集合；存储写入失败时保留本页会话内的更改，并给出准确的临时保存提示。
+
+代码职责补充：`assets/reading-list.js` 负责可信编号的导入解析，`assets/bookmark-store.js` 处理持久存储和失败回退，`assets/downloads.js` 生成浏览器下载，`assets/entry.js` 为静态详情提供渐进增强。所有生成页面都来自同一份目录文件。
+
+GitHub Actions 只在本项目或其工作流变更时运行，权限为 `contents: read`。检查包括 Node 单元测试、静态页面是否过期、Chromium 与 WebKit 的关键用户流程、多个视口的布局、axe 自动可访问性扫描，以及可供人工复核的截图。它不负责发布，也不替代人工读屏测试、全部浏览器测试或来源内容的学术核查。站点发布继续沿用仓库的 GitHub Pages 流程。
+
+浏览器检查先在仓库根目录启动 HTTP 服务，使测试路径与线上 `/scifi-atlas/` 一致：
+
+```bash
+# 仓库根目录，一个终端
+python3 -m http.server 4173 --bind 127.0.0.1
+
+# scifi-atlas 目录，另一个终端
+npm ci
+npx playwright install --with-deps chromium webkit
+npm run test:browser
+```
+
+可用 `ATLAS_TEST_URL` 显式指定站点入口。测试仅针对项目本身，不批量请求第三方来源。报告和截图写入 `qa-output/`，不会随网站文件提交。完整 JSON 使用原始顶层数据结构；下载按钮只能确认文件已交给浏览器处理，实际保存位置由浏览器与用户设置决定。

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { normalizeText, buildIndex, filterEntries, getStats, getRelated } from '../assets/catalog-core.js';
+import { normalizeText, normalizeId, buildIndex, filterEntries, getStats, getFacetCounts, validateCatalog, getRelated } from '../assets/catalog-core.js';
 
 const fixture = [
   {
@@ -146,12 +146,87 @@ test('unrelated entries are not inserted merely to fill the recommendation limit
   assert.deepEqual(getRelated(isolated, fixture), []);
 });
 
+test('SF variants stay exact inside mixed Chinese and English keyword searches', () => {
+  const index = buildIndex(fixture);
+  for (const query of ['SF 001 robot', '#SF001 robot', 'ＳＦ－００１ 机器人', 'SF–001机器人']) {
+    assert.deepEqual(ids(filterEntries(index, { query })), ['SF001'], query);
+  }
+  assert.deepEqual(ids(filterEntries(index, { query: 'Alpha，机器人' })), ['SF001']);
+  assert.deepEqual(ids(filterEntries(index, { query: '机器人、共同机制' })), ['SF001']);
+  assert.deepEqual(ids(filterEntries(index, { query: 'SF 001，Beta' })), []);
+  assert.deepEqual(ids(filterEntries(index, { query: 'SF000' })), []);
+});
+
+test('short Latin terms do not match letters inside unrelated words', () => {
+  const index = buildIndex([
+    { id: 'SF101', idea: 'AI治理与DNA研究' },
+    { id: 'SF102', idea: 'D-Mail and Rainfall' },
+  ]);
+  assert.deepEqual(ids(filterEntries(index, { query: 'ai' })), ['SF101']);
+  assert.deepEqual(ids(filterEntries(index, { query: 'DNA' })), ['SF101']);
+  assert.deepEqual(ids(filterEntries(index, { query: 'rain' })), ['SF102']);
+});
+
+test('ID normalization does not coerce arbitrary values or accept malformed identifiers', () => {
+  for (const value of ['sf19', 'SF_019', '#SF019', 'ＳＦ－０１９', 'SF — 019']) assert.equal(normalizeId(value), 'SF019');
+  for (const value of [null, 19, ['SF019'], 'SF0', 'SF-19x', 'https://example.test/#/idea/SF019', 'SF1234567890']) assert.equal(normalizeId(value), '');
+  let coerced = false;
+  assert.equal(normalizeId({ toString() { coerced = true; return 'SF019'; } }), '');
+  assert.equal(coerced, false);
+});
+
+test('invalid catalogue rows and duplicate IDs cannot disagree between lists, lookup and counts', () => {
+  const dirty = [fixture[0], null, 7, { id: 'sf1' }, { ...fixture[0] }, fixture[1]];
+  const index = buildIndex(dirty);
+  assert.deepEqual(ids(index.entries), ['SF001', 'SF002']);
+  assert.equal(index.byId.size, 2);
+  assert.equal(index.byId.get('SF001'), fixture[0]);
+  assert.deepEqual(index.issues.map(issue => issue.code), ['invalid-record', 'invalid-record', 'invalid-id', 'duplicate-id']);
+  assert.equal(filterEntries(index).length, 2);
+  assert.equal(getStats(dirty).totalEntries, 2);
+  assert.deepEqual(ids(getRelated(fixture[0], [...fixture, null, { ...fixture[1] }])), ['SF003', 'SF002', 'SF004']);
+});
+
+test('facet counts describe candidates under all other active conditions and retain zeros', () => {
+  const index = buildIndex(fixture);
+  const facets = getFacetCounts(index, { category: '1', media: '文学', evidence: '主题支持' });
+  assert.equal(facets.totalResults, 0);
+  assert.equal(facets.media.find(item => item.value === '动画剧集').count, 1);
+  assert.equal(facets.media.find(item => item.value === '文学').count, 0);
+  assert.equal(facets.media.find(item => item.value === '桌游').count, 0);
+  assert.equal(facets.evidence.find(item => item.value === '直接支持').count, 1);
+  assert.equal(facets.evidence.find(item => item.value.startsWith('主题支持')).count, 0);
+  assert.equal(facets.categories.length, 3);
+  assert.ok(facets.categories.every(item => item.count === 0));
+
+  const saved = getFacetCounts(index, { bookmarkedOnly: true, bookmarks: new Set(['SF001']), category: '1' });
+  assert.equal(saved.totalResults, 1);
+  assert.equal(saved.media.find(item => item.value === '文学').count, 1);
+  assert.equal(saved.media.find(item => item.value === '动画剧集').count, 0);
+  assert.equal(saved.categories.find(item => item.value === '2').count, 0);
+});
+
+test('catalogue validation reports structural, source and relationship errors without edits', () => {
+  const broken = { ...fixture[0], source_title: 'Source', category_no: 21, source_url: 'javascript:alert(1)', related_ids: ['SF001', 'SF999'] };
+  const before = structuredClone(broken);
+  const report = validateCatalog([broken, null, { ...broken }]);
+  assert.equal(report.valid, false);
+  for (const code of ['invalid-record', 'duplicate-id', 'invalid-category', 'invalid-source-url', 'unknown-related-id']) {
+    assert.ok(report.errors.some(error => error.code === code), code);
+  }
+  assert.ok(report.warnings.some(warning => warning.code === 'self-relation'));
+  assert.deepEqual(broken, before);
+  assert.equal(validateCatalog(null).valid, false);
+  assert.equal(validateCatalog([]).valid, false);
+});
+
 test('the published 240-entry catalogue keeps exact IDs, complete evidence and bidirectional links', async () => {
   const dataPath = process.env.SCIFI_CATALOG_TEST_PATH || new URL('../data/catalog.json', import.meta.url);
   const payload = JSON.parse(await readFile(dataPath, 'utf8'));
   const entries = Array.isArray(payload) ? payload : payload.entries;
   const index = buildIndex(entries);
   const stats = getStats(entries);
+  assert.deepEqual(validateCatalog(entries), { valid: true, errors: [], warnings: [] });
   assert.equal(stats.totalEntries, 240);
   assert.equal(stats.totalCategories, 20);
   assert.equal(stats.totalMedia, 14);

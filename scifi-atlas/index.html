@@ -2,17 +2,25 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f3ec">
-  <meta name="description" content="240条跨媒介科幻创意，20个主题，连接小说、电影、动画、漫画与游戏中的发现、发明和社会创造。可搜索、收藏、追踪来源。">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="description" content="跨媒介科幻创意目录，连接小说、电影、动画、漫画、游戏与更多形式中的发现、发明和社会创造。阅读具体机制、追踪来源，搜索并收藏感兴趣的设想。">
   <meta property="og:type" content="website">
   <meta property="og:title" content="科幻创意图谱 · Sci-Fi Atlas">
   <meta property="og:description" content="想象中的世界，靠什么运转？探索240条科幻设想、具体机制与社会创造。">
   <meta property="og:url" content="https://chaoyue0307.github.io/scifi-atlas/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="科幻创意图谱">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="科幻创意图谱 · Sci-Fi Atlas">
+  <meta name="twitter:description" content="探索跨媒介科幻设想、具体机制与社会创造。">
   <link rel="canonical" href="https://chaoyue0307.github.io/scifi-atlas/">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="sitemap" href="./sitemap.xml" type="application/xml">
   <link rel="stylesheet" href="./assets/styles.css">
-  <link rel="preload" href="./data/catalog.json" as="fetch" crossorigin>
   <title>科幻创意图谱 · Sci-Fi Atlas</title>
 </head>
 <body>
@@ -67,22 +75,25 @@
     <section class="catalog" id="catalog" aria-labelledby="catalog-title">
       <div class="section-heading">
         <h2 id="catalog-title">探索目录</h2>
-        <p id="result-count" role="status" aria-live="polite">正在载入档案…</p>
+        <p id="result-count" role="status" aria-live="polite">240 条创意 · 20 个主题</p>
       </div>
       <div class="saved-note" id="saved-note" hidden>
-        <p>收藏保存在当前浏览器中。把感兴趣的设想留在这里，慢慢读。</p>
-        <button class="text-button" id="export-saved">导出收藏清单</button>
+        <p>收藏保存在当前浏览器中。导出清单，在另一台设备导入后继续读。</p>
+        <div class="saved-actions"><button class="text-button" id="import-saved">导入收藏清单</button><button class="text-button" id="export-saved">导出收藏清单</button></div>
+        <input type="file" id="import-file" accept="application/json,.json" hidden>
       </div>
-      <div class="search-box">
+      <div class="search-box" role="search">
         <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
         <label class="sr-only" for="search">搜索创意、作品、作者或编号</label>
-        <input type="search" id="search" placeholder="搜索创意、作品、作者…" autocomplete="off" spellcheck="false">
+        <input type="search" id="search" placeholder="搜索创意、作品、作者…" autocomplete="off" spellcheck="false" maxlength="500" aria-describedby="search-help">
+        <button type="button" class="icon-button" id="search-clear" aria-label="清空搜索" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
         <kbd aria-hidden="true">/</kbd>
       </div>
+      <p id="search-help" class="search-hint">多个词用空格分隔，同时匹配；也可直接输入编号，如 SF019。按 / 快速搜索。<a href="./catalog/">浏览完整目录</a></p>
       <div class="filter-row" id="filter-row">
-        <div class="select-wrap"><label class="sr-only" for="media-filter">媒介</label><select id="media-filter"><option value="">全部媒介</option></select></div>
-        <div class="select-wrap"><label class="sr-only" for="genre-filter">子类型</label><select id="genre-filter"><option value="">全部子类型</option></select></div>
-        <div class="select-wrap"><label class="sr-only" for="evidence-filter">来源支持程度</label><select id="evidence-filter"><option value="">全部证据</option><option value="直接支持">直接支持</option><option value="主题支持">主题支持 · 细节待核对</option></select></div>
+        <div class="select-wrap"><label class="filter-label" for="media-filter">媒介</label><select id="media-filter"><option value="">全部媒介</option></select></div>
+        <div class="select-wrap"><label class="filter-label" for="genre-filter">子类型</label><select id="genre-filter"><option value="">全部子类型</option></select></div>
+        <div class="select-wrap"><label class="filter-label" for="evidence-filter">来源支持程度</label><select id="evidence-filter"><option value="">全部证据</option><option value="直接支持">直接支持</option><option value="主题支持">主题支持 · 细节待核对</option></select></div>
         <button class="text-button clear-filters" id="clear-filters">清除筛选</button>
       </div>
       <div class="mobile-topic-select select-wrap"><label for="topic-select">主题</label><select id="topic-select"><option value="">全部主题</option></select></div>
@@ -90,12 +101,36 @@
 
       <div class="catalog-layout">
         <aside class="topic-rail" aria-labelledby="topic-rail-title">
-          <h3 id="topic-rail-title">主题索引</h3>
+          <h3 id="topic-rail-title">主题索引</h3><p class="rail-count-note">数量符合其余已选条件</p>
           <nav id="topic-nav" aria-label="按主题筛选"><button class="topic-link selected" data-topic=""><span>全部主题</span><em>240</em></button></nav>
           <div class="rail-note"><p>条目中的“发现”与“发明”属于作品设定。</p><a href="#/about">了解收录方法 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
         </aside>
         <div class="catalog-main">
-          <div id="results" class="result-list" aria-busy="true"><div class="loading-state">正在展开创意档案…</div></div>
+          <div id="results" class="result-list" aria-busy="false">
+<!-- ATLAS_PREVIEW_START -->
+<p class="static-preview-note">先读这 4 条精选设想，也可<a href="./catalog/">浏览完整目录中的 240 条创意</a>。</p>
+<article class="idea-row" data-entry="SF001">
+  <div class="row-meta"><span class="row-id">SF001</span><span class="row-medium">文学</span></div>
+  <div class="row-main"><h3 class="idea-title"><a href="./ideas/SF001/" data-idea="SF001">把伦理规则写进机器决策</a></h3><p class="work-line"><span class="work-title">《我，机器人》中的《转圈圈》</span><span class="creator">艾萨克·阿西莫夫</span></p><p class="idea-premise">如果机器人必须依照具有优先级的伦理规则行动，会出现怎样的冲突？</p></div>
+  <div class="row-side"><span class="evidence-label">直接支持</span></div>
+</article>
+<article class="idea-row" data-entry="SF008">
+  <div class="row-meta"><span class="row-id">SF008</span><span class="row-medium">文学</span></div>
+  <div class="row-main"><h3 class="idea-title"><a href="./ideas/SF008/" data-idea="SF008">同一人格的复制、分叉与独立意愿</a></h3><p class="work-line"><span class="work-title">置换城市</span><span class="creator">格雷格·伊根</span></p><p class="idea-premise">如果一个人复制出多个自己，副本是否仍须服从原本的计划？</p></div>
+  <div class="row-side"><span class="evidence-label">直接支持</span></div>
+</article>
+<article class="idea-row" data-entry="SF135">
+  <div class="row-meta"><span class="row-id">SF135</span><span class="row-medium">电视剧</span></div>
+  <div class="row-main"><h3 class="idea-title"><a href="./ideas/SF135/" data-idea="SF135">按工作情境切换的记忆分区</a></h3><p class="work-line"><span class="work-title">人生切割术</span><span class="creator">创作者／主要编剧：Dan Erickson；导演及执行制片包括 Ben Stiller</span></p><p class="idea-premise">如果同一身体在办公室内外拥有互不可访问的记忆，谁有权同意工作？</p></div>
+  <div class="row-side"><span class="evidence-label">直接支持</span></div>
+</article>
+<article class="idea-row" data-entry="SF201">
+  <div class="row-meta"><span class="row-id">SF201</span><span class="row-medium">电子游戏</span></div>
+  <div class="row-main"><h3 class="idea-title"><a href="./ideas/SF201/" data-idea="SF201">可配对的空间传送门</a></h3><p class="work-line"><span class="work-title">传送门</span><span class="creator">Valve</span></p><p class="idea-premise">如果能够把两块远隔的表面直接连接，移动和解题会怎样改变？</p></div>
+  <div class="row-side"><span class="evidence-label">直接支持</span></div>
+</article>
+<!-- ATLAS_PREVIEW_END -->
+          </div>
           <div id="empty-state" class="empty-state" hidden></div>
           <nav id="pagination" class="pagination" aria-label="目录分页"></nav>
           <div class="catalog-bottom"><span id="page-position"></span><button class="text-button" data-action="random" id="random-results">从当前结果随机发现 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h3c4 0 6 10 10 10h3m-4-4 4 4-4 4M4 17h3c4 0 6-10 10-10h3m-4-4 4 4-4 4"/></svg></button></div>
@@ -115,15 +150,16 @@
         <section><h2>条目、母题与作品</h2><p><strong>240 是条目数。</strong>同一作品可能贡献多个机制，同一母题也可能在不同媒介中发展出不同后果。代表作品不等于最早出处，相关条目不表示已经证实的历史影响关系。</p><p>这是可继续扩展的代表性目录。子类型标签可以重叠，部分作品位于科幻与奇幻、超自然或伦理寓言的边界。具体版本、原文题名和改编关系在详情中保留。</p></section>
         <section><h2>怎样理解来源</h2><dl class="evidence-guide"><dt>直接支持</dt><dd>列出的资料明确涉及相应设定。来源可以是原作、官方资料、创作者访谈或明确的剧情资料，并不意味着全部来自原作者。</dd><dt>主题支持 · 细节待核对</dt><dd>来源支持作品主题或概要，对具体机制的佐证有限。正式引用之前，应进一步核对原作。</dd></dl><p>证据标签描述的是资料与设定的关系，不是科学可信度或技术成熟度评分。</p></section>
         <section><h2>作品设定与整理分析</h2><p>“机制”描述作品中的设想；“启发与后果”是整理分析。虚构发明、现实研究和游戏规则分别说明。目录涉及关键设定与部分剧情。</p></section>
-        <section><h2>收藏与隐私</h2><p>收藏只保存在你当前浏览器的本地存储中。本站不要求注册，不上传收藏或检索词，也不使用访问分析脚本。你可以在收藏页导出阅读清单；更换设备或清除浏览器数据后，收藏可能不会保留。</p><p>来源链接会打开第三方网站，其服务规则由相应网站决定。</p></section>
+        <section><h2>收藏与隐私</h2><p>收藏只保存在你当前浏览器的本地存储中。本站不要求注册，不上传收藏或检索词，也不使用访问分析脚本。你可以在收藏页导出阅读清单，也可导入清单或编号数组，把收藏合并到当前浏览器。导入只识别本目录中有效的条目编号，文件在本机处理，最多 2 MiB。更换设备或清除浏览器数据前，请先导出备份。</p><p>来源链接会打开第三方网站，其服务规则由相应网站决定。</p></section>
         <section><h2>资料使用与更正</h2><p>作品名称、角色及第三方资料的权利归各自权利人。本站以简要概括、分析和来源链接介绍设定，不提供作品全文。目录保留证据限制；引用具体机制时，请同时核对原作和所列来源。</p><p>代码、数据与编辑说明均可在 GitHub 中查看，修订会随目录更新。</p></section>
-      </div><aside class="about-aside"><h2>这份目录</h2><dl><dt>数据版本</dt><dd id="data-version">2026-11-21</dd><dt>记录数量</dt><dd>240 条</dd><dt>主要媒介</dt><dd>14 种</dd><dt>主题领域</dt><dd>20 个</dd></dl><div class="download-links"><a href="./downloads/SF_Ideas_All_Media.xlsx" download>下载 Excel <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></a><a href="./data/catalog.json" download="SF_Ideas_All_Media.json">下载 JSON <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></a><a href="https://github.com/ChaoYue0307/ChaoYue0307.github.io/tree/master/scifi-atlas" target="_blank" rel="noopener noreferrer">查看项目与编辑说明 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div><h3>媒介分布</h3><div id="media-distribution"></div></aside></div>
+      </div><aside class="about-aside"><h2>这份目录</h2><dl><dt>数据版本</dt><dd id="data-version">2026-11-21</dd><dt>记录数量</dt><dd>240 条</dd><dt>主要媒介</dt><dd>14 种</dd><dt>主题领域</dt><dd>20 个</dd></dl><div class="download-links"><a href="./downloads/SF_Ideas_All_Media.xlsx" download>下载 Excel <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></a><a href="./data/catalog.json" download="SF_Ideas_All_Media.json" data-download="catalog">下载 JSON <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></a><a href="https://github.com/ChaoYue0307/ChaoYue0307.github.io/tree/master/scifi-atlas" target="_blank" rel="noopener noreferrer">查看项目与编辑说明 <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></a></div><h3>媒介分布</h3><div id="media-distribution"></div></aside></div>
     </section>
-    <noscript><section class="noscript"><h2>浏览完整目录</h2><p>交互搜索需要启用 JavaScript。也可以直接下载 <a href="./downloads/SF_Ideas_All_Media.xlsx">Excel 目录</a> 或 <a href="./data/catalog.json">JSON 数据</a>。</p></section></noscript>
+    <noscript><section class="noscript"><h2>浏览完整目录</h2><p>你可以直接<a href="./catalog/">阅读全部条目与来源</a>，或下载 <a href="./downloads/SF_Ideas_All_Media.xlsx">Excel 目录</a>、<a href="./data/catalog.json">JSON 数据</a>。交互搜索与浏览器收藏需要 JavaScript。</p></section></noscript>
   </main>
 
   <footer class="site-footer shell"><p>代表性目录，持续扩展。作品设定与现实技术分别说明。</p><div><span>SCI-FI ATLAS</span><a href="#/about">收录方法</a><a href="./downloads/SF_Ideas_All_Media.xlsx" download>下载目录</a><a href="#top" id="back-top">回到顶部</a></div></footer>
   <dialog id="idea-dialog" class="idea-dialog" aria-labelledby="detail-title"><div id="detail-content"></div></dialog>
+  <button class="back-to-filters" id="back-to-filters" hidden>回到筛选 ↑</button>
   <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-text"></span><button id="toast-undo" hidden>撤销</button></div>
   <script type="module" src="./assets/app.js"></script>
 </body>

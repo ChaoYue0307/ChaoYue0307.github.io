@@ -1,9 +1,11 @@
-import { buildIndex, filterEntries, getStats, getRelated } from './catalog-core.js';
+import { buildIndex, filterEntries, getStats, getRelated, getFacetCounts, validateCatalog } from './catalog-core.js';
 import { escapeHTML as esc, icon, isThemeEvidence } from './ui.js';
 import { renderDetail } from './detail-view.js';
+import { STORAGE_KEY, readBookmarks, mutateBookmarks } from './bookmark-store.js';
+import { parseReadingList } from './reading-list.js';
+import { downloadJSON } from './downloads.js';
 
 const PAGE_SIZE = 24;
-const STORAGE_KEY = 'scifi-atlas.bookmarks.v1';
 const TITLE = '科幻创意图谱 · Sci-Fi Atlas';
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -21,9 +23,9 @@ const topicDescriptions = [
   '我们能发现什么，又有哪些事无法知道？', '新技术之下，重新定义关系与价值。',
 ];
 
-let entries = [], index, stats, filtered = [], state = baseState();
-let bookmarks = new Set(), storageAvailable = true, loaded = false;
-let detailId = '', returnContext = null, lastRoute = null, lastRandomId = '';
+let entries = [], index, stats, catalogPayload, filtered = [], state = baseState();
+let bookmarks = new Set(), allowedIds = new Set(), storageAvailable = true, storageCorrupt = false, loaded = false;
+let detailId = '', returnContext = null, returnTrigger = null, lastRoute = null, lastRandomId = '';
 let searchTimer, toastTimer, toastUndo = null, composing = false;
 const dialog = $('#idea-dialog');
 
@@ -57,6 +59,7 @@ function stateHash(next = state) {
 function navigate(hash, { replace = false, scroll = null, historyData = {} } = {}) {
   clearTimeout(searchTimer);
   if (location.hash !== hash) {
+    if (!replace && !dialog.open) history.replaceState({ ...history.state, browseScroll: window.scrollY }, '', location.href);
     history[replace ? 'replaceState' : 'pushState'](historyData, '', hash);
   } else if (replace) {
     history.replaceState(historyData, '', hash);
@@ -80,29 +83,30 @@ function showToast(message, undo = null) {
 }
 
 function loadBookmarks() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    bookmarks = new Set(Array.isArray(stored) ? stored.filter(id => index.byId.has(id)) : []);
-  } catch {
-    storageAvailable = false;
-    bookmarks = new Set();
-  }
+  applyBookmarkResult(readBookmarks({ allowedIds, fallback: bookmarks }));
 }
 
-function persistBookmarks() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...bookmarks])); storageAvailable = true; }
-  catch { storageAvailable = false; }
+function applyBookmarkResult(result) {
+  bookmarks = new Set(result.ids);
+  storageAvailable = result.available;
+  storageCorrupt = result.corrupt;
+}
+
+function changeBookmarks(change) {
+  applyBookmarkResult(mutateBookmarks(change, { allowedIds, fallback: bookmarks, useFallback: !storageAvailable }));
   renderStorageNotice();
 }
 
 function renderStorageNotice() {
   let notice = $('.storage-warning');
-  if (!storageAvailable && !notice) {
+  if ((!storageAvailable || storageCorrupt) && !notice) {
     notice = document.createElement('p'); notice.className = 'storage-warning';
-    notice.textContent = '当前浏览器无法持久保存收藏；本次打开期间仍可使用，请及时导出清单。';
     $('#saved-note').append(notice);
   }
-  if (notice) notice.hidden = storageAvailable;
+  if (notice) {
+    notice.hidden = storageAvailable && !storageCorrupt;
+    notice.textContent = storageCorrupt ? '本地收藏数据格式无法读取，尚未覆盖原数据。可导入备份清单恢复；下一次收藏操作会保存当前有效清单。' : '当前浏览器无法持久保存收藏；本次打开期间仍可使用，请及时导出清单。';
+  }
 }
 
 function updateBookmarkControls() {
@@ -125,18 +129,24 @@ function updateBookmarkControls() {
 function setBookmark(id, saved, { announce = true } = {}) {
   if (!index.byId.has(id)) return;
   const restoreListFocus = state.view === 'saved' && !dialog.open && document.activeElement?.closest('#results');
-  if (saved) bookmarks.add(id); else bookmarks.delete(id);
-  persistBookmarks();
+  const previousPosition = $$('#results .bookmark-button').findIndex(button => button.dataset.id === id);
+  changeBookmarks(ids => saved ? ids.add(id) : ids.delete(id));
   if (state.view === 'saved') renderResults();
   updateBookmarkControls();
   if (restoreListFocus) {
-    const target = $('#results .bookmark-button') || $('#catalog-title');
+    const candidates = $$('#results .bookmark-button');
+    const target = candidates[Math.min(Math.max(previousPosition, 0), candidates.length - 1)] || $('#catalog-title');
     if (target.id === 'catalog-title') target.tabIndex = -1;
     target.focus({ preventScroll: true });
   }
   if (announce) {
     const message = storageAvailable ? (saved ? '已加入收藏' : '已从收藏移除') : '已更新本次收藏；浏览器无法持久保存，请及时导出。';
-    showToast(message, () => setBookmark(id, !saved, { announce: false }));
+    showToast(message, () => {
+      setBookmark(id, !saved, { announce: false });
+      const target = (dialog.open ? dialog : $('#results')).querySelector(`[data-action="bookmark"][data-id="${id}"]`) || $('#catalog-title');
+      if (target.id === 'catalog-title') target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    });
   }
 }
 
@@ -145,7 +155,7 @@ function rowHTML(entry) {
   const author = String(entry.author || '').split(/[（(]/)[0].trim();
   return `<article class="idea-row" data-entry="${esc(entry.id)}">
     <div class="row-meta"><span class="row-id">${esc(entry.id)}</span><span class="row-medium">${esc(entry.media)}</span></div>
-    <div class="row-main"><h3 class="idea-title"><a href="#/idea/${esc(entry.id)}">${esc(entry.idea)}</a></h3>
+    <div class="row-main"><h3 class="idea-title"><a href="./ideas/${esc(entry.id)}/" data-idea="${esc(entry.id)}">${esc(entry.idea)}</a></h3>
       <p class="work-line"><span class="work-title">${esc(entry.work_zh)}</span>${author ? `<span class="creator">${esc(author)}</span>` : ''}</p>
       <p class="idea-premise">${esc(entry.premise)}</p></div>
     <div class="row-side"><button class="bookmark-button${saved ? ' is-saved' : ''}" data-action="bookmark" data-id="${esc(entry.id)}" aria-pressed="${saved}" aria-label="${saved ? '取消收藏' : '收藏'}：${esc(entry.idea)}">${icon(saved ? 'bookmark-filled' : 'bookmark')}</button>
@@ -178,11 +188,42 @@ function renderResults() {
     $('#empty-state').innerHTML = `<span class="empty-index">${noSaved ? '待你收藏' : '尚未找到'}</span><h3>${noSaved ? '给好奇心留个位置。' : '这个组合里，还没有条目。'}</h3><p>${noSaved ? '点击条目右侧的书签，把想继续思考的设想收在这里。' : '试试更短的关键词，或减少一个筛选条件。'}</p>${noSaved ? '<a class="button button-primary" href="#/explore">去探索目录</a>' : '<button class="button button-secondary" data-action="clear">清除筛选</button>'}`;
   }
   $('#pagination').hidden = totalPages <= 1;
-  $('#pagination').innerHTML = totalPages > 1 ? `<button class="page-button page-previous" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''} aria-label="上一页">${icon('previous')}</button>${pageSequence(state.page, totalPages).map(p => p === '…' ? '<span class="page-ellipsis" aria-hidden="true">…</span>' : `<button class="page-button${p === state.page ? ' selected' : ''}" data-page="${p}" ${p === state.page ? 'aria-current="page"' : ''} aria-label="第 ${p} 页">${p}</button>`).join('')}<button class="page-button page-next" data-page="${state.page + 1}" ${state.page === totalPages ? 'disabled' : ''} aria-label="下一页">${icon('next')}</button>` : '';
+  $('#pagination').innerHTML = totalPages > 1 ? `<button class="page-button page-previous" data-page="${state.page - 1}" ${state.page === 1 ? 'disabled' : ''} aria-label="上一页">${icon('previous')}<span>上一页</span></button>${pageSequence(state.page, totalPages).map(p => p === '…' ? '<span class="page-ellipsis" aria-hidden="true">…</span>' : `<button class="page-button${p === state.page ? ' selected' : ''}" data-page="${p}" ${p === state.page ? 'aria-current="page"' : ''} aria-label="第 ${p} 页">${p}</button>`).join('')}<button class="page-button page-next" data-page="${state.page + 1}" ${state.page === totalPages ? 'disabled' : ''} aria-label="下一页"><span>下一页</span>${icon('next')}</button>` : '';
   $('#page-position').textContent = filtered.length ? `显示 ${start + 1}–${Math.min(start + PAGE_SIZE, filtered.length)} / ${filtered.length}` : '0 条结果';
   $$('[data-action="random"]').forEach(button => { button.disabled = filtered.length === 0; });
   renderActiveFilters();
+  updateFacetCounts();
   updateBookmarkControls();
+}
+
+function updateFacetCounts() {
+  const filters = { ...state, bookmarkedOnly: state.view === 'saved', bookmarks };
+  const facets = getFacetCounts(index, filters);
+  for (const [selector, key, items, label] of [
+    ['#media-filter', 'media', facets.media, '全部媒介'],
+    ['#genre-filter', 'genre', facets.genres, '全部子类型'],
+    ['#evidence-filter', 'evidence', facets.evidence, '全部证据'],
+    ['#topic-select', 'category', facets.categories, '全部主题'],
+  ]) {
+    const select = $(selector);
+    const total = filterEntries(index, { ...filters, [key]: '' }).length;
+    for (const option of select.options) {
+      if (!option.value) { option.textContent = `${label} (${total})`; continue; }
+      const item = items.find(item => item.value === option.value || (key === 'evidence' && item.value.startsWith(option.value)));
+      const count = item?.count || 0;
+      const optionLabel = key === 'evidence' && option.value === '主题支持' ? '主题支持 · 细节待核对' : (item?.label || option.value);
+      option.textContent = `${optionLabel} (${count})`;
+      option.disabled = count === 0 && option.value !== state[key];
+    }
+    select.value = state[key];
+  }
+  const totalTopics = facets.categories.reduce((sum, item) => sum + item.count, 0);
+  $$('#topic-nav [data-topic]').forEach(button => {
+    const value = button.dataset.topic;
+    const count = value ? facets.categories.find(item => item.value === value)?.count || 0 : totalTopics;
+    button.querySelector('em').textContent = count;
+    button.disabled = Boolean(value) && count === 0 && value !== state.category;
+  });
 }
 
 function renderActiveFilters() {
@@ -198,6 +239,7 @@ function renderActiveFilters() {
 
 function syncControls() {
   if ($('#search').value !== state.query) $('#search').value = state.query;
+  $('#search-clear').hidden = !$('#search').value;
   $('#media-filter').value = state.media;
   $('#genre-filter').value = state.genre;
   $('#evidence-filter').value = state.evidence;
@@ -228,11 +270,13 @@ function renderView() {
   syncControls();
   if (browsing) renderResults();
   updateBookmarkControls();
+  updateBackToFilters();
 }
 
 function openIdea(id) {
   if (!index.byId.has(id)) return;
   if (!dialog.open) {
+    returnTrigger = document.activeElement;
     returnContext = { hash: stateHash(), scroll: window.scrollY, focusId: document.activeElement?.closest('[data-entry]')?.dataset.entry || null };
     history.replaceState({ ...history.state, browseScroll: returnContext.scroll }, '', location.href);
     navigate(`#/idea/${id}`, { historyData: { returnContext, inAppDetail: true } });
@@ -251,7 +295,7 @@ function renderIdea(id) {
   const entry = index.byId.get(id);
   detailId = id;
   if (!entry) {
-    $('#detail-content').innerHTML = `<div class="detail-shell"><button class="detail-close" data-action="close-detail" aria-label="关闭详情">${icon('close')}</button><h1 id="detail-title">暂未收录这个编号</h1><p>请检查链接，或回到目录寻找其他设想。</p><a class="button button-primary" href="#/explore">回到目录</a></div>`;
+    $('#detail-content').innerHTML = `<div class="detail-shell detail-empty"><button class="detail-close action-button" data-action="close-detail" aria-label="关闭详情">${icon('close')}<span>关闭</span></button><h1 id="detail-title" tabindex="-1">暂未收录这个编号</h1><p>请检查链接，或回到目录寻找其他设想。</p><a class="button button-primary" href="#/explore">回到目录</a></div>`;
     document.title = `未找到条目 · ${TITLE}`;
   } else {
     $('#detail-content').innerHTML = renderDetail(entry, { related: getRelated(entry, entries, 6), bookmarked: bookmarks.has(id) });
@@ -259,9 +303,11 @@ function renderIdea(id) {
   }
   document.body.classList.add('modal-open');
   if (!dialog.open) dialog.showModal();
+  if (!$('#toast').hidden) dialog.append($('#toast'));
   dialog.scrollTop = 0;
   $('#detail-content').scrollTop = 0;
-  dialog.querySelector('[data-action="close-detail"]')?.focus({ preventScroll: true });
+  dialog.querySelector('#detail-title')?.focus({ preventScroll: true });
+  updateBackToFilters();
   updateBookmarkControls();
 }
 
@@ -291,13 +337,12 @@ function route({ force = false, scroll = null } = {}) {
   else if (scroll === 'catalog') scrollToCatalog({ focus: true });
   else if (wasDetail) {
     window.scrollTo({ top: history.state?.browseScroll ?? previousContext?.scroll ?? 0, behavior: 'instant' });
-    if (previousContext?.focusId) {
-      const target = document.querySelector(`[data-entry="${previousContext.focusId}"] .idea-title a`) || $('#results .idea-title a') || $('#catalog-title');
-      if (target.id === 'catalog-title') target.tabIndex = -1;
-      target.focus({ preventScroll: true });
-    }
+    const target = (previousContext?.focusId ? document.querySelector(`[data-entry="${previousContext.focusId}"] .idea-title a`) : null) || (returnTrigger?.isConnected && !returnTrigger.closest('[hidden]') ? returnTrigger : null) || $('#catalog-title');
+    if (target.id === 'catalog-title') target.tabIndex = -1;
+    target.focus({ preventScroll: true });
   } else if (typeof history.state?.browseScroll === 'number') window.scrollTo({ top: history.state.browseScroll, behavior: 'instant' });
   returnContext = null;
+  returnTrigger = null;
 }
 
 function updateFilters(patch = {}, { replace = false, scroll = false } = {}) {
@@ -321,11 +366,12 @@ function randomIdea() {
 }
 
 async function shareIdea(id) {
-  const url = new URL(location.href); url.hash = `/idea/${id}`;
+  const url = new URL(`./ideas/${id}/`, location.href);
   try {
     if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
     await navigator.clipboard.writeText(url.href); showToast('条目链接已复制');
   } catch {
+    if (!dialog.open || detailId !== id) { showToast('链接未能复制，可打开需要的条目后重试。'); return; }
     let fallback = dialog.querySelector('.share-fallback');
     if (!fallback) {
       fallback = document.createElement('div'); fallback.className = 'share-fallback';
@@ -338,15 +384,43 @@ async function shareIdea(id) {
 }
 
 function exportSaved() {
+  if (storageAvailable) loadBookmarks();
   const saved = entries.filter(entry => bookmarks.has(entry.id));
   if (!saved.length) return;
-  const content = JSON.stringify({ title: '我的科幻创意收藏', exported_at: new Date().toISOString(), source: new URL('./', location.href).href, count: saved.length, entries: saved }, null, 2);
-  const objectUrl = URL.createObjectURL(new Blob([content], { type: 'application/json;charset=utf-8' }));
-  const link = document.createElement('a'); link.href = objectUrl;
-  link.download = `SciFi_Reading_List_${new Date().toISOString().slice(0, 10)}.json`;
-  document.body.append(link); link.click(); link.remove();
-  setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
-  showToast(`已导出 ${saved.length} 条收藏`);
+  downloadJSON({ title: '我的科幻创意收藏', exported_at: new Date().toISOString(), source: new URL('./', location.href).href, count: saved.length, entries: saved }, `SciFi_Reading_List_${new Date().toISOString().slice(0, 10)}.json`);
+  showToast(`已准备 ${saved.length} 条收藏的下载文件，请查看浏览器下载列表。`);
+}
+
+async function importSaved(file) {
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { showToast('文件超过 2 MiB，请导入本站导出的收藏清单或编号数组。'); return; }
+  try {
+    const text = await file.text();
+    if (storageAvailable) loadBookmarks();
+    const result = parseReadingList(text, index, { bookmarks });
+    if (!result.ok) { showToast('无法识别这个清单。请使用本站导出的 JSON 或条目编号数组，现有收藏已保留。'); return; }
+    const added = result.addedIds;
+    if (added.length) {
+      changeBookmarks(ids => result.ids.forEach(id => ids.add(id)));
+      if (state.view === 'saved') renderResults();
+      updateBookmarkControls();
+    }
+    const skipped = result.invalid.length + result.unknown.length;
+    const message = `导入完成：新增 ${added.length} 条，已有 ${result.alreadySavedIds.length} 条${result.duplicates.length ? `，重复编号 ${result.duplicates.length} 个` : ''}${skipped ? `，跳过无效或未收录编号 ${skipped} 个` : ''}。${storageAvailable ? '' : '当前浏览器无法持久保存，请及时导出。'}`;
+    showToast(message, added.length ? () => {
+      changeBookmarks(ids => added.forEach(id => ids.delete(id)));
+      if (state.view === 'saved') renderResults();
+      updateBookmarkControls();
+      $('#import-saved').focus({ preventScroll: true });
+      showToast(`已撤销本次新增的 ${added.length} 条收藏。`);
+    } : null);
+  } catch {
+    showToast('文件未能读取，现有收藏已保留。请重新选择 JSON 清单。');
+  }
+}
+
+function updateBackToFilters() {
+  $('#back-to-filters').hidden = dialog.open || !['explore', 'saved'].includes(state.view) || $('#filter-row').getBoundingClientRect().bottom > 0;
 }
 
 function populateDirectory(payload) {
@@ -368,6 +442,14 @@ function bindEvents() {
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target : null;
     if (!target) return;
+    const normalClick = !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0;
+    const ideaLink = target.closest('a[data-idea]');
+    if (ideaLink && normalClick) { event.preventDefault(); openIdea(ideaLink.dataset.idea); return; }
+    const download = target.closest('a[data-download="catalog"]');
+    if (download && normalClick && catalogPayload) {
+      event.preventDefault(); downloadJSON(catalogPayload, 'SF_Ideas_All_Media.json');
+      showToast('已准备完整目录的 JSON 文件，请查看浏览器下载列表。'); return;
+    }
     const action = target.closest('[data-action]');
     if (action) {
       if (action.disabled) return;
@@ -382,7 +464,13 @@ function bindEvents() {
     const topic = target.closest('[data-topic]');
     if (topic) { updateFilters({ category: topic.dataset.topic }, { scroll: Boolean(topic.closest('.orbit')) }); return; }
     const clear = target.closest('[data-clear]');
-    if (clear) { updateFilters({ [clear.dataset.clear]: '' }); return; }
+    if (clear) {
+      const position = $$('#active-filters [data-clear]').indexOf(clear);
+      updateFilters({ [clear.dataset.clear]: '' });
+      const chips = $$('#active-filters [data-clear]');
+      (chips[Math.min(position, chips.length - 1)] || $('#search')).focus({ preventScroll: true });
+      return;
+    }
     const page = target.closest('[data-page]');
     if (page && !page.disabled) {
       navigate(stateHash({ ...state, page: Number(page.dataset.page) }), { scroll: 'catalog' }); return;
@@ -404,6 +492,7 @@ function bindEvents() {
   });
   $('#search').addEventListener('compositionstart', () => { composing = true; clearTimeout(searchTimer); });
   const scheduleSearch = () => {
+    $('#search-clear').hidden = !$('#search').value;
     if (composing) return;
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => updateFilters({ query: $('#search').value.trim() }, { replace: true }), 180);
@@ -417,11 +506,31 @@ function bindEvents() {
     $(selector).addEventListener('change', event => updateFilters({ [key]: event.target.value, query: $('#search').value.trim() }));
   }
   $('#clear-filters').addEventListener('click', clearFilters);
+  $('#search-clear').addEventListener('click', () => { updateFilters({ query: '' }, { replace: true }); $('#search').focus({ preventScroll: true }); });
   $('#export-saved').addEventListener('click', exportSaved);
+  $('#import-saved').addEventListener('click', () => $('#import-file').click());
+  $('#import-file').addEventListener('change', event => { const file = event.target.files?.[0]; event.target.value = ''; importSaved(file); });
+  $('#back-to-filters').addEventListener('click', () => { $('#search').focus({ preventScroll: true }); scrollToCatalog(); });
+  let scrollQueued = false;
+  window.addEventListener('scroll', () => {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(() => { scrollQueued = false; updateBackToFilters(); });
+  }, { passive: true });
   $('#toast-undo').addEventListener('click', () => {
     const undo = toastUndo; clearTimeout(toastTimer); $('#toast').hidden = true; toastUndo = null;
     if (undo) undo();
   });
+  const pauseToast = () => clearTimeout(toastTimer);
+  const resumeToast = () => {
+    if ($('#toast').hidden || $('#toast').contains(document.activeElement) || $('#toast').matches(':hover')) return;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { $('#toast').hidden = true; toastUndo = null; }, toastUndo ? 8000 : 5000);
+  };
+  $('#toast').addEventListener('pointerenter', pauseToast);
+  $('#toast').addEventListener('pointerleave', resumeToast);
+  $('#toast').addEventListener('focusin', pauseToast);
+  $('#toast').addEventListener('focusout', resumeToast);
   dialog.addEventListener('cancel', event => { event.preventDefault(); closeDetail(); });
   dialog.addEventListener('click', event => {
     if (event.target === dialog) {
@@ -441,6 +550,7 @@ function bindEvents() {
   window.addEventListener('popstate', () => route());
   window.addEventListener('storage', event => {
     if (event.key !== STORAGE_KEY && event.key !== null) return;
+    if (!storageAvailable) return;
     loadBookmarks(); renderStorageNotice();
     if (state.view === 'saved') renderResults();
     updateBookmarkControls();
@@ -454,16 +564,20 @@ async function init() {
     const payload = await response.json();
     const raw = Array.isArray(payload) ? payload : payload.entries;
     if (!Array.isArray(raw) || !raw.length) throw new Error('Catalogue is empty');
+    const validation = validateCatalog(raw);
+    if (!validation.valid) throw new Error('Catalogue validation failed');
+    catalogPayload = payload;
     const featured = ['SF001', 'SF008', 'SF135', 'SF201'];
     const order = entry => { const i = featured.indexOf(entry.id); return i < 0 ? featured.length : i; };
     entries = [...raw].sort((a, b) => order(a) - order(b));
     index = buildIndex(entries); stats = getStats(entries);
+    allowedIds = new Set(index.byId.keys());
     loadBookmarks(); populateDirectory(payload); bindEvents();
-    loaded = true; route({ force: true });
+    loaded = true; document.body.classList.add('app-ready'); route({ force: true });
   } catch (error) {
     $('#result-count').textContent = '目录暂时无法载入';
     $('#results').setAttribute('aria-busy', 'false');
-    $('#results').innerHTML = '<div class="empty-state"><h3>目录暂时没有打开。</h3><p>请刷新重试，或先下载完整目录阅读。</p><button class="button button-primary" id="retry-load">重新载入</button> <a class="text-button" href="./downloads/SF_Ideas_All_Media.xlsx" download>下载 Excel</a></div>';
+    $('#results').innerHTML = '<div class="empty-state"><h3>交互目录暂时没有打开。</h3><p>仍可打开完整阅读目录，查看全部条目与来源；也可以重新载入或下载资料。</p><a class="button button-primary" href="./catalog/">打开完整目录</a> <button class="button button-secondary" id="retry-load">重新载入</button> <a class="text-button" href="./downloads/SF_Ideas_All_Media.xlsx" download>下载 Excel</a></div>';
     $('#retry-load').addEventListener('click', () => location.reload());
     $$('button[data-action="random"]').forEach(button => { button.disabled = true; });
     console.error('Sci-Fi Atlas could not load the catalogue.', error);

@@ -53,7 +53,7 @@ function renderRelated(entry, related) {
       const id = entryId(candidate.id);
       const meta = [id, candidate.media, relationLabel(entry, candidate)].filter(Boolean).map(escapeHTML).join(' · ');
       const work = cleanWorkTitle(text(candidate.work_zh || candidate.work_en));
-      return `<a class="detail-related-card" href="#/idea/${escapeHTML(id)}">
+      return `<a class="detail-related-card" href="./ideas/${escapeHTML(id)}/" data-idea="${escapeHTML(id)}">
         <span class="detail-related-meta">${meta}</span>
         <strong class="detail-related-title">${escapeHTML(text(candidate.idea))}</strong>
         <span class="detail-related-work">${escapeHTML(work)}</span>
@@ -119,7 +119,7 @@ export function renderDetail(entry = {}, { related = [], bookmarked = false } = 
 
     <header class="detail-heading">
       <p class="detail-kicker">创意档案 <span>${escapeHTML(id)}</span></p>
-      <h1 id="detail-title" class="detail-title">${escapeHTML(title)}</h1>
+      <h1 id="detail-title" class="detail-title" tabindex="-1">${escapeHTML(title)}</h1>
       <div class="detail-meta">${meta.map(value => `<span class="tag">${escapeHTML(value)}</span>`).join('')}</div>
       <div class="detail-work">
         ${workTitle ? `<p class="detail-work-title"><span class="detail-work-label">代表作品</span><strong>${escapeHTML(workTitle)}</strong></p>` : ''}

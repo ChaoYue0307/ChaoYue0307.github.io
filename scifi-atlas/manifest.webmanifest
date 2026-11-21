@@ -1,0 +1,13 @@
+{
+  "id": "/scifi-atlas/",
+  "name": "科幻创意图谱 · Sci-Fi Atlas",
+  "short_name": "科幻图谱",
+  "description": "跨媒介科幻设想、发现、发明与社会创造的代表性目录。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f3ec",
+  "theme_color": "#f5f3ec",
+  "icons": [{ "src": "./assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
